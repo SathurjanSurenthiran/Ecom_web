@@ -5,10 +5,10 @@ import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import { FiCreditCard, FiPaypal, FiTruck, FiCheckCircle } from 'react-icons/fi';
 import toast from 'react-hot-toast';
-import Header from '../../components/common/Header';
-import Footer from '../../components/common/Footer';
-import { createOrder } from '../../features/orders/orderSlice';
-import { clearCart } from '../../features/cart/cartSlice';
+import Header from '../components/common/Header';
+import Footer from '../components/common/Footer';
+import { createOrder } from '../features/orders/orderSlice';
+import { clearCart } from '../features/cart/cartSlice';
 
 const Checkout = () => {
   const navigate = useNavigate();

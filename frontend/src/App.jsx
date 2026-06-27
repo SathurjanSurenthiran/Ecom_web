@@ -4,6 +4,9 @@ import { Toaster } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { getCurrentUser } from './features/auth/authSlice';
 
+// Layouts
+import { MainLayout, AuthLayout, AdminLayout } from './layouts';
+
 // Pages
 import Home from './pages/Home';
 import Shop from './pages/Shop';
@@ -69,33 +72,43 @@ function App() {
         }}
       />
       <Routes>
-        {/* Public Routes */}
-        <Route path="/" element={<Home />} />
-        <Route path="/shop" element={<Shop />} />
-        <Route path="/product/:slug" element={<ProductDetail />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password/:token" element={<ResetPassword />} />
-
-        {/* Protected Routes */}
-        <Route element={<ProtectedRoute />}>
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/checkout" element={<Checkout />} />
-          <Route path="/wishlist" element={<Wishlist />} />
-          <Route path="/orders" element={<Orders />} />
-          <Route path="/profile" element={<Profile />} />
+        {/* Public Routes with MainLayout */}
+        <Route element={<MainLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/shop" element={<Shop />} />
+          <Route path="/product/:slug" element={<ProductDetail />} />
         </Route>
 
-        {/* Admin Routes */}
+        {/* Auth Routes with AuthLayout */}
+        <Route element={<AuthLayout />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
+        </Route>
+
+        {/* Protected Routes with MainLayout */}
+        <Route element={<ProtectedRoute />}>
+          <Route element={<MainLayout />}>
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/wishlist" element={<Wishlist />} />
+            <Route path="/orders" element={<Orders />} />
+            <Route path="/profile" element={<Profile />} />
+          </Route>
+        </Route>
+
+        {/* Admin Routes with AdminLayout */}
         <Route element={<AdminRoute />}>
-          <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/admin/products" element={<AdminProducts />} />
-          <Route path="/admin/orders" element={<AdminOrders />} />
-          <Route path="/admin/users" element={<AdminUsers />} />
-          <Route path="/admin/categories" element={<AdminCategories />} />
-          <Route path="/admin/coupons" element={<AdminCoupons />} />
-          <Route path="/admin/analytics" element={<AdminAnalytics />} />
+          <Route element={<AdminLayout />}>
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/products" element={<AdminProducts />} />
+            <Route path="/admin/orders" element={<AdminOrders />} />
+            <Route path="/admin/users" element={<AdminUsers />} />
+            <Route path="/admin/categories" element={<AdminCategories />} />
+            <Route path="/admin/coupons" element={<AdminCoupons />} />
+            <Route path="/admin/analytics" element={<AdminAnalytics />} />
+          </Route>
         </Route>
 
         {/* 404 */}

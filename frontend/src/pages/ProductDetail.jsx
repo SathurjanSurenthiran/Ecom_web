@@ -10,13 +10,13 @@ import 'swiper/css/navigation';
 import 'swiper/css/thumbs';
 import 'swiper/css/zoom';
 import toast from 'react-hot-toast';
-import Header from '../../components/common/Header';
-import Footer from '../../components/common/Footer';
-import ProductCard from '../../components/product/ProductCard';
-import LoadingSkeleton from '../../components/ui/LoadingSkeleton';
-import { getProductBySlug, getRelatedProducts } from '../../features/products/productSlice';
-import { addToCart } from '../../features/cart/cartSlice';
-import { addToWishlist, removeFromWishlist } from '../../features/wishlist/wishlistSlice';
+import Header from '../components/common/Header';
+import Footer from '../components/common/Footer';
+import ProductCard from '../components/product/ProductCard';
+import LoadingSkeleton from '../components/ui/LoadingSkeleton';
+import { getProductBySlug, getRelatedProducts } from '../features/products/productSlice';
+import { addToCart } from '../features/cart/cartSlice';
+import { addToWishlist, removeFromWishlist } from '../features/wishlist/wishlistSlice';
 
 const ProductDetail = () => {
   const { slug } = useParams();

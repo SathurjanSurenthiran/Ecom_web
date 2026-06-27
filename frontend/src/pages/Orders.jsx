@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
 import { FiPackage, FiClock, FiCheckCircle, FiTruck, FiXCircle } from 'react-icons/fi';
-import Header from '../../components/common/Header';
-import Footer from '../../components/common/Footer';
-import LoadingSkeleton from '../../components/ui/LoadingSkeleton';
-import { getOrders } from '../../features/orders/orderSlice';
+import Header from '../components/common/Header';
+import Footer from '../components/common/Footer';
+import LoadingSkeleton from '../components/ui/LoadingSkeleton';
+import { getOrders } from '../features/orders/orderSlice';
 
 const Orders = () => {
   const dispatch = useDispatch();

@@ -6,15 +6,15 @@ import { Autoplay, Pagination, Navigation, EffectFade } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/effect-fade';
 
-import Header from '../../components/common/Header';
-import Footer from '../../components/common/Footer';
-import ProductCard from '../../components/product/ProductCard';
-import LoadingSkeleton from '../../components/ui/LoadingSkeleton';
+import Header from '../components/common/Header';
+import Footer from '../components/common/Footer';
+import ProductCard from '../components/product/ProductCard';
+import LoadingSkeleton from '../components/ui/LoadingSkeleton';
 import {
   getFeaturedProducts,
   getNewArrivals,
   getBestSellers,
-} from '../../features/products/productSlice';
+} from '../features/products/productSlice';
 
 const Home = () => {
   const dispatch = useDispatch();

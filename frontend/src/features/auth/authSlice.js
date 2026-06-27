@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from '../../api/axios';
+import toast from 'react-hot-toast';
 
 const initialState = {
   user: null,
@@ -14,8 +15,10 @@ export const registerUser = createAsyncThunk(
   async (userData, { rejectWithValue }) => {
     try {
       const response = await axios.post('/auth/register', userData);
+      toast.success('Registration successful!');
       return response.data;
     } catch (error) {
+      toast.error(error.response?.data?.message || 'Registration failed');
       return rejectWithValue(error.response.data);
     }
   }
@@ -26,8 +29,10 @@ export const loginUser = createAsyncThunk(
   async (userData, { rejectWithValue }) => {
     try {
       const response = await axios.post('/auth/login', userData);
+      toast.success('Welcome back!');
       return response.data;
     } catch (error) {
+      toast.error(error.response?.data?.message || 'Login failed');
       return rejectWithValue(error.response.data);
     }
   }
@@ -45,21 +50,75 @@ export const getCurrentUser = createAsyncThunk(
   }
 );
 
-export const logoutUser = createAsyncThunk('auth/logout', async () => {
-  localStorage.removeItem('token');
-  return null;
-});
+export const logoutUser = createAsyncThunk(
+  'auth/logout',
+  async () => {
+    localStorage.removeItem('token');
+    toast.success('Logged out successfully');
+    return null;
+  }
+);
+
+export const changePassword = createAsyncThunk(
+  'auth/changePassword',
+  async (passwordData, { rejectWithValue }) => {
+    try {
+      const response = await axios.put('/auth/change-password', passwordData);
+      toast.success('Password updated successfully');
+      return response.data;
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Failed to update password');
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const forgotPassword = createAsyncThunk(
+  'auth/forgotPassword',
+  async (email, { rejectWithValue }) => {
+    try {
+      const response = await axios.post('/auth/forgot-password', { email });
+      toast.success('Password reset email sent');
+      return response.data;
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Failed to send reset email');
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const resetPassword = createAsyncThunk(
+  'auth/resetPassword',
+  async ({ token, password }, { rejectWithValue }) => {
+    try {
+      const response = await axios.put(`/auth/reset-password/${token}`, { password });
+      toast.success('Password reset successfully');
+      return response.data;
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Failed to reset password');
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    clearError: (state) => {
+    clearAuthError: (state) => {
+      state.error = null;
+    },
+    clearAuthState: (state) => {
+      state.user = null;
+      state.token = null;
+      state.isAuthenticated = false;
+      state.loading = false;
       state.error = null;
     },
   },
   extraReducers: (builder) => {
     builder
+      // Register
       .addCase(registerUser.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -73,8 +132,10 @@ const authSlice = createSlice({
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload.message;
+        state.error = action.payload?.message || 'Registration failed';
       })
+      
+      // Login
       .addCase(loginUser.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -88,8 +149,10 @@ const authSlice = createSlice({
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload.message;
+        state.error = action.payload?.message || 'Login failed';
       })
+      
+      // Get Current User
       .addCase(getCurrentUser.pending, (state) => {
         state.loading = true;
       })
@@ -105,15 +168,30 @@ const authSlice = createSlice({
         state.token = null;
         localStorage.removeItem('token');
       })
+      
+      // Logout
       .addCase(logoutUser.fulfilled, (state) => {
         state.user = null;
         state.token = null;
         state.isAuthenticated = false;
         state.loading = false;
         state.error = null;
+      })
+      
+      // Change Password
+      .addCase(changePassword.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(changePassword.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(changePassword.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload?.message || 'Failed to change password';
       });
   },
 });
 
-export const { clearError } = authSlice.actions;
+export const { clearAuthError, clearAuthState } = authSlice.actions;
 export default authSlice.reducer;

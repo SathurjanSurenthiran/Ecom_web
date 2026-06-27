@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import { FiLock, FiEye, FiEyeOff, FiCheckCircle } from 'react-icons/fi';
 import toast from 'react-hot-toast';
-import axios from '../../api/axios';
+import axios from '../api/axios';
 
 const ResetPassword = () => {
   const { token } = useParams();

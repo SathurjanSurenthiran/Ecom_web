@@ -4,11 +4,11 @@ import { motion } from 'framer-motion';
 import { FiHeart, FiShoppingBag, FiTrash2 } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import Header from '../../components/common/Header';
-import Footer from '../../components/common/Footer';
-import ProductCard from '../../components/product/ProductCard';
-import { removeFromWishlist } from '../../features/wishlist/wishlistSlice';
-import { addToCart } from '../../features/cart/cartSlice';
+import Header from '../components/common/Header';
+import Footer from '../components/common/Footer';
+import ProductCard from '../components/product/ProductCard';
+import { removeFromWishlist } from '../features/wishlist/wishlistSlice';
+import { addToCart } from '../features/cart/cartSlice';
 
 const Wishlist = () => {
   const dispatch = useDispatch();

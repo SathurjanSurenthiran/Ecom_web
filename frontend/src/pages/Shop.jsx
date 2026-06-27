@@ -3,11 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FiFilter, FiGrid, FiList, FiChevronDown } from 'react-icons/fi';
-import Header from '../../components/common/Header';
-import Footer from '../../components/common/Footer';
-import ProductCard from '../../components/product/ProductCard';
-import LoadingSkeleton from '../../components/ui/LoadingSkeleton';
-import { getProducts, filterProducts } from '../../features/products/productSlice';
+import Header from '../components/common/Header';
+import Footer from '../components/common/Footer';
+import ProductCard from '../components/product/ProductCard';
+import LoadingSkeleton from '../components/ui/LoadingSkeleton';
+import { getProducts, filterProducts } from '../features/products/productSlice';
 
 const Shop = () => {
   const dispatch = useDispatch();
