@@ -1,6 +1,8 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
+import { getCurrentUser } from './features/auth/authSlice';
 
 // Pages
 import Home from './pages/Home/Home';
@@ -14,7 +16,14 @@ import Profile from './pages/Profile/Profile';
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
 import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
+import ResetPassword from './pages/ResetPassword/ResetPassword';
 import AdminDashboard from './pages/Admin/AdminDashboard';
+import AdminProducts from './pages/Admin/AdminProducts';
+import AdminOrders from './pages/Admin/AdminOrders';
+import AdminUsers from './pages/Admin/AdminUsers';
+import AdminCategories from './pages/Admin/AdminCategories';
+import AdminCoupons from './pages/Admin/AdminCoupons';
+import AdminAnalytics from './pages/Admin/AdminAnalytics';
 import NotFound from './pages/NotFound/NotFound';
 
 // Routes
@@ -22,6 +31,15 @@ import ProtectedRoute from './routes/ProtectedRoute';
 import AdminRoute from './routes/AdminRoute';
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      dispatch(getCurrentUser());
+    }
+  }, [dispatch]);
+
   return (
     <Router>
       <Toaster
@@ -29,9 +47,12 @@ function App() {
         toastOptions={{
           duration: 3000,
           style: {
-            background: '#1a1a2e',
+            background: 'rgba(6, 16, 51, 0.95)',
+            backdropFilter: 'blur(10px)',
             color: '#fff',
             border: '1px solid rgba(255,255,255,0.1)',
+            borderRadius: '12px',
+            padding: '16px',
           },
           success: {
             iconTheme: {
@@ -55,6 +76,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
 
         {/* Protected Routes */}
         <Route element={<ProtectedRoute />}>
@@ -68,7 +90,12 @@ function App() {
         {/* Admin Routes */}
         <Route element={<AdminRoute />}>
           <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/admin/*" element={<AdminDashboard />} />
+          <Route path="/admin/products" element={<AdminProducts />} />
+          <Route path="/admin/orders" element={<AdminOrders />} />
+          <Route path="/admin/users" element={<AdminUsers />} />
+          <Route path="/admin/categories" element={<AdminCategories />} />
+          <Route path="/admin/coupons" element={<AdminCoupons />} />
+          <Route path="/admin/analytics" element={<AdminAnalytics />} />
         </Route>
 
         {/* 404 */}
