@@ -5,18 +5,18 @@ import { useDispatch } from 'react-redux';
 import { getCurrentUser } from './features/auth/authSlice';
 
 // Pages
-import Home from './pages/Home/Home';
-import Shop from './pages/Shop/Shop';
-import ProductDetail from './pages/Product/ProductDetail';
-import Cart from './pages/Cart/Cart';
-import Checkout from './pages/Checkout/Checkout';
-import Wishlist from './pages/Wishlist/Wishlist';
-import Orders from './pages/Orders/Orders';
-import Profile from './pages/Profile/Profile';
-import Login from './pages/Login/Login';
-import Register from './pages/Register/Register';
-import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
-import ResetPassword from './pages/ResetPassword/ResetPassword';
+import Home from './pages/Home';
+import Shop from './pages/Shop';
+import ProductDetail from './pages/ProductDetail';
+import Cart from './pages/Cart';
+import Checkout from './pages/Checkout';
+import Wishlist from './pages/Wishlist';
+import Orders from './pages/Orders';
+import Profile from './pages/Profile';
+import Login from './components/forms/Login';
+import Register from './components/forms/Register';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 import AdminDashboard from './pages/Admin/AdminDashboard';
 import AdminProducts from './pages/Admin/AdminProducts';
 import AdminOrders from './pages/Admin/AdminOrders';
@@ -24,7 +24,7 @@ import AdminUsers from './pages/Admin/AdminUsers';
 import AdminCategories from './pages/Admin/AdminCategories';
 import AdminCoupons from './pages/Admin/AdminCoupons';
 import AdminAnalytics from './pages/Admin/AdminAnalytics';
-import NotFound from './pages/NotFound/NotFound';
+import NotFound from './pages/NotFound';
 
 // Routes
 import ProtectedRoute from './routes/ProtectedRoute';
