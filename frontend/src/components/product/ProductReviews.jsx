@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FiStar, FiUser, FiClock, FiThumbsUp } from 'react-icons/fi';
 import { useSelector } from 'react-redux';
@@ -7,7 +7,7 @@ import Input from '../ui/Input';
 import Modal from '../ui/Modal';
 
 const ProductReviews = ({ reviews, productId, onAddReview }) => {
-  const { isAuthenticated, user } = useSelector((state) => state.auth);
+  const { isAuthenticated } = useSelector((state) => state.auth);
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
@@ -29,7 +29,7 @@ const ProductReviews = ({ reviews, productId, onAddReview }) => {
   const handleSubmitReview = (e) => {
     e.preventDefault();
     if (onAddReview) {
-      onAddReview({ rating, title, comment });
+      onAddReview({ productId, rating, title, comment });
       setShowReviewModal(false);
       setRating(0);
       setTitle('');

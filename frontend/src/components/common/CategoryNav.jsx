@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import axios from '../../api/axios';
@@ -9,19 +9,19 @@ const CategoryNav = () => {
   const location = useLocation();
 
   useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get('/categories');
+        setCategories(response.data.data);
+      } catch {
+        console.error('Failed to fetch categories');
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchCategories();
   }, []);
-
-  const fetchCategories = async () => {
-    try {
-      const response = await axios.get('/categories');
-      setCategories(response.data.data);
-    } catch (error) {
-      console.error('Failed to fetch categories');
-    } finally {
-      setLoading(false);
-    }
-  };
 
   if (loading) {
     return (

@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
 import { FiPackage, FiClock, FiCheckCircle, FiTruck, FiXCircle } from 'react-icons/fi';
 import Header from '../components/common/Header';
-import Footer from '../components/common/Footer';
 import LoadingSkeleton from '../components/ui/LoadingSkeleton';
 import { getOrders } from '../features/orders/orderSlice';
 
@@ -44,7 +43,6 @@ const Orders = () => {
         <div className="container mx-auto px-4 pt-24 pb-12">
           <LoadingSkeleton type="product" count={3} />
         </div>
-        <Footer />
       </div>
     );
   }
@@ -129,8 +127,6 @@ const Orders = () => {
           )}
         </motion.div>
       </div>
-
-      <Footer />
     </div>
   );
 };

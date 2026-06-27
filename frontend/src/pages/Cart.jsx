@@ -1,11 +1,9 @@
-import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
 import { FiTrash2, FiMinus, FiPlus, FiShoppingBag, FiArrowLeft } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 import Header from '../components/common/Header';
-import Footer from '../components/common/Footer';
 import { removeFromCart, updateQuantity, clearCart } from '../features/cart/cartSlice';
 
 const Cart = () => {
@@ -66,7 +64,6 @@ const Cart = () => {
             </Link>
           </motion.div>
         </div>
-        <Footer />
       </div>
     );
   }
@@ -210,8 +207,6 @@ const Cart = () => {
           </div>
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 };

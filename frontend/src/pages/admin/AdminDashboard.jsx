@@ -1,30 +1,44 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
 import {
   FiUsers, FiPackage, FiShoppingCart, FiDollarSign,
-  FiBarChart2, FiTrendingUp, FiUser, FiGrid,
-  FiPlus, FiEdit2, FiTrash2, FiEye, FiClock,
-  FiCheckCircle, FiXCircle, FiAlertCircle,
-  FiSearch, FiFilter, FiDownload, FiSettings,
+  FiBarChart2, FiTrendingUp, FiGrid,
+  FiPlus, FiEdit2, FiTrash2, FiEye,
+  FiSearch, FiFilter, FiDownload,
   FiLogOut
 } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 import Header from '../../components/common/Header';
-import LoadingSkeleton from '../../components/ui/LoadingSkeleton';
+
+const StatCard = ({ icon: Icon, label, value, color = 'primary' }) => (
+  <motion.div
+    whileHover={{ y: -5 }}
+    className="glass p-6 rounded-xl"
+  >
+    <div className="flex items-center justify-between">
+      <div>
+        <p className="text-white/60 text-sm">{label}</p>
+        <p className="text-3xl font-poppins font-bold text-white mt-1">
+          {value}
+        </p>
+      </div>
+      <div className={`w-12 h-12 rounded-lg bg-${color}-500/20 flex items-center justify-center`}>
+        <Icon className={`w-6 h-6 text-${color}-400`} />
+      </div>
+    </div>
+    <div className="mt-4 flex items-center text-xs text-green-400">
+      <FiTrendingUp className="mr-1" />
+      <span>+12% from last month</span>
+    </div>
+  </motion.div>
+);
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
   const [activeTab, setActiveTab] = useState('dashboard');
-  const [loading, setLoading] = useState(false);
-  const [stats, setStats] = useState({
-    totalUsers: 0,
-    totalProducts: 0,
-    totalOrders: 0,
-    totalRevenue: 0,
-  });
 
   useEffect(() => {
     if (user?.role !== 'admin') {
@@ -60,29 +74,6 @@ const AdminDashboard = () => {
     };
     return colors[status] || 'text-white/40 bg-white/5';
   };
-
-  const StatCard = ({ icon: Icon, label, value, color = 'primary' }) => (
-    <motion.div
-      whileHover={{ y: -5 }}
-      className="glass p-6 rounded-xl"
-    >
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-white/60 text-sm">{label}</p>
-          <p className="text-3xl font-poppins font-bold text-white mt-1">
-            {value}
-          </p>
-        </div>
-        <div className={`w-12 h-12 rounded-lg bg-${color}-500/20 flex items-center justify-center`}>
-          <Icon className={`w-6 h-6 text-${color}-400`} />
-        </div>
-      </div>
-      <div className="mt-4 flex items-center text-xs text-green-400">
-        <FiTrendingUp className="mr-1" />
-        <span>+12% from last month</span>
-      </div>
-    </motion.div>
-  );
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-dark via-primary-900/20 to-dark">
@@ -304,8 +295,6 @@ const AdminDashboard = () => {
           </div>
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 };

@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
-import { FiCreditCard, FiPaypal, FiTruck, FiCheckCircle } from 'react-icons/fi';
+import { FiCreditCard, FiTruck, FiCheckCircle } from 'react-icons/fi';
+import { FaPaypal } from 'react-icons/fa';
 import toast from 'react-hot-toast';
 import Header from '../components/common/Header';
-import Footer from '../components/common/Footer';
 import { createOrder } from '../features/orders/orderSlice';
 import { clearCart } from '../features/cart/cartSlice';
 
 const Checkout = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { register, handleSubmit, watch, formState: { errors } } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm();
   const { items, totalPrice } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.auth);
   const [selectedPayment, setSelectedPayment] = useState('credit_card');
@@ -190,7 +190,7 @@ const Checkout = () => {
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {[
                       { id: 'credit_card', icon: FiCreditCard, label: 'Credit Card' },
-                      { id: 'paypal', icon: FiPaypal, label: 'PayPal' },
+                      { id: 'paypal', icon: FaPaypal, label: 'PayPal' },
                       { id: 'cash_on_delivery', icon: FiCheckCircle, label: 'Cash on Delivery' },
                     ].map((method) => (
                       <button
@@ -273,8 +273,6 @@ const Checkout = () => {
           </div>
         </motion.div>
       </div>
-
-      <Footer />
     </div>
   );
 };

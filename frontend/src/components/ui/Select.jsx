@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
 
 const Select = forwardRef(({

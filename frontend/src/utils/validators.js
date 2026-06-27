@@ -1,6 +1,6 @@
 export const validators = {
   email: (value) => {
-    const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    const regex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
     return regex.test(value) ? null : 'Invalid email address';
   },
   
@@ -37,7 +37,7 @@ export const validators = {
   },
   
   phone: (value) => {
-    const regex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
+    const regex = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/;
     return regex.test(value) ? null : 'Invalid phone number';
   },
   

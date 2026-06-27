@@ -1,13 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FiFilter, FiGrid, FiList, FiChevronDown } from 'react-icons/fi';
+import { FiFilter, FiGrid, FiList } from 'react-icons/fi';
 import Header from '../components/common/Header';
-import Footer from '../components/common/Footer';
 import ProductCard from '../components/product/ProductCard';
 import LoadingSkeleton from '../components/ui/LoadingSkeleton';
-import { getProducts, filterProducts } from '../features/products/productSlice';
+import { getProducts } from '../features/products/productSlice';
+
+const FilterSection = ({ title, options, valueKey, filters, onFilterChange, renderOption }) => (
+  <div className="mb-6">
+    <h4 className="text-white font-semibold mb-3">{title}</h4>
+    <div className="space-y-2">
+      {options.map((option) => (
+        <label key={option} className="flex items-center space-x-2 text-white/70 hover:text-white cursor-pointer">
+          <input
+            type="radio"
+            name={valueKey}
+            value={option}
+            checked={filters[valueKey] === option}
+            onChange={() => onFilterChange(valueKey, option)}
+            className="w-4 h-4 accent-primary-500"
+          />
+          <span>{renderOption ? renderOption(option) : option}</span>
+        </label>
+      ))}
+    </div>
+  </div>
+);
 
 const Shop = () => {
   const dispatch = useDispatch();
@@ -66,27 +86,6 @@ const Shop = () => {
       sort: '-createdAt',
     });
   };
-
-  const FilterSection = ({ title, options, valueKey, renderOption }) => (
-    <div className="mb-6">
-      <h4 className="text-white font-semibold mb-3">{title}</h4>
-      <div className="space-y-2">
-        {options.map((option) => (
-          <label key={option} className="flex items-center space-x-2 text-white/70 hover:text-white cursor-pointer">
-            <input
-              type="radio"
-              name={valueKey}
-              value={option}
-              checked={filters[valueKey] === option}
-              onChange={() => handleFilterChange(valueKey, option)}
-              className="w-4 h-4 accent-primary-500"
-            />
-            <span>{renderOption ? renderOption(option) : option}</span>
-          </label>
-        ))}
-      </div>
-    </div>
-  );
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-dark via-primary-900/20 to-dark">
@@ -163,18 +162,24 @@ const Shop = () => {
                 title="Category"
                 options={categories}
                 valueKey="category"
+                filters={filters}
+                onFilterChange={handleFilterChange}
               />
 
               <FilterSection
                 title="Brand"
                 options={brands}
                 valueKey="brand"
+                filters={filters}
+                onFilterChange={handleFilterChange}
               />
 
               <FilterSection
                 title="Gender"
                 options={genders}
                 valueKey="gender"
+                filters={filters}
+                onFilterChange={handleFilterChange}
                 renderOption={(opt) => opt.charAt(0).toUpperCase() + opt.slice(1)}
               />
 
@@ -203,6 +208,8 @@ const Shop = () => {
                 title="Rating"
                 options={ratings}
                 valueKey="rating"
+                filters={filters}
+                onFilterChange={handleFilterChange}
                 renderOption={(opt) => `${opt}+ Stars`}
               />
 
@@ -210,12 +217,16 @@ const Shop = () => {
                 title="Size"
                 options={sizes}
                 valueKey="size"
+                filters={filters}
+                onFilterChange={handleFilterChange}
               />
 
               <FilterSection
                 title="Color"
                 options={colors}
                 valueKey="color"
+                filters={filters}
+                onFilterChange={handleFilterChange}
               />
 
               <div className="mb-6">
@@ -278,8 +289,6 @@ const Shop = () => {
           </div>
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 };

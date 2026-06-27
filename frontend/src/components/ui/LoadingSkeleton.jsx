@@ -1,4 +1,3 @@
-import React from 'react';
 
 const LoadingSkeleton = ({ type = 'product', count = 4 }) => {
   if (type === 'product') {

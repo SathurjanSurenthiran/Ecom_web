@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import {
   FiPlus, FiEdit2, FiTrash2, FiGrid,
-  FiX, FiCheck, FiImage
+  FiX, FiImage
 } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 import Header from '../../components/common/Header';
-import Footer from '../../components/common/Footer';
 import LoadingSkeleton from '../../components/ui/LoadingSkeleton';
 import axios from '../../api/axios';
 
@@ -22,20 +21,21 @@ const AdminCategories = () => {
   });
   const [imagePreview, setImagePreview] = useState(null);
 
-  useEffect(() => {
-    fetchCategories();
-  }, []);
-
-  const fetchCategories = async () => {
+  const fetchCategories = useCallback(async () => {
     try {
       const response = await axios.get('/categories');
       setCategories(response.data.data);
-    } catch (error) {
+    } catch {
       toast.error('Failed to fetch categories');
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    const timeoutId = window.setTimeout(fetchCategories, 0);
+    return () => window.clearTimeout(timeoutId);
+  }, [fetchCategories]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -70,7 +70,7 @@ const AdminCategories = () => {
         await axios.delete(`/categories/${id}`);
         toast.success('Category deleted');
         fetchCategories();
-      } catch (error) {
+      } catch {
         toast.error('Failed to delete category');
       }
     }
@@ -100,7 +100,6 @@ const AdminCategories = () => {
         <div className="container mx-auto px-4 pt-24 pb-12">
           <LoadingSkeleton type="product" count={6} />
         </div>
-        <Footer />
       </div>
     );
   }
@@ -264,8 +263,6 @@ const AdminCategories = () => {
           </motion.div>
         </div>
       )}
-
-      <Footer />
     </div>
   );
 };

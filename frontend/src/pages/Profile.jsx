@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
 import { FiUser, FiMail, FiPhone, FiMapPin, FiEdit2, FiKey, FiPackage } from 'react-icons/fi';
 import Header from '../components/common/Header';
-import Footer from '../components/common/Footer';
 
 const Profile = () => {
   const { user } = useSelector((state) => state.auth);
@@ -182,8 +181,6 @@ const Profile = () => {
           </div>
         </motion.div>
       </div>
-
-      <Footer />
     </div>
   );
 };

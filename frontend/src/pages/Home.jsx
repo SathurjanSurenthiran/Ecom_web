@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -7,7 +7,6 @@ import 'swiper/css';
 import 'swiper/css/effect-fade';
 
 import Header from '../components/common/Header';
-import Footer from '../components/common/Footer';
 import ProductCard from '../components/product/ProductCard';
 import LoadingSkeleton from '../components/ui/LoadingSkeleton';
 import {
@@ -18,7 +17,7 @@ import {
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { featured, newArrivals, bestSellers, loading } = useSelector(
+  const { featured, newArrivals, loading } = useSelector(
     (state) => state.products
   );
 
@@ -152,8 +151,6 @@ const Home = () => {
           )}
         </div>
       </section>
-
-      <Footer />
     </div>
   );
 };

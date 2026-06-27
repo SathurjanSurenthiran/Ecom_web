@@ -1,14 +1,38 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
   FiTrendingUp, FiDollarSign, FiUsers, FiShoppingCart,
-  FiPackage, FiBarChart2, FiDownload, FiCalendar
+  FiPackage, FiBarChart2, FiDownload
 } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 import Header from '../../components/common/Header';
-import Footer from '../../components/common/Footer';
 import LoadingSkeleton from '../../components/ui/LoadingSkeleton';
 import axios from '../../api/axios';
+
+const StatCard = ({ icon: Icon, label, value, change, color = 'primary' }) => (
+  <motion.div
+    whileHover={{ y: -5 }}
+    className="glass p-6 rounded-xl"
+  >
+    <div className="flex items-center justify-between">
+      <div>
+        <p className="text-white/60 text-sm">{label}</p>
+        <p className="text-2xl font-poppins font-bold text-white mt-1">
+          {value}
+        </p>
+      </div>
+      <div className={`w-12 h-12 rounded-lg bg-${color}-500/20 flex items-center justify-center`}>
+        <Icon className={`w-6 h-6 text-${color}-400`} />
+      </div>
+    </div>
+    {change && (
+      <div className={`mt-3 flex items-center text-xs ${change > 0 ? 'text-green-400' : 'text-red-400'}`}>
+        <FiTrendingUp className={`mr-1 ${change < 0 ? 'transform rotate-180' : ''}`} />
+        <span>{Math.abs(change)}% from last period</span>
+      </div>
+    )}
+  </motion.div>
+);
 
 const AdminAnalytics = () => {
   const [analytics, setAnalytics] = useState(null);
@@ -16,44 +40,19 @@ const AdminAnalytics = () => {
   const [period, setPeriod] = useState('monthly');
 
   useEffect(() => {
+    const fetchAnalytics = async () => {
+      try {
+        const response = await axios.get('/analytics', { params: { period } });
+        setAnalytics(response.data.data);
+      } catch {
+        toast.error('Failed to fetch analytics');
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchAnalytics();
   }, [period]);
-
-  const fetchAnalytics = async () => {
-    try {
-      const response = await axios.get('/analytics', { params: { period } });
-      setAnalytics(response.data.data);
-    } catch (error) {
-      toast.error('Failed to fetch analytics');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const StatCard = ({ icon: Icon, label, value, change, color = 'primary' }) => (
-    <motion.div
-      whileHover={{ y: -5 }}
-      className="glass p-6 rounded-xl"
-    >
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-white/60 text-sm">{label}</p>
-          <p className="text-2xl font-poppins font-bold text-white mt-1">
-            {value}
-          </p>
-        </div>
-        <div className={`w-12 h-12 rounded-lg bg-${color}-500/20 flex items-center justify-center`}>
-          <Icon className={`w-6 h-6 text-${color}-400`} />
-        </div>
-      </div>
-      {change && (
-        <div className={`mt-3 flex items-center text-xs ${change > 0 ? 'text-green-400' : 'text-red-400'}`}>
-          <FiTrendingUp className={`mr-1 ${change < 0 ? 'transform rotate-180' : ''}`} />
-          <span>{Math.abs(change)}% from last period</span>
-        </div>
-      )}
-    </motion.div>
-  );
 
   if (loading) {
     return (
@@ -62,7 +61,6 @@ const AdminAnalytics = () => {
         <div className="container mx-auto px-4 pt-24 pb-12">
           <LoadingSkeleton type="product" count={4} />
         </div>
-        <Footer />
       </div>
     );
   }
@@ -186,8 +184,6 @@ const AdminAnalytics = () => {
           </div>
         </motion.div>
       </div>
-
-      <Footer />
     </div>
   );
 };

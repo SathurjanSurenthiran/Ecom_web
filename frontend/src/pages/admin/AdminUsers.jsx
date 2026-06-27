@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import {
   FiSearch, FiEdit2, FiTrash2, FiUser,
-  FiMail, FiCalendar, FiShield, FiUserX
+  FiMail, FiCalendar, FiShield
 } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 import Header from '../../components/common/Header';
-import Footer from '../../components/common/Footer';
 import LoadingSkeleton from '../../components/ui/LoadingSkeleton';
 import axios from '../../api/axios';
 
@@ -15,20 +14,21 @@ const AdminUsers = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
 
-  useEffect(() => {
-    fetchUsers();
-  }, []);
-
-  const fetchUsers = async () => {
+  const fetchUsers = useCallback(async () => {
     try {
       const response = await axios.get('/users');
       setUsers(response.data.data);
-    } catch (error) {
+    } catch {
       toast.error('Failed to fetch users');
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    const timeoutId = window.setTimeout(fetchUsers, 0);
+    return () => window.clearTimeout(timeoutId);
+  }, [fetchUsers]);
 
   const toggleUserRole = async (id, currentRole) => {
     const newRole = currentRole === 'admin' ? 'user' : 'admin';
@@ -36,7 +36,7 @@ const AdminUsers = () => {
       await axios.put(`/users/${id}/role`, { role: newRole });
       toast.success('User role updated');
       fetchUsers();
-    } catch (error) {
+    } catch {
       toast.error('Failed to update role');
     }
   };
@@ -47,7 +47,7 @@ const AdminUsers = () => {
         await axios.delete(`/users/${id}`);
         toast.success('User deleted');
         fetchUsers();
-      } catch (error) {
+      } catch {
         toast.error('Failed to delete user');
       }
     }
@@ -65,7 +65,6 @@ const AdminUsers = () => {
         <div className="container mx-auto px-4 pt-24 pb-12">
           <LoadingSkeleton type="product" count={5} />
         </div>
-        <Footer />
       </div>
     );
   }
@@ -164,8 +163,6 @@ const AdminUsers = () => {
           </div>
         </motion.div>
       </div>
-
-      <Footer />
     </div>
   );
 };

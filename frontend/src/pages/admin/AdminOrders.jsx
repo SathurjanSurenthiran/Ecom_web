@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import {
-  FiSearch, FiFilter, FiEye, FiEdit2, FiTrash2,
+  FiSearch, FiEye,
   FiChevronLeft, FiChevronRight, FiPackage,
   FiClock, FiTruck, FiCheckCircle, FiXCircle
 } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 import Header from '../../components/common/Header';
-import Footer from '../../components/common/Footer';
 import LoadingSkeleton from '../../components/ui/LoadingSkeleton';
 import axios from '../../api/axios';
 
@@ -18,27 +17,28 @@ const AdminOrders = () => {
   const [filterStatus, setFilterStatus] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
 
-  useEffect(() => {
-    fetchOrders();
-  }, []);
-
-  const fetchOrders = async () => {
+  const fetchOrders = useCallback(async () => {
     try {
       const response = await axios.get('/orders/admin/all');
       setOrders(response.data.data);
-    } catch (error) {
+    } catch {
       toast.error('Failed to fetch orders');
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    const timeoutId = window.setTimeout(fetchOrders, 0);
+    return () => window.clearTimeout(timeoutId);
+  }, [fetchOrders]);
 
   const updateOrderStatus = async (id, status) => {
     try {
       await axios.put(`/orders/${id}/status`, { status });
       toast.success('Order status updated');
       fetchOrders();
-    } catch (error) {
+    } catch {
       toast.error('Failed to update status');
     }
   };
@@ -79,7 +79,6 @@ const AdminOrders = () => {
         <div className="container mx-auto px-4 pt-24 pb-12">
           <LoadingSkeleton type="product" count={5} />
         </div>
-        <Footer />
       </div>
     );
   }
@@ -218,8 +217,6 @@ const AdminOrders = () => {
           </div>
         </motion.div>
       </div>
-
-      <Footer />
     </div>
   );
 };

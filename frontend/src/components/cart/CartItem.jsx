@@ -1,7 +1,6 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FiMinus, FiPlus, FiTrash2, FiX } from 'react-icons/fi';
+import { FiMinus, FiPlus, FiTrash2 } from 'react-icons/fi';
 import { useDispatch } from 'react-redux';
 import { removeFromCart, updateQuantity } from '../../features/cart/cartSlice';
 import toast from 'react-hot-toast';

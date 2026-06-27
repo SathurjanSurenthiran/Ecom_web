@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
@@ -11,7 +11,6 @@ import 'swiper/css/thumbs';
 import 'swiper/css/zoom';
 import toast from 'react-hot-toast';
 import Header from '../components/common/Header';
-import Footer from '../components/common/Footer';
 import ProductCard from '../components/product/ProductCard';
 import LoadingSkeleton from '../components/ui/LoadingSkeleton';
 import { getProductBySlug, getRelatedProducts } from '../features/products/productSlice';
@@ -24,8 +23,11 @@ const ProductDetail = () => {
   const { currentProduct, relatedProducts, loading } = useSelector((state) => state.products);
   const { items: wishlistItems } = useSelector((state) => state.wishlist);
   
-  const [selectedSize, setSelectedSize] = useState('');
-  const [selectedColor, setSelectedColor] = useState('');
+  const [selectedOptions, setSelectedOptions] = useState({
+    productId: null,
+    size: '',
+    color: '',
+  });
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('description');
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
@@ -38,12 +40,6 @@ const ProductDetail = () => {
   useEffect(() => {
     if (currentProduct) {
       dispatch(getRelatedProducts(currentProduct._id));
-      if (currentProduct.sizes?.length > 0) {
-        setSelectedSize(currentProduct.sizes[0].size);
-      }
-      if (currentProduct.colors?.length > 0) {
-        setSelectedColor(currentProduct.colors[0].name);
-      }
     }
   }, [currentProduct, dispatch]);
 
@@ -54,12 +50,18 @@ const ProductDetail = () => {
         <div className="container mx-auto px-4 pt-24 pb-12">
           <LoadingSkeleton type="product" count={1} />
         </div>
-        <Footer />
       </div>
     );
   }
 
   const isInWishlist = wishlistItems.some((item) => item._id === currentProduct._id);
+  const hasCurrentSelection = selectedOptions.productId === currentProduct._id;
+  const selectedSize = hasCurrentSelection
+    ? selectedOptions.size
+    : currentProduct.sizes?.[0]?.size || '';
+  const selectedColor = hasCurrentSelection
+    ? selectedOptions.color
+    : currentProduct.colors?.[0]?.name || '';
 
   const handleWishlist = () => {
     if (isInWishlist) {
@@ -204,7 +206,11 @@ const ProductDetail = () => {
                   {currentProduct.sizes.map((size) => (
                     <button
                       key={size.size}
-                      onClick={() => setSelectedSize(size.size)}
+                      onClick={() => setSelectedOptions((prev) => ({
+                        productId: currentProduct._id,
+                        size: size.size,
+                        color: prev.productId === currentProduct._id ? prev.color : selectedColor,
+                      }))}
                       className={`px-4 py-2 rounded-lg border-2 transition-all duration-300 ${
                         selectedSize === size.size
                           ? 'border-primary-500 bg-primary-500/20 text-white'
@@ -229,7 +235,11 @@ const ProductDetail = () => {
                   {currentProduct.colors.map((color) => (
                     <button
                       key={color.name}
-                      onClick={() => setSelectedColor(color.name)}
+                      onClick={() => setSelectedOptions((prev) => ({
+                        productId: currentProduct._id,
+                        size: prev.productId === currentProduct._id ? prev.size : selectedSize,
+                        color: color.name,
+                      }))}
                       className={`w-10 h-10 rounded-full border-2 transition-all duration-300 ${
                         selectedColor === color.name
                           ? 'border-primary-500 scale-110'
@@ -366,8 +376,6 @@ const ProductDetail = () => {
           </div>
         )}
       </div>
-
-      <Footer />
     </div>
   );
 };

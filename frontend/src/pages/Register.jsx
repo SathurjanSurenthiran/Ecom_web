@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
@@ -11,7 +11,7 @@ const Register = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.auth);
-  const { register, handleSubmit, watch, formState: { errors } } = useForm();
+  const { register, handleSubmit, getValues, formState: { errors } } = useForm();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -74,7 +74,7 @@ const Register = () => {
                 {...register('email', {
                   required: 'Email is required',
                   pattern: {
-                    value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+                    value: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
                     message: 'Invalid email address',
                   },
                 })}
@@ -125,7 +125,7 @@ const Register = () => {
                 {...register('confirmPassword', {
                   required: 'Please confirm your password',
                   validate: (value) =>
-                    value === watch('password') || 'Passwords do not match',
+                    value === getValues('password') || 'Passwords do not match',
                 })}
                 type={showConfirmPassword ? 'text' : 'password'}
                 placeholder="Confirm your password"

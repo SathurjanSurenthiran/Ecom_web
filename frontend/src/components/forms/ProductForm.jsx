@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 import Input from '../ui/Input';
 import Select from '../ui/Select';
@@ -9,7 +9,7 @@ import axios from '../../api/axios';
 const ProductForm = ({ onSubmit, initialData, isLoading }) => {
   const [categories, setCategories] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
-  const { register, control, handleSubmit, watch, setValue, formState: { errors } } = useForm({
+  const { register, control, handleSubmit, setValue, formState: { errors } } = useForm({
     defaultValues: initialData || {
       name: '',
       description: '',
@@ -41,17 +41,17 @@ const ProductForm = ({ onSubmit, initialData, isLoading }) => {
   });
 
   useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get('/categories');
+        setCategories(response.data.data.map(c => ({ value: c._id, label: c.name })));
+      } catch {
+        console.error('Failed to fetch categories');
+      }
+    };
+
     fetchCategories();
   }, []);
-
-  const fetchCategories = async () => {
-    try {
-      const response = await axios.get('/categories');
-      setCategories(response.data.data.map(c => ({ value: c._id, label: c.name })));
-    } catch (error) {
-      console.error('Failed to fetch categories');
-    }
-  };
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);

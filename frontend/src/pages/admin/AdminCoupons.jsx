@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import {
   FiPlus, FiEdit2, FiTrash2, FiDollarSign,
-  FiX, FiCalendar, FiUsers, FiPercent
+  FiX
 } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 import Header from '../../components/common/Header';
-import Footer from '../../components/common/Footer';
 import LoadingSkeleton from '../../components/ui/LoadingSkeleton';
 import axios from '../../api/axios';
 
@@ -27,20 +26,21 @@ const AdminCoupons = () => {
     usageLimit: '',
   });
 
-  useEffect(() => {
-    fetchCoupons();
-  }, []);
-
-  const fetchCoupons = async () => {
+  const fetchCoupons = useCallback(async () => {
     try {
       const response = await axios.get('/coupons');
       setCoupons(response.data.data);
-    } catch (error) {
+    } catch {
       toast.error('Failed to fetch coupons');
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    const timeoutId = window.setTimeout(fetchCoupons, 0);
+    return () => window.clearTimeout(timeoutId);
+  }, [fetchCoupons]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -85,7 +85,7 @@ const AdminCoupons = () => {
         await axios.delete(`/coupons/${id}`);
         toast.success('Coupon deleted');
         fetchCoupons();
-      } catch (error) {
+      } catch {
         toast.error('Failed to delete coupon');
       }
     }
@@ -129,7 +129,6 @@ const AdminCoupons = () => {
         <div className="container mx-auto px-4 pt-24 pb-12">
           <LoadingSkeleton type="product" count={4} />
         </div>
-        <Footer />
       </div>
     );
   }
@@ -379,8 +378,6 @@ const AdminCoupons = () => {
           </motion.div>
         </div>
       )}
-
-      <Footer />
     </div>
   );
 };

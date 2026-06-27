@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { motion } from 'framer-motion';
@@ -8,14 +8,12 @@ import {
   FiUser,
   FiMenu,
   FiX,
-  FiSearch,
 } from 'react-icons/fi';
 import { logoutUser } from '../../features/auth/authSlice';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -34,14 +32,6 @@ const Header = () => {
   const handleLogout = () => {
     dispatch(logoutUser());
     navigate('/login');
-  };
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      navigate(`/shop?search=${searchQuery}`);
-      setSearchQuery('');
-    }
   };
 
   const navLinks = [

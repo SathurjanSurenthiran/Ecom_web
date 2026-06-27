@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
@@ -13,7 +13,7 @@ const ResetPassword = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { register, handleSubmit, watch, formState: { errors } } = useForm();
+  const { register, handleSubmit, getValues, formState: { errors } } = useForm();
 
   const onSubmit = async (data) => {
     setLoading(true);
@@ -108,7 +108,7 @@ const ResetPassword = () => {
                   {...register('confirmPassword', {
                     required: 'Please confirm your password',
                     validate: (value) =>
-                      value === watch('password') || 'Passwords do not match',
+                      value === getValues('password') || 'Passwords do not match',
                   })}
                   type={showConfirmPassword ? 'text' : 'password'}
                   placeholder="Confirm new password"

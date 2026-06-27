@@ -1,14 +1,11 @@
-import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
 import { FiHeart, FiShoppingBag, FiTrash2 } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import Header from '../components/common/Header';
-import Footer from '../components/common/Footer';
 import ProductCard from '../components/product/ProductCard';
 import { removeFromWishlist } from '../features/wishlist/wishlistSlice';
-import { addToCart } from '../features/cart/cartSlice';
 
 const Wishlist = () => {
   const dispatch = useDispatch();
@@ -17,13 +14,6 @@ const Wishlist = () => {
   const handleRemove = (productId) => {
     dispatch(removeFromWishlist(productId));
     toast.success('Removed from wishlist');
-  };
-
-  const handleAddToCart = (product) => {
-    const size = product.sizes?.[0]?.size || 'M';
-    const color = product.colors?.[0]?.name || 'Default';
-    dispatch(addToCart({ product, quantity: 1, size, color }));
-    toast.success('Added to cart');
   };
 
   if (items.length === 0) {
@@ -52,7 +42,6 @@ const Wishlist = () => {
             </Link>
           </motion.div>
         </div>
-        <Footer />
       </div>
     );
   }
@@ -90,8 +79,6 @@ const Wishlist = () => {
           </div>
         </motion.div>
       </div>
-
-      <Footer />
     </div>
   );
 };

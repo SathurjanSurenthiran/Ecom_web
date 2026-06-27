@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
@@ -7,10 +7,10 @@ import {
   FiFilter, FiChevronLeft, FiChevronRight
 } from 'react-icons/fi';
 import toast from 'react-hot-toast';
+import axios from '../../api/axios';
 import Header from '../../components/common/Header';
-import Footer from '../../components/common/Footer';
 import LoadingSkeleton from '../../components/ui/LoadingSkeleton';
-import { getProducts, deleteProduct } from '../../features/products/productSlice';
+import { getProducts } from '../../features/products/productSlice';
 
 const AdminProducts = () => {
   const dispatch = useDispatch();
@@ -26,11 +26,11 @@ const AdminProducts = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this product?')) {
       try {
-        await dispatch(deleteProduct(id)).unwrap();
+        await axios.delete(`/products/${id}`);
         toast.success('Product deleted successfully');
         dispatch(getProducts({ page: currentPage, limit: 10 }));
       } catch (error) {
-        toast.error('Failed to delete product');
+        toast.error(error.response?.data?.message || 'Failed to delete product');
       }
     }
   };
@@ -242,8 +242,6 @@ const AdminProducts = () => {
           )}
         </motion.div>
       </div>
-
-      <Footer />
     </div>
   );
 };
