@@ -27,14 +27,14 @@ const Footer = () => {
 
   return (
     <footer className="bg-dark text-white/80 border-t border-white/10">
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="container mx-auto px-4 py-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
           {/* Brand */}
           <div>
             <h3 className="text-2xl font-poppins font-bold gradient-text mb-4">
               {shopDetails.name}
             </h3>
-            <p className="mb-4">
+            <p className="mb-4 text-sm leading-relaxed">
               {shopDetails.description}
             </p>
             <div className="flex space-x-4">
@@ -56,47 +56,79 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Links */}
-          {Object.entries(footerLinks).map(([category, links]) => (
-            <div key={category}>
-              <h4 className="text-white font-semibold mb-4">{category}</h4>
-              <ul className="space-y-2">
-                {links.map((link) => (
-                  <li key={link}>
-                    <Link
-                      to={`/${link.toLowerCase().replace(/\s+/g, '-')}`}
-                      className="hover:text-white transition-colors duration-300"
-                    >
-                      {link}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          {/* Shop Links */}
+          <div>
+            <h4 className="text-white font-semibold mb-4">Shop</h4>
+            <ul className="space-y-2">
+              {footerLinks.Shop.map((link) => (
+                <li key={link}>
+                  <Link
+                    to={`/${link.toLowerCase().replace(/\s+/g, '-')}`}
+                    className="hover:text-white transition-colors duration-300 text-sm"
+                  >
+                    {link}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-          {/* Contact */}
+          {/* Support Links */}
+          <div>
+            <h4 className="text-white font-semibold mb-4">Support</h4>
+            <ul className="space-y-2">
+              {footerLinks.Support.map((link) => (
+                <li key={link}>
+                  <Link
+                    to={`/${link.toLowerCase().replace(/\s+/g, '-')}`}
+                    className="hover:text-white transition-colors duration-300 text-sm"
+                  >
+                    {link}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact Info */}
           <div>
             <h4 className="text-white font-semibold mb-4">Contact</h4>
-            <ul className="space-y-3">
-              <li className="flex items-center space-x-3">
-                <FiMapPin className="text-primary-500" />
+            <ul className="space-y-3 text-sm">
+              <li className="flex items-start space-x-3">
+                <FiMapPin className="text-primary-500 mt-1 flex-shrink-0" />
                 <span>{shopDetails.address}</span>
               </li>
               <li className="flex items-center space-x-3">
-                <FiPhone className="text-primary-500" />
+                <FiPhone className="text-primary-500 flex-shrink-0" />
                 <span>{shopDetails.phone}</span>
               </li>
-              <li className="flex items-center space-x-3">
-                <FiMail className="text-primary-500" />
-                <span>{shopDetails.email}</span>
+              <li className="flex items-start space-x-3">
+                <FiMail className="text-primary-500 mt-1 flex-shrink-0" />
+                <span className="break-all">{shopDetails.email}</span>
               </li>
+            </ul>
+          </div>
+
+          {/* Company Links */}
+          <div>
+            <h4 className="text-white font-semibold mb-4">Company</h4>
+            <ul className="space-y-2">
+              {footerLinks.Company.map((link) => (
+                <li key={link}>
+                  <Link
+                    to={`/${link.toLowerCase().replace(/\s+/g, '-')}`}
+                    className="hover:text-white transition-colors duration-300 text-sm"
+                  >
+                    {link}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-white/10 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+        <div className="border-t border-white/10 mt-4 pt-3 flex flex-col md:flex-row justify-between items-center">
           <p>&copy; 2026 {shopDetails.name}. All rights reserved.</p>
           <div className="flex space-x-4 mt-4 md:mt-0">
             <Link to="/privacy" className="hover:text-white">
