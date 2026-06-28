@@ -9,6 +9,14 @@ import {
   FiMapPin,
   FiPhone,
 } from 'react-icons/fi';
+import { shopDetails } from '../../data/shopDetails';
+
+const socialIcons = {
+  Facebook: FiFacebook,
+  Instagram: FiInstagram,
+  Twitter: FiTwitter,
+  YouTube: FiYoutube,
+};
 
 const Footer = () => {
   const footerLinks = {
@@ -24,22 +32,27 @@ const Footer = () => {
           {/* Brand */}
           <div>
             <h3 className="text-2xl font-poppins font-bold gradient-text mb-4">
-              FASHION
+              {shopDetails.name}
             </h3>
             <p className="mb-4">
-              Premium clothing store offering the latest fashion trends with quality and style.
+              {shopDetails.description}
             </p>
             <div className="flex space-x-4">
-              {[FiFacebook, FiInstagram, FiTwitter, FiYoutube].map((Icon, index) => (
-                <motion.a
-                  key={index}
-                  href="#"
-                  whileHover={{ scale: 1.1 }}
-                  className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center hover:bg-primary-600 hover:text-white transition-colors duration-300"
-                >
-                  <Icon />
-                </motion.a>
-              ))}
+              {shopDetails.socialLinks.map(({ name, href }) => {
+                const Icon = socialIcons[name];
+
+                return (
+                  <motion.a
+                    key={name}
+                    href={href}
+                    aria-label={name}
+                    whileHover={{ scale: 1.1 }}
+                    className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center hover:bg-primary-600 hover:text-white transition-colors duration-300"
+                  >
+                    <Icon />
+                  </motion.a>
+                );
+              })}
             </div>
           </div>
 
@@ -68,15 +81,15 @@ const Footer = () => {
             <ul className="space-y-3">
               <li className="flex items-center space-x-3">
                 <FiMapPin className="text-primary-500" />
-                <span>123 Fashion Street, NY 10001</span>
+                <span>{shopDetails.address}</span>
               </li>
               <li className="flex items-center space-x-3">
                 <FiPhone className="text-primary-500" />
-                <span>+1 234 567 8900</span>
+                <span>{shopDetails.phone}</span>
               </li>
               <li className="flex items-center space-x-3">
                 <FiMail className="text-primary-500" />
-                <span>support@fashion.com</span>
+                <span>{shopDetails.email}</span>
               </li>
             </ul>
           </div>
@@ -84,7 +97,7 @@ const Footer = () => {
 
         {/* Bottom Bar */}
         <div className="border-t border-white/10 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p>&copy; 2026 FASHION. All rights reserved.</p>
+          <p>&copy; 2026 {shopDetails.name}. All rights reserved.</p>
           <div className="flex space-x-4 mt-4 md:mt-0">
             <Link to="/privacy" className="hover:text-white">
               Privacy Policy

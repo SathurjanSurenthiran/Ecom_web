@@ -10,6 +10,7 @@ import {
   FiX,
 } from 'react-icons/fi';
 import { logoutUser } from '../../features/auth/authSlice';
+import { shopDetails } from '../../data/shopDetails';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -54,7 +55,7 @@ const Header = () => {
             whileHover={{ rotate: 5 }}
             className="text-2xl font-poppins font-bold gradient-text"
           >
-            FASHION
+            {shopDetails.name}
           </motion.div>
         </Link>
 
