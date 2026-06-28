@@ -8,7 +8,6 @@ import {
 } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 import axios from '../../api/axios';
-import Header from '../../components/common/Header';
 import LoadingSkeleton from '../../components/ui/LoadingSkeleton';
 import { getProducts } from '../../features/products/productSlice';
 
@@ -53,14 +52,11 @@ const AdminProducts = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-dark via-primary-900/20 to-dark">
-      <Header />
-
-      <div className="container mx-auto px-4 pt-24 pb-12">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-        >
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="space-y-6"
+    >
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
             <div>
               <h1 className="text-3xl font-poppins font-bold text-white">
@@ -240,9 +236,7 @@ const AdminProducts = () => {
               </div>
             </div>
           )}
-        </motion.div>
-      </div>
-    </div>
+    </motion.div>
   );
 };
 

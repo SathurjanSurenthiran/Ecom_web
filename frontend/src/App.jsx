@@ -20,13 +20,15 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
-import AdminDashboard from './pages/Admin/AdminDashboard';
-import AdminProducts from './pages/Admin/AdminProducts';
-import AdminOrders from './pages/Admin/AdminOrders';
-import AdminUsers from './pages/Admin/AdminUsers';
-import AdminCategories from './pages/Admin/AdminCategories';
-import AdminCoupons from './pages/Admin/AdminCoupons';
-import AdminAnalytics from './pages/Admin/AdminAnalytics';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminProducts from './pages/admin/AdminProducts';
+import AdminProductAdd from './pages/admin/AdminProductAdd';
+import AdminProductEdit from './pages/admin/AdminProductEdit';
+import AdminOrders from './pages/admin/AdminOrders';
+import AdminUsers from './pages/admin/AdminUsers';
+import AdminCategories from './pages/admin/AdminCategories';
+import AdminCoupons from './pages/admin/AdminCoupons';
+import AdminAnalytics from './pages/admin/AdminAnalytics';
 import NotFound from './pages/NotFound';
 
 // Routes
@@ -103,6 +105,8 @@ function App() {
           <Route element={<AdminLayout />}>
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/admin/products" element={<AdminProducts />} />
+            <Route path="/admin/products/add" element={<AdminProductAdd />} />
+            <Route path="/admin/products/edit/:id" element={<AdminProductEdit />} />
             <Route path="/admin/orders" element={<AdminOrders />} />
             <Route path="/admin/users" element={<AdminUsers />} />
             <Route path="/admin/categories" element={<AdminCategories />} />

@@ -5,7 +5,6 @@ import {
   FiX, FiImage
 } from 'react-icons/fi';
 import toast from 'react-hot-toast';
-import Header from '../../components/common/Header';
 import LoadingSkeleton from '../../components/ui/LoadingSkeleton';
 import axios from '../../api/axios';
 
@@ -94,24 +93,15 @@ const AdminCategories = () => {
   };
 
   if (loading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-dark via-primary-900/20 to-dark">
-        <Header />
-        <div className="container mx-auto px-4 pt-24 pb-12">
-          <LoadingSkeleton type="product" count={6} />
-        </div>
-      </div>
-    );
+    return <LoadingSkeleton type="product" count={6} />;
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-dark via-primary-900/20 to-dark">
-      <Header />
-
-      <div className="container mx-auto px-4 pt-24 pb-12">
+    <>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
+          className="space-y-6"
         >
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
             <div>
@@ -171,7 +161,6 @@ const AdminCategories = () => {
             ))}
           </div>
         </motion.div>
-      </div>
 
       {/* Modal */}
       {showModal && (
@@ -263,7 +252,7 @@ const AdminCategories = () => {
           </motion.div>
         </div>
       )}
-    </div>
+    </>
   );
 };
 

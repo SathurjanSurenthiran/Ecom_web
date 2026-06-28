@@ -5,18 +5,18 @@ import AdminSidebar from '../components/admin/AdminSidebar';
 
 const AdminLayout = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-dark via-primary-900/20 to-dark">
+    <div className="min-h-screen overflow-x-hidden bg-gradient-to-br from-dark via-primary-900/20 to-dark">
       <Header />
-      <div className="container mx-auto px-4 pt-24 pb-12">
-        <div className="flex flex-col md:flex-row gap-6">
-          <div className="md:w-64 flex-shrink-0">
+      <main className="container mx-auto px-4 pt-28 pb-12">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[16rem_minmax(0,1fr)]">
+          <aside className="lg:sticky lg:top-28 lg:self-start">
             <AdminSidebar />
-          </div>
-          <div className="flex-1">
+          </aside>
+          <div className="min-w-0">
             <Outlet />
           </div>
         </div>
-      </div>
+      </main>
       <Footer />
     </div>
   );
