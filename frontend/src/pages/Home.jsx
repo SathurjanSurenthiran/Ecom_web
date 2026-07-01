@@ -6,7 +6,7 @@ import { Autoplay, Pagination, Navigation, EffectFade } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/effect-fade';
 
-import Header from '../components/common/Header';
+
 import ProductCard from '../components/product/ProductCard';
 import LoadingSkeleton from '../components/ui/LoadingSkeleton';
 import {
@@ -52,8 +52,7 @@ const Home = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-dark via-primary-900/20 to-dark">
-      <Header />
+    <>
 
       {/* Hero Section */}
       <section className="relative h-screen flex items-center">
@@ -151,7 +150,7 @@ const Home = () => {
           )}
         </div>
       </section>
-    </div>
+    </>
   );
 };
 

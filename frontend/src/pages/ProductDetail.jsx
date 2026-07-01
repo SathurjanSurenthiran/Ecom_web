@@ -10,7 +10,8 @@ import 'swiper/css/navigation';
 import 'swiper/css/thumbs';
 import 'swiper/css/zoom';
 import toast from 'react-hot-toast';
-import Header from '../components/common/Header';
+
+
 import ProductCard from '../components/product/ProductCard';
 import LoadingSkeleton from '../components/ui/LoadingSkeleton';
 import { getProductBySlug, getRelatedProducts } from '../features/products/productSlice';
@@ -45,11 +46,8 @@ const ProductDetail = () => {
 
   if (loading || !currentProduct) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-dark via-primary-900/20 to-dark">
-        <Header />
-        <div className="container mx-auto px-4 pt-24 pb-12">
-          <LoadingSkeleton type="product" count={1} />
-        </div>
+      <div className="container mx-auto px-4 pt-24 pb-12">
+        <LoadingSkeleton type="product" count={1} />
       </div>
     );
   }
@@ -101,10 +99,7 @@ const ProductDetail = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-dark via-primary-900/20 to-dark">
-      <Header />
-
-      <div className="container mx-auto px-4 pt-24 pb-12">
+    <div className="container mx-auto px-4 pt-24 pb-12">
         {/* Breadcrumb */}
         <nav className="text-white/60 text-sm mb-8">
           <Link to="/" className="hover:text-white">Home</Link>
@@ -376,7 +371,6 @@ const ProductDetail = () => {
           </div>
         )}
       </div>
-    </div>
   );
 };
 

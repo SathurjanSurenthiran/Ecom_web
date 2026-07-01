@@ -18,7 +18,7 @@ const AdminSidebar = () => {
   ];
 
   return (
-    <div className="glass rounded-xl p-3">
+    <div className="h-full">
       <nav className="grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-1">
         {navItems.map((item) => (
           <NavLink
@@ -26,21 +26,22 @@ const AdminSidebar = () => {
             to={item.path}
             end={item.path === '/admin'}
             className={({ isActive }) => `
-              flex min-h-12 items-center gap-3 rounded-lg px-3 py-3 text-sm transition-all duration-300 sm:text-base
+              group flex min-h-12 items-center gap-3 rounded-lg px-3.5 py-3 text-sm transition-all duration-300 sm:text-base
               ${isActive 
-                ? 'bg-primary-600 text-white' 
-                : 'text-white/60 hover:text-white hover:bg-white/5'
+                ? 'bg-gradient-to-r from-primary-600 to-purple-600 text-white shadow-lg shadow-primary-600/30' 
+                : 'text-white/60 hover:text-white hover:bg-white/10 hover:translate-x-1'
               }
             `}
           >
             {({ isActive }) => (
               <>
-                <item.icon className="h-5 w-5 flex-shrink-0" />
-                <span className="truncate">{item.label}</span>
+                <item.icon className={`h-5 w-5 flex-shrink-0 transition-transform duration-300 group-hover:scale-110 ${isActive ? 'text-white' : 'text-white/60'}`} />
+                <span className="truncate font-medium">{item.label}</span>
                 {isActive && (
                   <motion.div
                     layoutId="activeIndicator"
-                    className="ml-auto hidden h-8 w-1.5 rounded-full bg-white lg:block"
+                    className="ml-auto hidden h-6 w-1 rounded-full bg-white lg:block shadow-[0_0_8px_rgba(255,255,255,0.8)]"
+                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
                   />
                 )}
               </>

@@ -29,6 +29,7 @@ import AdminUsers from './pages/admin/AdminUsers';
 import AdminCategories from './pages/admin/AdminCategories';
 import AdminCoupons from './pages/admin/AdminCoupons';
 import AdminAnalytics from './pages/admin/AdminAnalytics';
+import AdminSettings from './pages/admin/AdminSettings';
 import NotFound from './pages/NotFound';
 
 // Routes
@@ -112,6 +113,7 @@ function App() {
             <Route path="/admin/categories" element={<AdminCategories />} />
             <Route path="/admin/coupons" element={<AdminCoupons />} />
             <Route path="/admin/analytics" element={<AdminAnalytics />} />
+            <Route path="/admin/settings" element={<AdminSettings />} />
           </Route>
         </Route>
 

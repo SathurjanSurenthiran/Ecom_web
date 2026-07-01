@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
 import { FiPackage, FiClock, FiCheckCircle, FiTruck, FiXCircle } from 'react-icons/fi';
-import Header from '../components/common/Header';
+
 import LoadingSkeleton from '../components/ui/LoadingSkeleton';
 import { getOrders } from '../features/orders/orderSlice';
 
@@ -38,20 +38,14 @@ const Orders = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-dark via-primary-900/20 to-dark">
-        <Header />
-        <div className="container mx-auto px-4 pt-24 pb-12">
-          <LoadingSkeleton type="product" count={3} />
-        </div>
+      <div className="container mx-auto px-4 pt-24 pb-12">
+        <LoadingSkeleton type="product" count={3} />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-dark via-primary-900/20 to-dark">
-      <Header />
-
-      <div className="container mx-auto px-4 pt-24 pb-12">
+    <div className="container mx-auto px-4 pt-24 pb-12">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -127,7 +121,6 @@ const Orders = () => {
           )}
         </motion.div>
       </div>
-    </div>
   );
 };
 

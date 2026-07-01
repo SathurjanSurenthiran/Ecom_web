@@ -1,0 +1,13 @@
+- [x] Implement new floating glassmorphic navbar styles in `Header.jsx`
+- [x] Add custom CSS definitions (if any) in `index.css`
+- [x] Update `MainLayout.jsx` to handle padding-top for page contents
+- [x] Remove duplicate `<Header />` components and outer layout wrappers from pages:
+  - [x] `Home.jsx`
+  - [x] `Shop.jsx`
+  - [x] `Cart.jsx`
+  - [x] `Checkout.jsx`
+  - [x] `Wishlist.jsx`
+  - [x] `Orders.jsx`
+  - [x] `Profile.jsx`
+  - [x] `ProductDetail.jsx`
+- [x] Verify build and functionality

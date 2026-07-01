@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
 import { FiUser, FiMail, FiPhone, FiMapPin, FiEdit2, FiKey, FiPackage } from 'react-icons/fi';
-import Header from '../components/common/Header';
+
 
 const Profile = () => {
   const { user } = useSelector((state) => state.auth);
@@ -16,10 +16,7 @@ const Profile = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-dark via-primary-900/20 to-dark">
-      <Header />
-
-      <div className="container mx-auto px-4 pt-24 pb-12">
+    <div className="container mx-auto px-4 pt-24 pb-12">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -181,7 +178,6 @@ const Profile = () => {
           </div>
         </motion.div>
       </div>
-    </div>
   );
 };
 

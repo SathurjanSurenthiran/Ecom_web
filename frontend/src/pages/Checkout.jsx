@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { FiCreditCard, FiTruck, FiCheckCircle } from 'react-icons/fi';
 import { FaPaypal } from 'react-icons/fa';
 import toast from 'react-hot-toast';
-import Header from '../components/common/Header';
+
 import { createOrder } from '../features/orders/orderSlice';
 import { clearCart } from '../features/cart/cartSlice';
 
@@ -68,10 +68,7 @@ const Checkout = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-dark via-primary-900/20 to-dark">
-      <Header />
-
-      <div className="container mx-auto px-4 pt-24 pb-12">
+    <div className="container mx-auto px-4 pt-24 pb-12">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -273,7 +270,6 @@ const Checkout = () => {
           </div>
         </motion.div>
       </div>
-    </div>
   );
 };
 
