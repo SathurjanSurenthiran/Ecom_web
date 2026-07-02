@@ -9,7 +9,7 @@ import axios from '../../api/axios';
 const ProductForm = ({ onSubmit, initialData, isLoading }) => {
   const [categories, setCategories] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
-  const { register, control, handleSubmit, setValue, formState: { errors } } = useForm({
+  const { register, control, handleSubmit, setValue, reset, formState: { errors } } = useForm({
     defaultValues: initialData || {
       name: '',
       description: '',
@@ -44,7 +44,8 @@ const ProductForm = ({ onSubmit, initialData, isLoading }) => {
     const fetchCategories = async () => {
       try {
         const response = await axios.get('/categories');
-        setCategories(response.data.data.map(c => ({ value: c._id, label: c.name })));
+        const mapped = response.data.data.map(c => ({ value: c._id, label: c.name }));
+        setCategories(mapped);
       } catch {
         console.error('Failed to fetch categories');
       }
@@ -52,6 +53,21 @@ const ProductForm = ({ onSubmit, initialData, isLoading }) => {
 
     fetchCategories();
   }, []);
+
+  // When initialData changes (e.g. editing a product), reset the form values
+  useEffect(() => {
+    if (initialData) {
+      const formatted = {
+        ...initialData,
+        category: initialData.category?._id || initialData.category || '',
+        tags: Array.isArray(initialData.tags) ? initialData.tags.join(', ') : initialData.tags || '',
+        colors: initialData.colors?.length > 0 ? initialData.colors : [{ name: '', hex: '#000000', stock: '' }],
+        sizes: initialData.sizes?.length > 0 ? initialData.sizes : [{ size: '', stock: '' }],
+      };
+
+      reset(formatted);
+    }
+  }, [initialData, reset]);
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
@@ -107,6 +123,10 @@ const ProductForm = ({ onSubmit, initialData, isLoading }) => {
             label="Category *"
             {...register('category', { required: 'Category is required' })}
             options={categories}
+            placeholder={
+              categories.length > 0 ? 'Select category' : 'Loading categories...'
+            }
+            disabled={categories.length === 0}
             error={errors.category?.message}
           />
           <Select

@@ -28,7 +28,7 @@ const AdminProductEdit = () => {
         };
         
         setProduct(formattedData);
-      } catch (error) {
+      } catch {
         toast.error('Failed to fetch product details');
         navigate('/admin/products');
       } finally {
@@ -45,11 +45,12 @@ const AdminProductEdit = () => {
       const formData = new FormData();
       Object.keys(productData).forEach((key) => {
         if (key === 'images') {
-          // If images are new files
-          if (productData.images && productData.images instanceof FileList) {
-            Array.from(productData.images).forEach((image) => {
-              formData.append('images', image);
-            });
+          if (productData.images) {
+            Array.from(productData.images)
+              .filter((image) => image instanceof File)
+              .forEach((image) => {
+                formData.append('images', image);
+              });
           }
         } else if (key === 'colors' || key === 'sizes') {
           formData.append(key, JSON.stringify(productData[key]));

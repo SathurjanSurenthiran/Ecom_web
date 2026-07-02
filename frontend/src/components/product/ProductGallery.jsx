@@ -31,7 +31,7 @@ const ProductGallery = ({ images, productName }) => {
         <Swiper
           modules={[Navigation, Thumbs, Zoom, FreeMode]}
           navigation
-          thumbs={{ swiper: thumbsSwiper }}
+          thumbs={{ swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null }}
           zoom={true}
           className="w-full h-full"
         >

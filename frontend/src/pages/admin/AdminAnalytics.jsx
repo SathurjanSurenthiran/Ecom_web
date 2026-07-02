@@ -24,10 +24,10 @@ const StatCard = ({ icon: Icon, label, value, change, color = 'primary' }) => (
         <Icon className={`w-6 h-6 text-${color}-400`} />
       </div>
     </div>
-    {change && (
-      <div className={`mt-3 flex items-center text-xs ${change > 0 ? 'text-green-400' : 'text-red-400'}`}>
+    {change !== undefined && change !== null && (
+      <div className={`mt-3 flex items-center text-xs ${change >= 0 ? 'text-green-400' : 'text-red-400'}`}>
         <FiTrendingUp className={`mr-1 ${change < 0 ? 'transform rotate-180' : ''}`} />
-        <span>{Math.abs(change)}% from last period</span>
+        <span>{change >= 0 ? '+' : ''}{change}% from last period</span>
       </div>
     )}
   </motion.div>
@@ -94,28 +94,28 @@ const AdminAnalytics = () => {
           icon={FiDollarSign}
           label="Revenue"
           value={`$${analytics?.revenue?.toLocaleString() || '0'}`}
-          change={12}
+          change={analytics?.revenueChange}
           color="green"
         />
         <StatCard
           icon={FiShoppingCart}
           label="Orders"
           value={analytics?.orders || 0}
-          change={8}
+          change={analytics?.ordersChange}
           color="blue"
         />
         <StatCard
           icon={FiUsers}
           label="Customers"
           value={analytics?.customers || 0}
-          change={15}
+          change={analytics?.customersChange}
           color="purple"
         />
         <StatCard
           icon={FiPackage}
           label="Products Sold"
           value={analytics?.productsSold || 0}
-          change={5}
+          change={analytics?.productsSoldChange}
           color="orange"
         />
       </div>

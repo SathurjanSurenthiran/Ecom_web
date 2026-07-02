@@ -14,7 +14,6 @@ const Cart = () => {
 
   const handleRemove = (productId, size, color) => {
     dispatch(removeFromCart({ productId, size, color }));
-    toast.success('Removed from cart');
   };
 
   const handleUpdateQuantity = (productId, size, color, quantity) => {

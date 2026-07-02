@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import toast from 'react-hot-toast';
 
 const initialState = {
   items: [],
@@ -17,21 +16,16 @@ const wishlistSlice = createSlice({
       
       if (!exists) {
         state.items.push(product);
-        toast.success('Added to wishlist ❤️');
-      } else {
-        toast.info('Already in wishlist');
       }
     },
     
     removeFromWishlist: (state, action) => {
       const productId = action.payload;
       state.items = state.items.filter((item) => item._id !== productId);
-      toast.success('Removed from wishlist');
     },
     
     clearWishlist: (state) => {
       state.items = [];
-      toast.success('Wishlist cleared');
     },
     
     toggleWishlist: (state, action) => {
@@ -40,10 +34,8 @@ const wishlistSlice = createSlice({
       
       if (index === -1) {
         state.items.push(product);
-        toast.success('Added to wishlist ❤️');
       } else {
         state.items.splice(index, 1);
-        toast.success('Removed from wishlist');
       }
     },
     

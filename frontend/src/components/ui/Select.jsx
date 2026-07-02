@@ -4,7 +4,8 @@ import { FiChevronDown } from 'react-icons/fi';
 const Select = forwardRef(({
   label,
   error,
-  options,
+  options = [],
+  placeholder,
   className = '',
   ...props
 }, ref) => {
@@ -29,6 +30,11 @@ const Select = forwardRef(({
           `}
           {...props}
         >
+          {placeholder && (
+            <option value="" disabled>
+              {placeholder}
+            </option>
+          )}
           {options.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
-import { FiHeart, FiShoppingBag, FiStar } from 'react-icons/fi';
+import { Heart, ShoppingBag, Star } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { addToCart } from '../../features/cart/cartSlice';
 import { addToWishlist, removeFromWishlist } from '../../features/wishlist/wishlistSlice';
@@ -21,7 +21,9 @@ const ProductCard = ({ product }) => {
       toast.error('Removed from wishlist');
     } else {
       dispatch(addToWishlist(product));
-      toast.success('Added to wishlist');
+      toast.success('Added to favourites', {
+        icon: <Heart className="h-4 w-4 fill-rose-500 text-rose-500" />,
+      });
     }
   };
 
@@ -30,16 +32,16 @@ const ProductCard = ({ product }) => {
     const size = product.sizes?.[0]?.size || 'M';
     const color = product.colors?.[0]?.name || 'Default';
     dispatch(addToCart({ product, quantity: 1, size, color }));
-    toast.success('Added to cart');
   };
 
   const renderStars = (rating) => {
     return [...Array(5)].map((_, i) => (
-      <FiStar
+      <Star
         key={i}
         className={`${
           i < Math.floor(rating) ? 'text-yellow-400 fill-yellow-400' : 'text-white/30'
         } w-4 h-4`}
+        strokeWidth={1.8}
       />
     ));
   };
@@ -68,10 +70,16 @@ const ProductCard = ({ product }) => {
           >
             <button
               onClick={handleWishlist}
-              className="w-8 h-8 bg-white/90 rounded-full flex items-center justify-center hover:bg-primary-600 hover:text-white transition-colors duration-300"
+              className={`w-9 h-9 rounded-full border flex items-center justify-center backdrop-blur-md shadow-[0_10px_28px_rgba(0,0,0,0.22)] transition-all duration-300 ${
+                isInWishlist
+                  ? 'bg-white text-rose-500 border-white/70'
+                  : 'bg-dark/55 text-white/85 border-white/15 hover:bg-white hover:text-slate-950'
+              }`}
+              aria-label={isInWishlist ? 'Remove from favourites' : 'Add to favourites'}
             >
-              <FiHeart
-                className={isInWishlist ? 'fill-red-500 text-red-500' : ''}
+              <Heart
+                className={`h-[18px] w-[18px] ${isInWishlist ? 'fill-current' : ''}`}
+                strokeWidth={1.9}
               />
             </button>
           </div>
@@ -118,7 +126,7 @@ const ProductCard = ({ product }) => {
             onClick={handleAddToCart}
             className="w-full mt-3 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors duration-300 flex items-center justify-center space-x-2"
           >
-            <FiShoppingBag />
+            <ShoppingBag className="h-4 w-4" strokeWidth={1.9} />
             <span>Add to Cart</span>
           </motion.button>
         </div>

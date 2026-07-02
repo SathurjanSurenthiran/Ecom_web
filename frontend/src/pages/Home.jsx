@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, Navigation, EffectFade } from 'swiper/modules';
@@ -32,6 +33,7 @@ const Home = () => {
       title: 'New Collection 2026',
       subtitle: 'Discover the latest fashion trends',
       cta: 'Shop Now',
+      path: '/shop',
       image:
         'https://images.unsplash.com/photo-1445205170230-053b83016050?w=1200',
     },
@@ -39,13 +41,15 @@ const Home = () => {
       title: 'Summer Sale',
       subtitle: 'Up to 50% off on selected items',
       cta: 'Explore Deals',
+      path: '/shop?deals=true',
       image:
         'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1200',
     },
     {
       title: 'Premium Collection',
       subtitle: 'Luxury fashion for every occasion',
-      cta: 'View Collection',
+      cta: 'View Collections',
+      path: '/shop',
       image:
         'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=1200',
     },
@@ -86,9 +90,12 @@ const Home = () => {
                     <p className="text-xl text-white/80 mb-8">
                       {slide.subtitle}
                     </p>
-                    <button className="px-8 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-all duration-300 transform hover:scale-105">
+                    <Link
+                      to={slide.path}
+                      className="inline-flex px-8 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-all duration-300 transform hover:scale-105"
+                    >
                       {slide.cta}
-                    </button>
+                    </Link>
                   </motion.div>
                 </div>
               </div>

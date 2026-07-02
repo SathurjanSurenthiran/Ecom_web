@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
-import { FiHeart, FiShoppingBag, FiStar, FiMinus, FiPlus, FiTruck, FiRefreshCw, FiShield } from 'react-icons/fi';
+import { Heart, ShoppingBag, Star, Minus, Plus, Truck, RefreshCw, Shield } from 'lucide-react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Thumbs, Zoom } from 'swiper/modules';
 import 'swiper/css';
@@ -21,7 +21,7 @@ import { addToWishlist, removeFromWishlist } from '../features/wishlist/wishlist
 const ProductDetail = () => {
   const { slug } = useParams();
   const dispatch = useDispatch();
-  const { currentProduct, relatedProducts, loading } = useSelector((state) => state.products);
+  const { currentProduct, relatedProducts, loading, error } = useSelector((state) => state.products);
   const { items: wishlistItems } = useSelector((state) => state.wishlist);
   
   const [selectedOptions, setSelectedOptions] = useState({
@@ -44,10 +44,32 @@ const ProductDetail = () => {
     }
   }, [currentProduct, dispatch]);
 
-  if (loading || !currentProduct) {
+  if (loading) {
     return (
       <div className="container mx-auto px-4 pt-24 pb-12">
         <LoadingSkeleton type="product" count={1} />
+      </div>
+    );
+  }
+
+  if (error || !currentProduct) {
+    return (
+      <div className="container mx-auto px-4 pt-32 pb-24 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="max-w-md mx-auto glass p-8 rounded-2xl"
+        >
+          <div className="text-red-500 text-6xl mb-4">🔍</div>
+          <h2 className="text-2xl font-bold text-white mb-2">Product Not Found</h2>
+          <p className="text-white/60 mb-6">{error || "The product you are looking for does not exist or has been removed."}</p>
+          <Link
+            to="/shop"
+            className="inline-block px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105"
+          >
+            Back to Shop
+          </Link>
+        </motion.div>
       </div>
     );
   }
@@ -67,7 +89,9 @@ const ProductDetail = () => {
       toast.error('Removed from wishlist');
     } else {
       dispatch(addToWishlist(currentProduct));
-      toast.success('Added to wishlist');
+      toast.success('Added to favourites', {
+        icon: <Heart className="h-4 w-4 fill-rose-500 text-rose-500" />,
+      });
     }
   };
 
@@ -86,14 +110,14 @@ const ProductDetail = () => {
       size: selectedSize,
       color: selectedColor,
     }));
-    toast.success('Added to cart');
   };
 
   const renderStars = (rating) => {
     return [...Array(5)].map((_, i) => (
-      <FiStar
+      <Star
         key={i}
         className={`${i < Math.floor(rating) ? 'text-yellow-400 fill-yellow-400' : 'text-white/30'}`}
+        strokeWidth={1.8}
       />
     ));
   };
@@ -120,7 +144,7 @@ const ProductDetail = () => {
               modules={[Navigation, Thumbs, Zoom]}
               zoom={true}
               navigation
-              thumbs={{ swiper: thumbsSwiper }}
+              thumbs={{ swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null }}
               className="rounded-xl overflow-hidden"
             >
               {currentProduct.images?.map((image, index) => (
@@ -256,14 +280,14 @@ const ProductDetail = () => {
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
                   className="w-10 h-10 glass rounded-lg flex items-center justify-center text-white hover:bg-white/20"
                 >
-                  <FiMinus />
+                  <Minus className="h-4 w-4" />
                 </button>
                 <span className="text-white text-xl w-12 text-center">{quantity}</span>
                 <button
                   onClick={() => setQuantity(quantity + 1)}
                   className="w-10 h-10 glass rounded-lg flex items-center justify-center text-white hover:bg-white/20"
                 >
-                  <FiPlus />
+                  <Plus className="h-4 w-4" />
                 </button>
               </div>
             </div>
@@ -274,34 +298,34 @@ const ProductDetail = () => {
                 onClick={handleAddToCart}
                 className="flex-1 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-all duration-300 flex items-center justify-center space-x-2 transform hover:scale-105"
               >
-                <FiShoppingBag />
+                <ShoppingBag className="h-5 w-5" strokeWidth={1.9} />
                 <span>Add to Cart</span>
               </button>
               <button
                 onClick={handleWishlist}
-                className={`py-3 px-6 rounded-lg border-2 transition-all duration-300 flex items-center justify-center space-x-2 ${
+                className={`py-3 px-6 rounded-lg border transition-all duration-300 flex items-center justify-center space-x-2 shadow-[0_12px_28px_rgba(0,0,0,0.18)] ${
                   isInWishlist
-                    ? 'border-red-500 bg-red-500/20 text-red-500'
-                    : 'border-white/20 text-white/60 hover:border-primary-500 hover:text-white'
+                    ? 'border-white/60 bg-white text-rose-500'
+                    : 'border-white/15 bg-white/5 text-white/70 hover:bg-white hover:text-slate-950'
                 }`}
               >
-                <FiHeart className={isInWishlist ? 'fill-red-500' : ''} />
-                <span>{isInWishlist ? 'Wishlisted' : 'Add to Wishlist'}</span>
+                <Heart className={`h-5 w-5 ${isInWishlist ? 'fill-current' : ''}`} strokeWidth={1.9} />
+                <span>{isInWishlist ? 'Favourited' : 'Add to Favourites'}</span>
               </button>
             </div>
 
             {/* Product Features */}
             <div className="grid grid-cols-3 gap-4 pt-4 border-t border-white/10">
               <div className="text-center">
-                <FiTruck className="w-6 h-6 mx-auto text-primary-400 mb-2" />
+                <Truck className="w-6 h-6 mx-auto text-primary-400 mb-2" />
                 <p className="text-white/60 text-sm">Free Shipping</p>
               </div>
               <div className="text-center">
-                <FiRefreshCw className="w-6 h-6 mx-auto text-primary-400 mb-2" />
+                <RefreshCw className="w-6 h-6 mx-auto text-primary-400 mb-2" />
                 <p className="text-white/60 text-sm">Easy Returns</p>
               </div>
               <div className="text-center">
-                <FiShield className="w-6 h-6 mx-auto text-primary-400 mb-2" />
+                <Shield className="w-6 h-6 mx-auto text-primary-400 mb-2" />
                 <p className="text-white/60 text-sm">Secure Checkout</p>
               </div>
             </div>

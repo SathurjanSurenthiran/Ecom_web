@@ -1,5 +1,5 @@
 export const shopDetails = {
-  name: 'FASHION',
+  name: 'FitFlex',
   description:
     'Premium clothing store offering the latest fashion trends with quality and style.',
   address: '123 Fashion Street, Colombo',

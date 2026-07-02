@@ -3,16 +3,16 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  FiShoppingBag,
-  FiHeart,
-  FiUser,
-  FiMenu,
-  FiX,
-  FiChevronDown,
-  FiLogOut,
-  FiShoppingBag as FiOrdersIcon,
-  FiSettings
-} from 'react-icons/fi';
+  Heart,
+  ShoppingBag,
+  User,
+  Menu,
+  X,
+  ChevronDown,
+  LogOut,
+  ReceiptText,
+  Settings
+} from 'lucide-react';
 import { logoutUser } from '../../features/auth/authSlice';
 import { shopDetails } from '../../data/shopDetails';
 
@@ -58,7 +58,7 @@ const Header = () => {
       className={`fixed left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ease-out ${
         scrolled
           ? 'top-2 w-[90%] max-w-6xl py-2 px-6 bg-dark/85 backdrop-blur-xl border border-white/15 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] rounded-full'
-          : 'top-4 w-[95%] max-w-7xl py-3.5 px-8 bg-dark/60 backdrop-blur-lg border border-white/10 shadow-lg rounded-2xl'
+          : 'top-4 w-[95%] max-w-7xl py-3.5 px-8 bg-dark/60 backdrop-blur-lg border border-white/10 shadow-lg rounded-full'
       }`}
     >
       <div className="flex items-center justify-between">
@@ -73,8 +73,8 @@ const Header = () => {
           </motion.div>
         </Link>
 
-        {/* Center: Navigation Links */}
-        <nav className="hidden md:flex items-center space-x-1 relative">
+        {/* Right Side: Navigation Links / Action Icons / Auth Button */}
+        <div className="hidden md:flex items-center space-x-4">
           {navLinks.map((link) => {
             const active = isActive(link.path);
             return (
@@ -96,14 +96,11 @@ const Header = () => {
               </Link>
             );
           })}
-        </nav>
 
-        {/* Right Side: Action Icons / Auth Button */}
-        <div className="hidden md:flex items-center space-x-4">
           {/* Wishlist */}
           <Link to="/wishlist" className="relative p-2.5 text-white/75 hover:text-white transition-all duration-300 rounded-full hover:bg-white/5">
             <motion.div whileHover={{ scale: 1.15 }} whileTap={{ scale: 0.9 }}>
-              <FiHeart className="text-xl" />
+              <Heart className="h-5 w-5" strokeWidth={1.8} />
             </motion.div>
             <AnimatePresence>
               {wishlistItems.length > 0 && (
@@ -113,7 +110,7 @@ const Header = () => {
                   animate={{ scale: 1, opacity: 1 }}
                   exit={{ scale: 0, opacity: 0 }}
                   transition={{ type: 'spring', stiffness: 500, damping: 25 }}
-                  className="absolute -top-1 -right-1 bg-gradient-to-r from-red-500 to-pink-500 text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-[0_0_8px_rgba(239,68,68,0.5)]"
+                  className="absolute -top-1.5 -right-1.5 min-w-5 h-5 px-1 rounded-full bg-white text-slate-950 text-[10px] font-bold flex items-center justify-center border border-white/60 shadow-[0_6px_18px_rgba(255,255,255,0.22)]"
                 >
                   {wishlistItems.length}
                 </motion.span>
@@ -124,7 +121,7 @@ const Header = () => {
           {/* Cart */}
           <Link to="/cart" className="relative p-2.5 text-white/75 hover:text-white transition-all duration-300 rounded-full hover:bg-white/5">
             <motion.div whileHover={{ scale: 1.15 }} whileTap={{ scale: 0.9 }}>
-              <FiShoppingBag className="text-xl" />
+              <ShoppingBag className="h-5 w-5" strokeWidth={1.8} />
             </motion.div>
             <AnimatePresence>
               {totalItems > 0 && (
@@ -134,7 +131,7 @@ const Header = () => {
                   animate={{ scale: 1, opacity: 1 }}
                   exit={{ scale: 0, opacity: 0 }}
                   transition={{ type: 'spring', stiffness: 500, damping: 25 }}
-                  className="absolute -top-1 -right-1 bg-gradient-to-r from-primary-500 to-purple-600 text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-[0_0_8px_rgba(124,58,237,0.5)]"
+                  className="absolute -top-1.5 -right-1.5 min-w-5 h-5 px-1 rounded-full bg-white text-slate-950 text-[10px] font-bold flex items-center justify-center border border-white/60 shadow-[0_6px_18px_rgba(255,255,255,0.22)]"
                 >
                   {totalItems}
                 </motion.span>
@@ -161,7 +158,7 @@ const Header = () => {
                   animate={{ rotate: profileOpen ? 180 : 0 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <FiChevronDown className="text-xs" />
+                  <ChevronDown className="h-3.5 w-3.5" strokeWidth={2} />
                 </motion.div>
               </button>
 
@@ -183,7 +180,7 @@ const Header = () => {
                       to="/profile"
                       className="flex items-center space-x-2.5 px-3 py-2 rounded-xl text-sm text-white/75 hover:text-white hover:bg-white/5 transition-all duration-200"
                     >
-                      <FiUser className="text-base text-primary-400" />
+                      <User className="h-4 w-4 text-primary-400" />
                       <span>Profile</span>
                     </Link>
                     
@@ -191,7 +188,7 @@ const Header = () => {
                       to="/orders"
                       className="flex items-center space-x-2.5 px-3 py-2 rounded-xl text-sm text-white/75 hover:text-white hover:bg-white/5 transition-all duration-200"
                     >
-                      <FiOrdersIcon className="text-base text-primary-400" />
+                      <ReceiptText className="h-4 w-4 text-primary-400" />
                       <span>Orders</span>
                     </Link>
 
@@ -200,7 +197,7 @@ const Header = () => {
                         to="/admin"
                         className="flex items-center space-x-2.5 px-3 py-2 rounded-xl text-sm text-white/75 hover:text-white hover:bg-white/5 transition-all duration-200"
                       >
-                        <FiSettings className="text-base text-purple-400" />
+                        <Settings className="h-4 w-4 text-purple-400" />
                         <span>Dashboard</span>
                       </Link>
                     )}
@@ -209,7 +206,7 @@ const Header = () => {
                       onClick={handleLogout}
                       className="flex items-center space-x-2.5 w-full text-left px-3 py-2 rounded-xl text-sm text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-all duration-200 mt-1 border-t border-white/5 pt-2"
                     >
-                      <FiLogOut className="text-base" />
+                      <LogOut className="h-4 w-4" />
                       <span>Logout</span>
                     </button>
                   </motion.div>
@@ -231,7 +228,7 @@ const Header = () => {
           onClick={() => setIsOpen(!isOpen)}
           className="md:hidden text-white text-2xl p-2 rounded-full hover:bg-white/5 transition-colors focus:outline-none"
         >
-          {isOpen ? <FiX /> : <FiMenu />}
+          {isOpen ? <X /> : <Menu />}
         </button>
       </div>
 
@@ -314,11 +311,11 @@ const Header = () => {
                   onClick={() => setIsOpen(false)}
                 >
                   <span className="flex items-center space-x-2">
-                    <FiHeart />
+                    <Heart className="h-4 w-4" />
                     <span>Wishlist</span>
                   </span>
                   {wishlistItems.length > 0 && (
-                    <span className="bg-gradient-to-r from-red-500 to-pink-500 text-white text-[10px] font-bold rounded-full w-5.5 h-5.5 px-1.5 flex items-center justify-center">
+                    <span className="bg-white text-slate-950 text-[10px] font-bold rounded-full min-w-5 h-5 px-1.5 flex items-center justify-center">
                       {wishlistItems.length}
                     </span>
                   )}
@@ -343,11 +340,11 @@ const Header = () => {
                   onClick={() => setIsOpen(false)}
                 >
                   <span className="flex items-center space-x-2">
-                    <FiShoppingBag />
+                    <ShoppingBag className="h-4 w-4" />
                     <span>Cart</span>
                   </span>
                   {totalItems > 0 && (
-                    <span className="bg-gradient-to-r from-primary-500 to-purple-600 text-white text-[10px] font-bold rounded-full w-5.5 h-5.5 px-1.5 flex items-center justify-center">
+                    <span className="bg-white text-slate-950 text-[10px] font-bold rounded-full min-w-5 h-5 px-1.5 flex items-center justify-center">
                       {totalItems}
                     </span>
                   )}
@@ -370,7 +367,7 @@ const Header = () => {
                       className="flex items-center space-x-2 px-4 py-2 text-white/70 hover:text-white"
                       onClick={() => setIsOpen(false)}
                     >
-                      <FiUser className="text-primary-400" />
+                      <User className="h-4 w-4 text-primary-400" />
                       <span>My Profile ({user?.name})</span>
                     </Link>
                   </motion.div>
@@ -387,7 +384,7 @@ const Header = () => {
                       className="flex items-center space-x-2 px-4 py-2 text-white/70 hover:text-white"
                       onClick={() => setIsOpen(false)}
                     >
-                      <FiOrdersIcon className="text-primary-400" />
+                      <ReceiptText className="h-4 w-4 text-primary-400" />
                       <span>My Orders</span>
                     </Link>
                   </motion.div>
@@ -405,7 +402,7 @@ const Header = () => {
                         className="flex items-center space-x-2 px-4 py-2 text-purple-400 hover:text-purple-300"
                         onClick={() => setIsOpen(false)}
                       >
-                        <FiSettings />
+                        <Settings className="h-4 w-4" />
                         <span>Admin Dashboard</span>
                       </Link>
                     </motion.div>
@@ -425,7 +422,7 @@ const Header = () => {
                       }}
                       className="flex items-center space-x-2 px-4 py-2 w-full text-left text-red-400 hover:text-red-300"
                     >
-                      <FiLogOut />
+                      <LogOut className="h-4 w-4" />
                       <span>Logout</span>
                     </button>
                   </motion.div>

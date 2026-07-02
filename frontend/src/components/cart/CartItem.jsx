@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { FiMinus, FiPlus, FiTrash2 } from 'react-icons/fi';
 import { useDispatch } from 'react-redux';
 import { removeFromCart, updateQuantity } from '../../features/cart/cartSlice';
-import toast from 'react-hot-toast';
 
 const CartItem = ({ item }) => {
   const dispatch = useDispatch();
@@ -14,7 +13,6 @@ const CartItem = ({ item }) => {
       size: item.size,
       color: item.color,
     }));
-    toast.success('Removed from cart');
   };
 
   const handleUpdateQuantity = (quantity) => {

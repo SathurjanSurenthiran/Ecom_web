@@ -15,9 +15,11 @@ const AdminProductAdd = () => {
       Object.keys(productData).forEach((key) => {
         if (key === 'images') {
           if (productData.images) {
-            Array.from(productData.images).forEach((image) => {
-              formData.append('images', image);
-            });
+            Array.from(productData.images)
+              .filter((image) => image instanceof File)
+              .forEach((image) => {
+                formData.append('images', image);
+              });
           }
         } else if (key === 'colors' || key === 'sizes') {
           formData.append(key, JSON.stringify(productData[key]));

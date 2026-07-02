@@ -17,7 +17,7 @@ export const getDashboardStats = createAsyncThunk(
   'admin/getStats',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get('/admin/stats');
+      const response = await axios.get('/analytics/dashboard-stats');
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -291,7 +291,7 @@ export const getAnalytics = createAsyncThunk(
   'admin/getAnalytics',
   async (params, { rejectWithValue }) => {
     try {
-      const response = await axios.get('/admin/analytics', { params });
+      const response = await axios.get('/analytics', { params });
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);

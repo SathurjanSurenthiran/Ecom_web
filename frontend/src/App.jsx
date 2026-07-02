@@ -53,16 +53,17 @@ function App() {
         toastOptions={{
           duration: 3000,
           style: {
-            background: 'rgba(6, 16, 51, 0.95)',
-            backdropFilter: 'blur(10px)',
+            background: 'rgba(15, 23, 42, 0.88)',
+            backdropFilter: 'blur(18px)',
             color: '#fff',
-            border: '1px solid rgba(255,255,255,0.1)',
-            borderRadius: '12px',
-            padding: '16px',
+            border: '1px solid rgba(255,255,255,0.16)',
+            borderRadius: '14px',
+            boxShadow: '0 18px 45px rgba(0,0,0,0.28)',
+            padding: '14px 16px',
           },
           success: {
             iconTheme: {
-              primary: '#8b5cf6',
+              primary: '#10b981',
               secondary: '#fff',
             },
           },

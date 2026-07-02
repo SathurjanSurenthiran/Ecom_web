@@ -3,11 +3,42 @@ import User from '../models/User.js';
 // Get all users (Admin only)
 export const getUsers = async (req, res) => {
   try {
-    const users = await User.find({}).select('-password');
+    const users = await User.find({}).select('-password').sort('-createdAt');
     res.json({
       success: true,
       count: users.length,
       data: users,
+    });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
+
+// Create user or admin (Admin only)
+export const createUser = async (req, res) => {
+  try {
+    const { name, email, password, role = 'user' } = req.body;
+
+    if (!['user', 'admin'].includes(role)) {
+      return res.status(400).json({ success: false, message: 'Invalid role' });
+    }
+
+    const userExists = await User.findOne({ email });
+    if (userExists) {
+      return res.status(400).json({ success: false, message: 'User already exists' });
+    }
+
+    const user = await User.create({
+      name,
+      email,
+      password,
+      role,
+    });
+
+    res.status(201).json({
+      success: true,
+      message: 'User created successfully',
+      data: user,
     });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
@@ -39,12 +70,7 @@ export const updateUserRole = async (req, res) => {
     res.json({
       success: true,
       message: 'User role updated successfully',
-      data: {
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-      },
+      data: user,
     });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });

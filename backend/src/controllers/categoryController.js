@@ -1,6 +1,33 @@
 import Category from '../models/Category.js';
 import Product from '../models/Product.js';
-import cloudinary from '../config/cloudinary.js';
+import cloudinary, { assertCloudinaryConfig } from '../config/cloudinary.js';
+
+const CLOUDINARY_FOLDER = 'Ecom';
+
+const slugify = (value) =>
+  value
+    .toString()
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+
+const getUniqueSlug = async (name, categoryId = null) => {
+  if (!name) return undefined;
+
+  const baseSlug = slugify(name);
+  let slug = baseSlug;
+  let suffix = 1;
+
+  while (
+    await Category.exists({ slug, ...(categoryId ? { _id: { $ne: categoryId } } : {}) })
+  ) {
+    slug = `${baseSlug}-${suffix}`;
+    suffix += 1;
+  }
+
+  return slug;
+};
 
 export const getCategories = async (req, res) => {
   try {
@@ -36,14 +63,19 @@ export const createCategory = async (req, res) => {
     const categoryData = req.body;
 
     if (req.file) {
+      assertCloudinaryConfig();
+
       const result = await cloudinary.uploader.upload(req.file.path, {
-        folder: 'categories',
+        folder: CLOUDINARY_FOLDER,
       });
       categoryData.image = {
         public_id: result.public_id,
         url: result.secure_url,
       };
     }
+
+    // ensure slug exists and is unique
+    categoryData.slug = await getUniqueSlug(categoryData.name);
 
     const category = await Category.create(categoryData);
     res.status(201).json({
@@ -65,16 +97,23 @@ export const updateCategory = async (req, res) => {
     }
 
     if (req.file) {
+      assertCloudinaryConfig();
+
       if (category.image) {
         await cloudinary.uploader.destroy(category.image.public_id);
       }
       const result = await cloudinary.uploader.upload(req.file.path, {
-        folder: 'categories',
+        folder: CLOUDINARY_FOLDER,
       });
       req.body.image = {
         public_id: result.public_id,
         url: result.secure_url,
       };
+    }
+
+    // If name changed, update slug
+    if (req.body.name && req.body.name !== category.name) {
+      req.body.slug = await getUniqueSlug(req.body.name, req.params.id);
     }
 
     const updatedCategory = await Category.findByIdAndUpdate(
