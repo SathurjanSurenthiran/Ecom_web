@@ -32,6 +32,18 @@ import AdminAnalytics from './pages/admin/AdminAnalytics';
 import AdminSettings from './pages/admin/AdminSettings';
 import NotFound from './pages/NotFound';
 
+// Support Pages
+import About from './pages/About';
+import Contact from './pages/Contact';
+import FAQs from './pages/FAQs';
+import Shipping from './pages/Shipping';
+import Returns from './pages/Returns';
+import SizeGuide from './pages/SizeGuide';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsOfService from './pages/TermsOfService';
+import CookiePolicy from './pages/CookiePolicy';
+import Careers from './pages/Careers';
+
 // Routes
 import ProtectedRoute from './routes/ProtectedRoute';
 import AdminRoute from './routes/AdminRoute';
@@ -81,6 +93,21 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/product/:slug" element={<ProductDetail />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/about-us" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/contact-us" element={<Contact />} />
+          <Route path="/faqs" element={<FAQs />} />
+          <Route path="/shipping" element={<Shipping />} />
+          <Route path="/shipping-info" element={<Shipping />} />
+          <Route path="/returns" element={<Returns />} />
+          <Route path="/size-guide" element={<SizeGuide />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/terms-of-service" element={<TermsOfService />} />
+          <Route path="/terms" element={<TermsOfService />} />
+          <Route path="/cookie-policy" element={<CookiePolicy />} />
+          <Route path="/careers" element={<Careers />} />
         </Route>
 
         {/* Auth Routes with AuthLayout */}
