@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { getCurrentUser } from './features/auth/authSlice';
@@ -133,9 +133,12 @@ function App() {
         <Route element={<AdminRoute />}>
           <Route element={<AdminLayout />}>
             <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/dashboard" element={<Navigate to="/admin" replace />} />
             <Route path="/admin/products" element={<AdminProducts />} />
             <Route path="/admin/products/add" element={<AdminProductAdd />} />
+            <Route path="/admin/products/new" element={<Navigate to="/admin/products/add" replace />} />
             <Route path="/admin/products/edit/:id" element={<AdminProductEdit />} />
+            <Route path="/admin/products/:id/edit" element={<AdminProductEdit />} />
             <Route path="/admin/orders" element={<AdminOrders />} />
             <Route path="/admin/users" element={<AdminUsers />} />
             <Route path="/admin/categories" element={<AdminCategories />} />

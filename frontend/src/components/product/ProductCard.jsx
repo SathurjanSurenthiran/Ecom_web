@@ -39,8 +39,8 @@ const ProductCard = ({ product }) => {
       <Star
         key={i}
         className={`${
-          i < Math.floor(rating) ? 'text-yellow-400 fill-yellow-400' : 'text-white/30'
-        } w-4 h-4`}
+          i < Math.floor(rating) ? 'text-yellow-400 fill-yellow-400' : 'text-zinc-300'
+        } w-3 h-3`}
         strokeWidth={1.8}
       />
     ));
@@ -48,45 +48,45 @@ const ProductCard = ({ product }) => {
 
   return (
     <motion.div
-      whileHover={{ y: -5 }}
-      className="group relative bg-white/5 rounded-xl overflow-hidden card-hover"
+      whileHover={{ y: -4 }}
+      className="group relative bg-white border border-zinc-200/60 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-500 card-hover"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <Link to={`/product/${product.slug || product._id}`}>
         {/* Image */}
-        <div className="relative aspect-square overflow-hidden">
+        <div className="relative aspect-square overflow-hidden bg-zinc-50">
           <img
             src={product.images?.[0]?.url || 'https://via.placeholder.com/300'}
             alt={product.name}
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
 
           {/* Quick Actions */}
           <div
-            className={`absolute top-2 right-2 flex flex-col space-y-2 transition-all duration-300 ${
-              isHovered ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'
+            className={`absolute top-3 right-3 flex flex-col space-y-2 transition-all duration-300 ${
+              isHovered ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-3'
             }`}
           >
             <button
               onClick={handleWishlist}
-              className={`w-9 h-9 rounded-full border flex items-center justify-center backdrop-blur-md shadow-[0_10px_28px_rgba(0,0,0,0.22)] transition-all duration-300 ${
+              className={`w-9 h-9 rounded-full border flex items-center justify-center backdrop-blur-md shadow-sm transition-all duration-300 ${
                 isInWishlist
-                  ? 'bg-white text-rose-500 border-white/70'
-                  : 'bg-dark/55 text-white/85 border-white/15 hover:bg-white hover:text-slate-950'
+                  ? 'bg-black text-white border-black'
+                  : 'bg-white/95 text-zinc-700 border-zinc-200 hover:bg-black hover:text-white hover:border-black'
               }`}
               aria-label={isInWishlist ? 'Remove from favourites' : 'Add to favourites'}
             >
               <Heart
-                className={`h-[18px] w-[18px] ${isInWishlist ? 'fill-current' : ''}`}
-                strokeWidth={1.9}
+                className={`h-4.5 w-4.5 ${isInWishlist ? 'fill-current' : ''}`}
+                strokeWidth={2}
               />
             </button>
           </div>
 
           {/* Discount Badge */}
           {product.discountPrice && (
-            <div className="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">
+            <div className="absolute top-3 left-3 bg-black text-white text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider shadow-sm">
               {Math.round(
                 ((product.price - product.discountPrice) / product.price) * 100
               )}
@@ -97,23 +97,23 @@ const ProductCard = ({ product }) => {
 
         {/* Info */}
         <div className="p-4">
-          <h3 className="text-white font-medium truncate">{product.name}</h3>
-          <p className="text-white/60 text-sm">{product.brand}</p>
+          <p className="text-zinc-400 text-[10px] tracking-widest uppercase font-semibold mb-1">{product.brand}</p>
+          <h3 className="text-black font-medium text-sm truncate group-hover:text-zinc-600 transition-colors">{product.name}</h3>
 
-          <div className="flex items-center justify-between mt-2">
-            <div className="flex items-center space-x-2">
-              <span className="text-white font-bold">
+          <div className="flex items-center justify-between mt-2.5">
+            <div className="flex items-baseline space-x-1.5">
+              <span className="text-black font-bold text-sm">
                 ${product.discountPrice || product.price}
               </span>
               {product.discountPrice && (
-                <span className="text-white/40 line-through text-sm">
+                <span className="text-zinc-400 line-through text-xs">
                   ${product.price}
                 </span>
               )}
             </div>
-            <div className="flex items-center space-x-1">
+            <div className="flex items-center space-x-0.5">
               {renderStars(product.rating)}
-              <span className="text-white/60 text-xs ml-1">
+              <span className="text-zinc-400 text-[10px] ml-1 font-medium">
                 ({product.numReviews})
               </span>
             </div>
@@ -121,12 +121,12 @@ const ProductCard = ({ product }) => {
 
           {/* Add to Cart Button */}
           <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: 1.01 }}
+            whileTap={{ scale: 0.98 }}
             onClick={handleAddToCart}
-            className="w-full mt-3 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors duration-300 flex items-center justify-center space-x-2"
+            className="w-full mt-4 py-2 bg-black text-white rounded-lg hover:bg-zinc-800 transition-colors duration-300 flex items-center justify-center space-x-2 text-xs font-semibold tracking-wide uppercase"
           >
-            <ShoppingBag className="h-4 w-4" strokeWidth={1.9} />
+            <ShoppingBag className="h-3.5 w-3.5" strokeWidth={2} />
             <span>Add to Cart</span>
           </motion.button>
         </div>

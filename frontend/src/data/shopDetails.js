@@ -1,12 +1,12 @@
 export const shopDetails = {
   name: 'FitFlex',
   description:
-    'Premium clothing store offering the latest fashion trends with quality and style.',
+    'Redefining modern luxury through the lens of architectural minimalism and Italian craftsmanship.',
   address: 'No 245, Galle Road, Bambalapittiya, Colombo',
   city: 'Colombo',
   postalCode: '00100',
   phone: '+ 021 226 4568',
-  email: 'support@fashion.com',
+  email: 'support@fitflex.com',
   supportEmail: 'support@fitflex.com',
   privacyEmail: 'privacy@fitflex.com',
   careersEmail: 'careers@fitflex.com',

@@ -4,7 +4,7 @@ import { FiHome, FiArrowLeft } from 'react-icons/fi';
 
 const NotFound = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-dark via-primary-900/20 to-dark flex items-center justify-center px-4">
+    <div className="min-h-screen bg-[#fcfbfe] flex items-center justify-center px-4 support-page-light">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

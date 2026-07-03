@@ -35,7 +35,7 @@ const Shipping = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-dark via-primary-900/20 to-dark">
+    <div className="min-h-screen bg-[#fcfbfe] support-page-light">
       <section className="relative pt-32 pb-20 px-4">
         <div className="container mx-auto">
           <motion.div
@@ -98,9 +98,9 @@ const Shipping = () => {
                 We currently ship to the following locations:
               </p>
               <ul className="list-disc list-inside text-white/60 space-y-1">
-                <li>United States (all 50 states)</li>
-                <li>Canada</li>
-                <li>United Kingdom</li>
+                <li>Sri Lanka (Island wide)</li>
+                <li>Singapor</li>
+                <li>Europ</li>
                 <li>Australia</li>
                 <li>Most European countries</li>
                 <li>Select Asian and South American countries</li>

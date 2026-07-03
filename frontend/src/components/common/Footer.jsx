@@ -44,15 +44,15 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-dark text-white/70 border-t border-white/10 tracking-wide">
+    <footer className="bg-[#f5f5f7] text-zinc-600 border-t border-zinc-200/80 tracking-wide">
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
           {/* Brand & Socials Section */}
           <div className="space-y-4">
-            <h3 className="text-2xl font-poppins font-bold gradient-text tracking-normal">
+            <h3 className="text-2xl font-poppins font-extrabold tracking-widest text-black">
               {shopDetails.name}
             </h3>
-            <p className="text-sm leading-relaxed text-white/60">
+            <p className="text-sm leading-relaxed text-zinc-500">
               {shopDetails.description}
             </p>
             <div className="flex space-x-3 pt-2">
@@ -67,8 +67,8 @@ const Footer = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={name}
-                    whileHover={{ scale: 1.08, y: -2 }}
-                    className="w-10 h-10 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center text-white/70 hover:text-white hover:bg-primary-500 hover:border-primary-400 transition-all duration-300 shadow-lg group hover:shadow-[0_0_15px_rgba(59,130,246,0.4)]"
+                    whileHover={{ scale: 1.05, y: -2 }}
+                    className="w-10 h-10 bg-white border border-zinc-200 rounded-xl flex items-center justify-center text-zinc-500 hover:text-white hover:bg-black hover:border-black transition-all duration-300 shadow-sm group"
                   >
                     <Icon className="w-5 h-5 transition-transform duration-300 group-hover:rotate-[6deg]" />
                   </motion.a>
@@ -79,7 +79,7 @@ const Footer = () => {
 
           {/* Shop Links */}
           <div>
-            <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider text-white/90">
+            <h4 className="text-black font-semibold mb-4 text-xs uppercase tracking-widest">
               Shop
             </h4>
             <ul className="space-y-2.5">
@@ -87,7 +87,7 @@ const Footer = () => {
                 <li key={link.label}>
                   <Link
                     to={link.path}
-                    className="inline-block text-sm text-white/60 hover:text-primary-400 transition-colors duration-300 relative after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-0 hover:after:w-full after:bg-primary-400 after:transition-all after:duration-300 pb-0.5"
+                    className="inline-block text-sm text-zinc-500 hover:text-black transition-colors duration-300 relative after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-0 hover:after:w-full after:bg-black after:transition-all after:duration-300 pb-0.5"
                   >
                     {link.label}
                   </Link>
@@ -98,7 +98,7 @@ const Footer = () => {
 
           {/* Support Links */}
           <div>
-            <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider text-white/90">
+            <h4 className="text-black font-semibold mb-4 text-xs uppercase tracking-widest">
               Support
             </h4>
             <ul className="space-y-2.5">
@@ -106,7 +106,7 @@ const Footer = () => {
                 <li key={link.label}>
                   <Link
                     to={link.path}
-                    className="inline-block text-sm text-white/60 hover:text-primary-400 transition-colors duration-300 relative after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-0 hover:after:w-full after:bg-primary-400 after:transition-all after:duration-300 pb-0.5"
+                    className="inline-block text-sm text-zinc-500 hover:text-black transition-colors duration-300 relative after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-0 hover:after:w-full after:bg-black after:transition-all after:duration-300 pb-0.5"
                   >
                     {link.label}
                   </Link>
@@ -117,25 +117,25 @@ const Footer = () => {
 
           {/* Contact Info  */}
           <div>
-            <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider text-white/90">
+            <h4 className="text-black font-semibold mb-4 text-xs uppercase tracking-widest">
               Contact
             </h4>
-            <ul className="space-y-3.5 text-sm text-white/60">
+            <ul className="space-y-3.5 text-sm text-zinc-500">
               <li className="flex items-start space-x-3 group">
-                <FiMapPin className="text-primary-400 mt-1 flex-shrink-0 transition-transform duration-300 group-hover:scale-110" />
-                <span className="group-hover:text-white/90 transition-colors duration-300">
+                <FiMapPin className="text-black mt-1 flex-shrink-0 transition-transform duration-300 group-hover:scale-110" />
+                <span className="group-hover:text-black transition-colors duration-300">
                   {shopDetails.address}
                 </span>
               </li>
               <li className="flex items-center space-x-3 group">
-                <FiPhone className="text-primary-400 flex-shrink-0 transition-transform duration-300 group-hover:scale-110" />
-                <span className="group-hover:text-white/90 transition-colors duration-300">
+                <FiPhone className="text-black flex-shrink-0 transition-transform duration-300 group-hover:scale-110" />
+                <span className="group-hover:text-black transition-colors duration-300">
                   {shopDetails.phone}
                 </span>
               </li>
               <li className="flex items-start space-x-3 group">
-                <FiMail className="text-primary-400 mt-1 flex-shrink-0 transition-transform duration-300 group-hover:scale-110" />
-                <span className="break-all group-hover:text-white/90 transition-colors duration-300">
+                <FiMail className="text-black mt-1 flex-shrink-0 transition-transform duration-300 group-hover:scale-110" />
+                <span className="break-all group-hover:text-black transition-colors duration-300">
                   {shopDetails.email}
                 </span>
               </li>
@@ -144,7 +144,7 @@ const Footer = () => {
 
           {/* Company Links */}
           <div>
-            <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider text-white/90">
+            <h4 className="text-black font-semibold mb-4 text-xs uppercase tracking-widest">
               Company
             </h4>
             <ul className="space-y-2.5">
@@ -152,7 +152,7 @@ const Footer = () => {
                 <li key={link.label}>
                   <Link
                     to={link.path}
-                    className="inline-block text-sm text-white/60 hover:text-primary-400 transition-colors duration-300 relative after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-0 hover:after:w-full after:bg-primary-400 after:transition-all after:duration-300 pb-0.5"
+                    className="inline-block text-sm text-zinc-500 hover:text-black transition-colors duration-300 relative after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-0 hover:after:w-full after:bg-black after:transition-all after:duration-300 pb-0.5"
                   >
                     {link.label}
                   </Link>
@@ -163,18 +163,18 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar Section */}
-        <div className="border-t border-white/10 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center text-sm text-white/40">
+       <div className="border-t border-zinc-200 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center text-sm text-zinc-400">
           <p>&copy; {new Date().getFullYear()} {shopDetails.name}. All rights reserved.</p>
           <div className="flex space-x-6 mt-4 md:mt-0">
             <Link
               to="/privacy"
-              className="hover:text-white transition-colors duration-300 relative after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-0 hover:after:w-full after:bg-white/40 after:transition-all after:duration-300 pb-0.5"
+              className="hover:text-black transition-colors duration-300 relative after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-0 hover:after:w-full after:bg-black after:transition-all after:duration-300 pb-0.5"
             >
               Privacy Policy
             </Link>
             <Link
               to="/terms"
-              className="hover:text-white transition-colors duration-300 relative after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-0 hover:after:w-full after:bg-white/40 after:transition-all after:duration-300 pb-0.5"
+              className="hover:text-black transition-colors duration-300 relative after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-0 hover:after:w-full after:bg-black after:transition-all after:duration-300 pb-0.5"
             >
               Terms of Service
             </Link>

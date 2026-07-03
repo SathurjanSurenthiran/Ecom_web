@@ -27,37 +27,41 @@ const Orders = () => {
 
   const getStatusColor = (status) => {
     const colors = {
-      pending: 'text-yellow-400 bg-yellow-400/10',
-      processing: 'text-blue-400 bg-blue-400/10',
-      shipped: 'text-purple-400 bg-purple-400/10',
-      delivered: 'text-green-400 bg-green-400/10',
-      cancelled: 'text-red-400 bg-red-400/10',
+      pending: 'text-amber-700 bg-amber-50 border-amber-100',
+      processing: 'text-sky-700 bg-sky-50 border-sky-100',
+      shipped: 'text-violet-700 bg-violet-50 border-violet-100',
+      delivered: 'text-emerald-700 bg-emerald-50 border-emerald-100',
+      cancelled: 'text-red-700 bg-red-50 border-red-100',
     };
-    return colors[status] || 'text-white/40 bg-white/5';
+    return colors[status] || 'text-zinc-600 bg-zinc-100 border-zinc-200';
   };
 
   if (loading) {
     return (
-      <div className="container mx-auto px-4 pt-24 pb-12">
+      <div className="bg-[#fcfbfe] min-h-screen px-4 pt-28 pb-16">
         <LoadingSkeleton type="product" count={3} />
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto px-4 pt-24 pb-12">
+    <div className="bg-[#fcfbfe] text-black min-h-screen px-4 md:px-8 pt-28 pb-16">
+      <div className="container mx-auto max-w-6xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <h1 className="text-3xl md:text-4xl font-poppins font-bold text-white mb-8">
-            My Orders
-          </h1>
+          <div className="mb-8">
+            <p className="text-zinc-400 text-xs tracking-widest uppercase font-semibold mb-1">Account History</p>
+            <h1 className="text-3xl md:text-4xl font-poppins font-extrabold text-black uppercase tracking-tight">
+              My Orders
+            </h1>
+          </div>
 
           {orders.length === 0 ? (
-            <div className="text-center py-12">
-              <FiPackage className="w-16 h-16 mx-auto text-white/20 mb-4" />
-              <p className="text-white/60">No orders yet</p>
+            <div className="text-center py-16 bg-white border border-zinc-200 rounded-2xl shadow-sm">
+              <FiPackage className="w-16 h-16 mx-auto text-zinc-300 mb-4" />
+              <p className="text-zinc-500">No orders yet</p>
             </div>
           ) : (
             <div className="space-y-4">
@@ -68,19 +72,19 @@ const Orders = () => {
                     key={order._id}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="glass p-6 rounded-xl"
+                    className="bg-white border border-zinc-200 p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300"
                   >
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
                       <div>
-                        <p className="text-white/60 text-sm">Order ID</p>
-                        <p className="text-white font-semibold">{order._id}</p>
+                        <p className="text-zinc-400 text-xs tracking-widest uppercase font-semibold">Order ID</p>
+                        <p className="text-black font-semibold break-all">{order._id}</p>
                       </div>
                       <div className="flex items-center space-x-4 mt-2 md:mt-0">
-                        <span className={`px-3 py-1 rounded-full text-xs font-semibold flex items-center space-x-1 ${getStatusColor(order.orderStatus)}`}>
+                        <span className={`px-3 py-1 rounded-full text-xs font-semibold flex items-center space-x-1 border ${getStatusColor(order.orderStatus)}`}>
                           <StatusIcon className="w-3 h-3" />
                           <span>{order.orderStatus.charAt(0).toUpperCase() + order.orderStatus.slice(1)}</span>
                         </span>
-                        <span className="text-white/60 text-sm">
+                        <span className="text-zinc-500 text-sm">
                           {new Date(order.createdAt).toLocaleDateString()}
                         </span>
                       </div>
@@ -88,29 +92,29 @@ const Orders = () => {
 
                     <div className="space-y-2">
                       {order.orderItems.map((item) => (
-                        <div key={item._id} className="flex items-center space-x-4 py-2 border-b border-white/5 last:border-0">
+                        <div key={item._id} className="flex items-center space-x-4 py-3 border-b border-zinc-100 last:border-0">
                           <img
                             src={item.image || 'https://via.placeholder.com/50'}
                             alt={item.name}
-                            className="w-12 h-12 object-cover rounded"
+                            className="w-12 h-12 object-cover rounded-lg bg-zinc-100"
                           />
                           <div className="flex-1">
-                            <p className="text-white">{item.name}</p>
-                            <p className="text-white/60 text-sm">
+                            <p className="text-black font-medium">{item.name}</p>
+                            <p className="text-zinc-500 text-sm">
                               Qty: {item.quantity} | Size: {item.size}
                             </p>
                           </div>
-                          <p className="text-white font-semibold">${(item.price * item.quantity).toFixed(2)}</p>
+                          <p className="text-black font-semibold">${(item.price * item.quantity).toFixed(2)}</p>
                         </div>
                       ))}
                     </div>
 
-                    <div className="flex justify-between items-center mt-4 pt-4 border-t border-white/10">
+                    <div className="flex justify-between items-center mt-4 pt-4 border-t border-zinc-200">
                       <div>
-                        <p className="text-white/60 text-sm">Total</p>
-                        <p className="text-white font-bold text-lg">${order.totalPrice.toFixed(2)}</p>
+                        <p className="text-zinc-400 text-xs tracking-widest uppercase font-semibold">Total</p>
+                        <p className="text-black font-bold text-lg">${order.totalPrice.toFixed(2)}</p>
                       </div>
-                      <button className="px-4 py-2 glass text-white rounded-lg hover:bg-white/10 transition-colors">
+                      <button className="px-4 py-2 bg-black text-white rounded-lg hover:bg-zinc-800 transition-colors text-sm font-semibold">
                         View Details
                       </button>
                     </div>
@@ -121,6 +125,7 @@ const Orders = () => {
           )}
         </motion.div>
       </div>
+    </div>
   );
 };
 

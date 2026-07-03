@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FiStar, FiUser, FiClock, FiThumbsUp } from 'react-icons/fi';
+import { FiClock, FiStar, FiThumbsUp, FiUser } from 'react-icons/fi';
 import { useSelector } from 'react-redux';
 import Button from '../ui/Button';
-import Input from '../ui/Input';
 import Modal from '../ui/Modal';
 
 const ProductReviews = ({ reviews, productId, onAddReview }) => {
@@ -20,9 +19,9 @@ const ProductReviews = ({ reviews, productId, onAddReview }) => {
 
   const ratingDistribution = [5, 4, 3, 2, 1].map((star) => ({
     star,
-    count: reviews?.filter(r => r.rating === star).length || 0,
+    count: reviews?.filter((r) => r.rating === star).length || 0,
     percentage: reviews?.length > 0
-      ? (reviews.filter(r => r.rating === star).length / reviews.length) * 100
+      ? (reviews.filter((r) => r.rating === star).length / reviews.length) * 100
       : 0,
   }));
 
@@ -37,7 +36,7 @@ const ProductReviews = ({ reviews, productId, onAddReview }) => {
     }
   };
 
-  const renderStars = (rating, size = 'sm') => {
+  const renderStars = (value, size = 'sm') => {
     const sizes = {
       sm: 'w-4 h-4',
       md: 'w-5 h-5',
@@ -50,9 +49,9 @@ const ProductReviews = ({ reviews, productId, onAddReview }) => {
           <FiStar
             key={i}
             className={`${sizes[size]} ${
-              i < rating
+              i < value
                 ? 'text-yellow-400 fill-yellow-400'
-                : 'text-white/20'
+                : 'text-zinc-300'
             }`}
           />
         ))}
@@ -62,31 +61,30 @@ const ProductReviews = ({ reviews, productId, onAddReview }) => {
 
   return (
     <div className="space-y-6">
-      {/* Rating Summary */}
-      <div className="flex flex-col md:flex-row items-start md:items-center gap-6 p-6 glass rounded-xl">
+      <div className="flex flex-col md:flex-row items-start md:items-center gap-6 p-6 bg-white border border-zinc-200 rounded-2xl shadow-sm">
         <div className="text-center">
-          <div className="text-4xl font-poppins font-bold text-white">
+          <div className="text-4xl font-poppins font-bold text-black">
             {averageRating.toFixed(1)}
           </div>
           <div className="flex justify-center mt-1">
             {renderStars(Math.round(averageRating), 'md')}
           </div>
-          <div className="text-white/60 text-sm mt-1">
+          <div className="text-zinc-500 text-sm mt-1">
             {reviews?.length || 0} reviews
           </div>
         </div>
 
-        <div className="flex-1 space-y-1">
+        <div className="flex-1 space-y-1 w-full">
           {ratingDistribution.map(({ star, percentage }) => (
             <div key={star} className="flex items-center gap-3">
-              <span className="text-white/60 text-sm w-8">{star}★</span>
-              <div className="flex-1 h-2 bg-white/10 rounded-full overflow-hidden">
+              <span className="text-zinc-500 text-sm w-12">{star} star</span>
+              <div className="flex-1 h-2 bg-zinc-100 rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-yellow-400 rounded-full transition-all duration-500"
+                  className="h-full bg-black rounded-full transition-all duration-500"
                   style={{ width: `${percentage}%` }}
                 />
               </div>
-              <span className="text-white/40 text-sm w-12">
+              <span className="text-zinc-400 text-sm w-12">
                 {Math.round(percentage)}%
               </span>
             </div>
@@ -94,13 +92,15 @@ const ProductReviews = ({ reviews, productId, onAddReview }) => {
         </div>
 
         {isAuthenticated && (
-          <Button onClick={() => setShowReviewModal(true)}>
+          <Button
+            onClick={() => setShowReviewModal(true)}
+            className="bg-black hover:bg-zinc-800 text-white rounded-lg text-sm font-semibold uppercase tracking-wide"
+          >
             Write Review
           </Button>
         )}
       </div>
 
-      {/* Reviews List */}
       {reviews && reviews.length > 0 ? (
         <div className="space-y-4">
           {reviews.map((review) => (
@@ -108,18 +108,18 @@ const ProductReviews = ({ reviews, productId, onAddReview }) => {
               key={review._id}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="glass p-4 rounded-xl"
+              className="bg-white border border-zinc-200 p-5 rounded-2xl shadow-sm"
             >
-              <div className="flex items-start justify-between">
+              <div className="flex items-start justify-between gap-4">
                 <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-primary-500/20 rounded-full flex items-center justify-center">
-                    <FiUser className="w-5 h-5 text-primary-400" />
+                  <div className="w-10 h-10 bg-zinc-100 rounded-full flex items-center justify-center">
+                    <FiUser className="w-5 h-5 text-black" />
                   </div>
                   <div>
-                    <p className="text-white font-medium">{review.user?.name || 'Anonymous'}</p>
+                    <p className="text-black font-medium">{review.user?.name || 'Anonymous'}</p>
                     <div className="flex items-center space-x-2">
                       {renderStars(review.rating)}
-                      <span className="text-white/40 text-xs">
+                      <span className="text-zinc-400 text-xs">
                         <FiClock className="inline mr-1 w-3 h-3" />
                         {new Date(review.createdAt).toLocaleDateString()}
                       </span>
@@ -127,16 +127,16 @@ const ProductReviews = ({ reviews, productId, onAddReview }) => {
                   </div>
                 </div>
                 {review.isVerified && (
-                  <span className="px-2 py-1 bg-green-500/20 text-green-400 text-xs rounded-full">
+                  <span className="px-2 py-1 bg-emerald-50 text-emerald-700 border border-emerald-100 text-xs rounded-full">
                     Verified Purchase
                   </span>
                 )}
               </div>
               {review.title && (
-                <h4 className="text-white font-semibold mt-2">{review.title}</h4>
+                <h4 className="text-black font-semibold mt-3">{review.title}</h4>
               )}
-              <p className="text-white/70 mt-1">{review.comment}</p>
-              <button className="mt-2 text-white/40 hover:text-white/70 transition-colors text-sm flex items-center space-x-1">
+              <p className="text-zinc-600 mt-1">{review.comment}</p>
+              <button className="mt-3 text-zinc-400 hover:text-black transition-colors text-sm flex items-center space-x-1">
                 <FiThumbsUp className="w-4 h-4" />
                 <span>Helpful</span>
               </button>
@@ -144,21 +144,21 @@ const ProductReviews = ({ reviews, productId, onAddReview }) => {
           ))}
         </div>
       ) : (
-        <div className="text-center py-8 text-white/40">
-          <p className="text-lg">No reviews yet</p>
+        <div className="text-center py-12 bg-white border border-zinc-200 rounded-2xl shadow-sm text-zinc-500">
+          <p className="text-lg text-black font-semibold">No reviews yet</p>
           <p className="text-sm">Be the first to review this product</p>
         </div>
       )}
 
-      {/* Review Modal */}
       <Modal
         isOpen={showReviewModal}
         onClose={() => setShowReviewModal(false)}
         title="Write a Review"
+        className="support-page-light"
       >
         <form onSubmit={handleSubmitReview} className="space-y-4">
           <div>
-            <label className="text-white/60 text-sm mb-2 block">Rating</label>
+            <label className="text-zinc-600 text-sm mb-2 block">Rating</label>
             <div className="flex space-x-2">
               {[1, 2, 3, 4, 5].map((star) => (
                 <button
@@ -173,7 +173,7 @@ const ProductReviews = ({ reviews, productId, onAddReview }) => {
                     className={`${
                       star <= (hoverRating || rating)
                         ? 'text-yellow-400 fill-yellow-400'
-                        : 'text-white/20'
+                        : 'text-zinc-300'
                     }`}
                   />
                 </button>
@@ -181,33 +181,37 @@ const ProductReviews = ({ reviews, productId, onAddReview }) => {
             </div>
           </div>
 
-          <Input
-            label="Title (Optional)"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="Summarize your experience"
-          />
+          <div>
+            <label className="text-zinc-600 text-sm block mb-1">Title (Optional)</label>
+            <input
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Summarize your experience"
+              className="w-full px-4 py-2 bg-white border border-zinc-200 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-black"
+            />
+          </div>
 
           <div>
-            <label className="text-white/60 text-sm block mb-1">Review *</label>
+            <label className="text-zinc-600 text-sm block mb-1">Review *</label>
             <textarea
               value={comment}
               onChange={(e) => setComment(e.target.value)}
               required
               rows={4}
-              className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+              className="w-full px-4 py-2 bg-white border border-zinc-200 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-black"
               placeholder="Share your experience with this product..."
             />
           </div>
 
           <div className="flex space-x-3">
-            <Button type="submit" className="flex-1">
+            <Button type="submit" className="flex-1 bg-black hover:bg-zinc-800 text-white">
               Submit Review
             </Button>
             <Button
               type="button"
               variant="secondary"
               onClick={() => setShowReviewModal(false)}
+              className="bg-zinc-100 hover:bg-zinc-200 text-black"
             >
               Cancel
             </Button>

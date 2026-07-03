@@ -125,6 +125,23 @@ const cartSlice = createSlice({
       state.discount = 0;
       toast.success('Coupon removed');
     },
+    
+    setCartState: (state, action) => {
+      const { items = [], totalItems = 0, totalPrice = 0, discount = 0, couponCode = null } = action.payload || {};
+      state.items = items;
+      state.totalItems = totalItems;
+      state.totalPrice = totalPrice;
+      state.discount = discount;
+      state.couponCode = couponCode;
+    },
+    
+    clearCartState: (state) => {
+      state.items = [];
+      state.totalItems = 0;
+      state.totalPrice = 0;
+      state.discount = 0;
+      state.couponCode = null;
+    },
   },
 });
 
@@ -135,6 +152,8 @@ export const {
   clearCart,
   applyCoupon,
   removeCoupon,
+  setCartState,
+  clearCartState,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

@@ -33,7 +33,7 @@ const CookiePolicy = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-dark via-primary-900/20 to-dark">
+    <div className="min-h-screen bg-[#fcfbfe] support-page-light">
       <section className="relative pt-32 pb-20 px-4">
         <div className="container mx-auto">
           <motion.div

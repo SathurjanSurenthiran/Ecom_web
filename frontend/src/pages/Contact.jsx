@@ -1,21 +1,9 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion as motionReal } from 'framer-motion';
 import { useForm } from 'react-hook-form';
-import {
-  AtSign,
-  Camera,
-  CirclePlay,
-  Clock,
-  Mail,
-  MapPin,
-  MessageCircle,
-  Phone,
-  Send,
-  Smartphone,
-} from 'lucide-react';
+import { Mail, Phone, MapPin, Clock, Send, MessageSquare } from 'lucide-react';
+import { FiFacebook, FiInstagram, FiTwitter, FiYoutube } from 'react-icons/fi';
 import toast from 'react-hot-toast';
-import Button from '../components/ui/Button';
-import Input from '../components/ui/Input';
 import { shopDetails } from '../data/shopDetails';
 
 const Contact = () => {
@@ -63,130 +51,125 @@ const Contact = () => {
   ];
 
   const socialIcons = {
-    Facebook: Smartphone,
-    Instagram: Camera,
-    Twitter: AtSign,
-    YouTube: CirclePlay,
+    Facebook: FiFacebook,
+    Instagram: FiInstagram,
+    Twitter: FiTwitter,
+    YouTube: FiYoutube,
   };
 
-  // Safe encoding for dynamic map location queries
   const mapSearchQuery = encodeURIComponent(`${shopDetails.address}, ${shopDetails.city}, ${shopDetails.postalCode}`);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-dark via-primary-900/20 to-dark">
+    <div className="min-h-screen bg-[#fcfbfe] text-black pt-24 pb-20 px-4 md:px-8">
       {/* Header Section */}
-      <section className="relative pt-28 pb-10 px-4">
-        <div className="container mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center max-w-3xl mx-auto"
-          >
-            <h1 className="text-4xl md:text-5xl font-poppins font-bold text-white mb-4">
-              Get in <span className="gradient-text">Touch</span>
-            </h1>
-            <p className="text-white/70 text-lg">
-              Have questions? We'd love to hear from you. Reach out and we'll get back to you as soon as possible.
-            </p>
-          </motion.div>
-        </div>
+      <section className="relative pb-10 max-w-4xl mx-auto text-center">
+        <motionReal.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <p className="text-zinc-400 text-xs tracking-widest uppercase font-semibold mb-2">Customer Relations</p>
+          <h1 className="text-4xl md:text-5xl font-poppins font-bold text-black uppercase tracking-tight">
+            Get In Touch
+          </h1>
+          <p className="text-zinc-500 font-light mt-3 text-sm md:text-base max-w-xl mx-auto">
+            Have questions? We would love to hear from you. Reach out and our concierge team will get back to you within 24 hours.
+          </p>
+        </motionReal.div>
       </section>
 
       {/* Main Content Form & Contact Info Section */}
-      <section className="py-6 px-4">
-        <div className="container mx-auto">
-         
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
-            
-            {/* Left Column: Info Cards */}
-            <div className="lg:col-span-1 flex flex-col justify-between space-y-4 h-full">
-              <div className="space-y-4 flex-grow">
-                {contactInfo.map((info, index) => {
-                  const Icon = info.icon;
+      <section className="py-6 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+          
+          {/* Left Column: Info Cards */}
+          <div className="lg:col-span-1 flex flex-col justify-between space-y-4">
+            <div className="space-y-4">
+              {contactInfo.map((info, index) => {
+                const Icon = info.icon;
+                return (
+                  <motionReal.div
+                    key={info.title}
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.08 }}
+                    className="bg-white border border-zinc-200/80 p-5 rounded-2xl flex items-start space-x-4 shadow-sm"
+                  >
+                    <div className="w-12 h-12 bg-zinc-100 rounded-xl flex items-center justify-center flex-shrink-0 text-black">
+                      <Icon className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h4 className="text-black font-semibold text-sm uppercase tracking-wider">{info.title}</h4>
+                      <p className="text-zinc-800 text-sm mt-1">{info.details}</p>
+                      <p className="text-zinc-400 text-xs mt-0.5">{info.sub}</p>
+                    </div>
+                  </motionReal.div>
+                );
+              })}
+            </div>
 
+            {/* Redesigned Follow Us Box */}
+            <motionReal.div 
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="bg-white border border-zinc-200/80 p-6 rounded-2xl shadow-sm"
+            >
+              <h4 className="text-black font-semibold tracking-wider text-xs uppercase mb-4">
+                Connect With Us
+              </h4>
+              <div className="flex flex-wrap gap-3">
+                {shopDetails.socialLinks.map(({ name, href }) => {
+                  const Icon = socialIcons[name] || Mail;
                   return (
-                    <motion.div
-                      key={info.title}
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: index * 0.1 }}
-                      className="glass p-4 rounded-xl flex items-start space-x-4"
+                    <a
+                      key={name}
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={name}
+                      className="w-10 h-10 bg-zinc-55 border border-zinc-200 rounded-xl hover:bg-black hover:text-white hover:border-black transition-all duration-300 flex items-center justify-center text-zinc-500 shadow-sm"
                     >
-                      <div className="w-12 h-12 bg-primary-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                        <Icon className="w-6 h-6 text-primary-400" />
-                      </div>
-                      <div>
-                        <h4 className="text-white font-semibold">{info.title}</h4>
-                        <p className="text-white/80">{info.details}</p>
-                        <p className="text-white/40 text-sm">{info.sub}</p>
-                      </div>
-                    </motion.div>
+                      <Icon className="w-4 h-4 transition-transform group-hover:scale-110" />
+                    </a>
                   );
                 })}
               </div>
+            </motionReal.div>
+          </div>
 
-              {/* Redesigned Follow Us Box */}
-              <motion.div 
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="glass p-5 rounded-xl border border-white/5 bg-white/[0.02]"
-              >
-                <div className="flex items-center justify-between mb-4">
-                  <h4 className="text-white font-poppins font-semibold tracking-wide text-sm uppercase text-white/60">
-                    Connect With Us
-                  </h4>
-                  <div className="h-[1px] bg-gradient-to-r from-primary-500/40 to-transparent flex-grow ml-4" />
-                </div>
-                <div className="flex flex-wrap gap-3">
-                  {shopDetails.socialLinks.map(({ name, href }) => {
-                    const Icon = socialIcons[name] || AtSign;
-
-                    return (
-                      <a
-                        key={name}
-                        href={href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={name}
-                        className="w-11 h-11 bg-white/5 border border-white/10 rounded-xl hover:bg-primary-500/30 hover:border-primary-400/50 transition-all duration-300 flex items-center justify-center group shadow-lg"
-                      >
-                        <Icon className="w-5 h-5 text-white/70 group-hover:text-primary-400 group-hover:scale-110 transition-transform" />
-                      </a>
-                    );
-                  })}
-                </div>
-              </motion.div>
-            </div>
-
-            {/* Right Column: Message Form */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="lg:col-span-2 h-full"
-            >
-              <div className="glass p-6 rounded-xl h-full flex flex-col">
-                <h2 className="text-2xl font-poppins font-bold text-white mb-6 flex items-center space-x-2 flex-shrink-0">
-                  <MessageCircle className="text-primary-400" />
+          {/* Right Column: Message Form */}
+          <motionReal.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="lg:col-span-2"
+          >
+            <div className="bg-white border border-zinc-200/80 p-8 rounded-3xl shadow-sm h-full flex flex-col justify-between">
+              <div>
+                <h2 className="text-2xl font-poppins font-bold text-black uppercase tracking-tight mb-6 flex items-center space-x-3">
+                  <MessageSquare className="w-5 h-5 text-black" />
                   <span>Send a Message</span>
                 </h2>
 
-                <form 
-                  onSubmit={handleSubmit(onSubmit)} 
-                  className="flex flex-col justify-between flex-grow space-y-4"
-                >
-                  <div className="space-y-4 flex-grow">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <Input
-                        label="Full Name *"
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label className="text-black font-semibold text-xs tracking-wider uppercase mb-2 block">Full Name</label>
+                      <input
                         {...register('name', { required: 'Name is required' })}
-                        error={errors.name?.message}
+                        type="text"
                         placeholder="Your name"
+                        className="w-full px-4 py-3 bg-zinc-50 border border-zinc-200 rounded-xl text-black focus:outline-none focus:border-black transition-colors"
                       />
-                      <Input
-                        label="Email *"
+                      {errors.name && (
+                        <p className="text-red-600 text-xs mt-1">{errors.name.message}</p>
+                      )}
+                    </div>
+                    <div>
+                      <label className="text-black font-semibold text-xs tracking-wider uppercase mb-2 block">Email Address</label>
+                      <input
                         {...register('email', {
                           required: 'Email is required',
                           pattern: {
@@ -194,62 +177,77 @@ const Contact = () => {
                             message: 'Invalid email address',
                           },
                         })}
-                        error={errors.email?.message}
+                        type="email"
                         placeholder="example@email.com"
+                        className="w-full px-4 py-3 bg-zinc-50 border border-zinc-200 rounded-xl text-black focus:outline-none focus:border-black transition-colors"
                       />
-                    </div>
-
-                    <Input
-                      label="Subject *"
-                      {...register('subject', { required: 'Subject is required' })}
-                      error={errors.subject?.message}
-                      placeholder="Subject of your message"
-                    />
-
-                    <div className="flex flex-col h-[calc(100%-190px)] min-h-[160px]">
-                      <label className="text-white/60 text-sm block mb-1 flex-shrink-0">Message *</label>
-                      <textarea
-                        {...register('message', { required: 'Message is required' })}
-                        className="w-full flex-grow px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-primary-500 resize-none"
-                        placeholder="Write your message here..."
-                      />
-                      {errors.message && (
-                        <p className="text-red-400 text-sm mt-1 flex-shrink-0">{errors.message.message}</p>
+                      {errors.email && (
+                        <p className="text-red-600 text-xs mt-1">{errors.email.message}</p>
                       )}
                     </div>
                   </div>
 
-                  <Button
+                  <div>
+                    <label className="text-black font-semibold text-xs tracking-wider uppercase mb-2 block">Subject</label>
+                    <input
+                      {...register('subject', { required: 'Subject is required' })}
+                      type="text"
+                      placeholder="Concerns or Inquiry topic"
+                      className="w-full px-4 py-3 bg-zinc-50 border border-zinc-200 rounded-xl text-black focus:outline-none focus:border-black transition-colors"
+                    />
+                    {errors.subject && (
+                      <p className="text-red-600 text-xs mt-1">{errors.subject.message}</p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label className="text-black font-semibold text-xs tracking-wider uppercase mb-2 block">Message</label>
+                    <textarea
+                      {...register('message', { required: 'Message is required' })}
+                      rows={5}
+                      placeholder="Write your message here..."
+                      className="w-full px-4 py-3 bg-zinc-50 border border-zinc-200 rounded-xl text-black focus:outline-none focus:border-black transition-colors resize-none"
+                    />
+                    {errors.message && (
+                      <p className="text-red-600 text-xs mt-1">{errors.message.message}</p>
+                    )}
+                  </div>
+
+                  <button
                     type="submit"
-                    loading={loading}
-                    className="w-full text-lg flex items-center justify-center space-x-2 mt-auto flex-shrink-0"
+                    disabled={loading}
+                    className="w-full py-4 bg-black text-white font-semibold rounded-xl hover:bg-zinc-800 transition-colors uppercase tracking-wider text-xs flex items-center justify-center space-x-2 shadow-sm"
                   >
-                    <Send className="w-5 h-5" />
-                    <span>Send Message</span>
-                  </Button>
+                    {loading ? (
+                      <span>Sending...</span>
+                    ) : (
+                      <>
+                        <Send className="w-4 h-4" />
+                        <span>Send Message</span>
+                      </>
+                    )}
+                  </button>
                 </form>
               </div>
-            </motion.div>
-          </div>
+            </div>
+          </motionReal.div>
         </div>
       </section>
 
       {/* Map Section */}
-      <section className="py-12 px-4">
-        <div className="container mx-auto">
-          <div className="glass p-2 rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
-            <div className="w-full h-80 bg-white/5 rounded-xl overflow-hidden relative">
-              <iframe
-                title="Shop Location Map"
-                width="100%"
-                height="100%"
-                style={{ border: 0, filter: 'grayscale(0.6) invert(0.92) contrast(1.2)' }}
-                allowFullScreen=""
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                src={`https://maps.google.com/maps?q=${mapSearchQuery}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
-              />
-            </div>
+      <section className="py-12 max-w-7xl mx-auto">
+        <div className="bg-white border border-zinc-200/80 p-2 rounded-3xl shadow-sm overflow-hidden">
+          <div className="w-full h-80 bg-zinc-50 rounded-2xl overflow-hidden relative">
+            <iframe
+              title="Shop Location Map"
+              width="100%"
+              height="100%"
+              style={{ border: 0, filter: 'grayscale(0.8) contrast(1.1)' }}
+              allowFullScreen=""
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              src={`https://maps.google.com/maps?q=${mapSearchQuery}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
+            />
           </div>
         </div>
       </section>

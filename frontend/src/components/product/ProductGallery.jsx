@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { FiZoomIn } from 'react-icons/fi';
+import { FreeMode, Navigation, Thumbs, Zoom } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Thumbs, Zoom, FreeMode } from 'swiper/modules';
 import 'swiper/css';
+import 'swiper/css/free-mode';
 import 'swiper/css/navigation';
 import 'swiper/css/thumbs';
 import 'swiper/css/zoom';
-import 'swiper/css/free-mode';
-import { FiZoomIn } from 'react-icons/fi';
 
 const ProductGallery = ({ images, productName }) => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
@@ -15,9 +15,9 @@ const ProductGallery = ({ images, productName }) => {
 
   if (!images || images.length === 0) {
     return (
-      <div className="aspect-square bg-white/5 rounded-xl flex items-center justify-center">
-        <div className="text-white/40 text-center">
-          <div className="text-6xl mb-4">📸</div>
+      <div className="aspect-square bg-white border border-zinc-200 rounded-2xl flex items-center justify-center shadow-sm">
+        <div className="text-zinc-400 text-center">
+          <div className="text-6xl mb-4">?</div>
           <p>No image available</p>
         </div>
       </div>
@@ -26,8 +26,7 @@ const ProductGallery = ({ images, productName }) => {
 
   return (
     <div className="space-y-4">
-      {/* Main Image */}
-      <div className="relative aspect-square rounded-xl overflow-hidden bg-white/5">
+      <div className="relative aspect-square rounded-2xl overflow-hidden bg-zinc-100 border border-zinc-200 shadow-sm">
         <Swiper
           modules={[Navigation, Thumbs, Zoom, FreeMode]}
           navigation
@@ -48,14 +47,14 @@ const ProductGallery = ({ images, productName }) => {
           ))}
         </Swiper>
         <button
-          onClick={() => setIsZoomed(!isZoomed)}
-          className="absolute bottom-4 right-4 p-2 glass rounded-lg text-white hover:bg-white/10 transition-colors"
+          onClick={() => setIsZoomed(true)}
+          className="absolute bottom-4 right-4 p-2 bg-white/95 border border-zinc-200 rounded-lg text-black hover:bg-zinc-100 transition-colors shadow-sm backdrop-blur"
+          aria-label="Zoom product image"
         >
           <FiZoomIn className="w-5 h-5" />
         </button>
       </div>
 
-      {/* Thumbnails */}
       {images.length > 1 && (
         <Swiper
           modules={[Thumbs, FreeMode]}
@@ -68,7 +67,7 @@ const ProductGallery = ({ images, productName }) => {
         >
           {images.map((image, index) => (
             <SwiperSlide key={index}>
-              <div className="aspect-square rounded-lg overflow-hidden cursor-pointer border-2 border-transparent hover:border-primary-500 transition-colors">
+              <div className="aspect-square rounded-lg overflow-hidden cursor-pointer border-2 border-zinc-200 hover:border-black transition-colors bg-zinc-100">
                 <img
                   src={image.url}
                   alt={`${productName} thumbnail ${index + 1}`}
@@ -80,7 +79,6 @@ const ProductGallery = ({ images, productName }) => {
         </Swiper>
       )}
 
-      {/* Zoom Modal */}
       {isZoomed && (
         <motion.div
           initial={{ opacity: 0 }}
@@ -97,9 +95,10 @@ const ProductGallery = ({ images, productName }) => {
             />
             <button
               onClick={() => setIsZoomed(false)}
-              className="absolute top-4 right-4 p-2 glass text-white rounded-lg hover:bg-white/10 transition-colors"
+              className="absolute top-4 right-4 p-2 bg-white text-black rounded-lg hover:bg-zinc-100 transition-colors shadow-sm"
+              aria-label="Close zoomed image"
             >
-              ✕
+              X
             </button>
           </div>
         </motion.div>
