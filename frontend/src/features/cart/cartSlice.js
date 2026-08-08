@@ -1,4 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from '../../api/axios';
 import toast from 'react-hot-toast';
 
 const initialState = {
@@ -8,6 +9,32 @@ const initialState = {
   discount: 0,
   couponCode: null,
 };
+
+export const syncCartToServer = createAsyncThunk(
+  'cart/syncCartToServer',
+  async (cartState, { rejectWithValue }) => {
+    try {
+      const response = await axios.post('/cart', {
+        items: cartState.items,
+      });
+      return response.data.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || 'Failed to sync cart');
+    }
+  }
+);
+
+export const fetchCartFromServer = createAsyncThunk(
+  'cart/fetchCartFromServer',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get('/cart');
+      return response.data.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || 'Failed to load cart');
+    }
+  }
+);
 
 const cartSlice = createSlice({
   name: 'cart',
@@ -142,6 +169,23 @@ const cartSlice = createSlice({
       state.discount = 0;
       state.couponCode = null;
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchCartFromServer.fulfilled, (state, action) => {
+        const cart = action.payload || { items: [], totalItems: 0, totalPrice: 0 };
+        state.items = cart.items || [];
+        state.totalItems = cart.totalItems || 0;
+        state.totalPrice = cart.totalPrice || 0;
+        state.discount = 0;
+        state.couponCode = null;
+      })
+      .addCase(syncCartToServer.fulfilled, (state, action) => {
+        const cart = action.payload || { items: [], totalItems: 0, totalPrice: 0 };
+        state.items = cart.items || [];
+        state.totalItems = cart.totalItems || 0;
+        state.totalPrice = cart.totalPrice || 0;
+      });
   },
 });
 

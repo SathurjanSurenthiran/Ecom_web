@@ -15,6 +15,8 @@ import {
   Search
 } from 'lucide-react';
 import { logoutUser } from '../../features/auth/authSlice';
+import { clearCartState } from '../../features/cart/cartSlice';
+import { clearWishlistState } from '../../features/wishlist/wishlistSlice';
 import { shopDetails } from '../../data/shopDetails';
 import logoIcon from '../../assets/icons/icon01.png';
 import SearchBar from './SearchBar';
@@ -42,10 +44,12 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleLogout = () => {
-    dispatch(logoutUser());
+  const handleLogout = async () => {
+    await dispatch(logoutUser());
+    dispatch(clearCartState());
+    dispatch(clearWishlistState());
     setProfileOpen(false);
-    navigate('/login');
+    navigate('/');
   };
 
   const isActive = (path) => {
@@ -157,7 +161,7 @@ const Header = () => {
                 <Heart className="h-5 w-5" strokeWidth={1.8} />
               </motion.div>
               <AnimatePresence>
-                {wishlistItems.length > 0 && (
+                {isAuthenticated && wishlistItems.length > 0 && (
                   <motion.span
                     key={`wishlist-${wishlistItems.length}`}
                     initial={{ scale: 0, opacity: 0 }}
@@ -182,7 +186,7 @@ const Header = () => {
                 <ShoppingBag className="h-5 w-5" strokeWidth={1.8} />
               </motion.div>
               <AnimatePresence>
-                {totalItems > 0 && (
+                {isAuthenticated && totalItems > 0 && (
                   <motion.span
                     key={`cart-${totalItems}`}
                     initial={{ scale: 0, opacity: 0 }}
@@ -389,7 +393,7 @@ const Header = () => {
                     <Heart className="h-4 w-4" />
                     <span>Wishlist</span>
                   </span>
-                  {wishlistItems.length > 0 && (
+                  {isAuthenticated && wishlistItems.length > 0 && (
                     <span className="bg-black text-white text-[10px] font-bold rounded-full min-w-5 h-5 px-1.5 flex items-center justify-center">
                       {wishlistItems.length}
                     </span>
@@ -418,7 +422,7 @@ const Header = () => {
                     <ShoppingBag className="h-4 w-4" />
                     <span>Cart</span>
                   </span>
-                  {totalItems > 0 && (
+                  {isAuthenticated && totalItems > 0 && (
                     <span className="bg-black text-white text-[10px] font-bold rounded-full min-w-5 h-5 px-1.5 flex items-center justify-center">
                       {totalItems}
                     </span>

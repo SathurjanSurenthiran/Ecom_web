@@ -23,7 +23,7 @@ const AdminTable = ({
   }
 
   return (
-    <div className="glass rounded-xl overflow-hidden">
+    <div className="glass rounded-[28px] overflow-hidden border border-white/10 shadow-[0_24px_60px_-30px_rgba(0,0,0,0.65)]">
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead>

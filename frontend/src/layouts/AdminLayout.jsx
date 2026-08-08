@@ -4,6 +4,8 @@ import { FiLogOut, FiSearch, FiBell } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 import AdminSidebar from '../components/admin/AdminSidebar';
 import { logoutUser } from '../features/auth/authSlice';
+import { clearCartState } from '../features/cart/cartSlice';
+import { clearWishlistState } from '../features/wishlist/wishlistSlice';
 import { shopDetails } from '../data/shopDetails';
 
 const AdminLayout = () => {
@@ -11,17 +13,19 @@ const AdminLayout = () => {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
 
-  const handleLogout = () => {
-    dispatch(logoutUser());
+  const handleLogout = async () => {
+    await dispatch(logoutUser());
+    dispatch(clearCartState());
+    dispatch(clearWishlistState());
     toast.success('Logged out of admin panel');
-    navigate('/login');
+    navigate('/');
   };
 
   return (
-    <div className="h-screen overflow-hidden bg-zinc-950 text-white font-inter dark">
+    <div className="h-screen overflow-hidden text-zinc-800 font-inter admin-panel">
       
       {/* Top dashboard control header */}
-      <header className="bg-zinc-900 border-b border-zinc-800/80 fixed top-0 left-0 right-0 h-16 z-50 px-4 md:px-8 flex items-center justify-between">
+      <header className="dark bg-[#1c1c1f]/95 backdrop-blur-xl border-b border-zinc-800/80 fixed top-0 left-0 right-0 h-16 z-50 px-4 md:px-8 flex items-center justify-between shadow-[0_20px_60px_-35px_rgba(0,0,0,0.8)]">
         <div className="flex items-center space-x-6">
           <Link to="/" className="text-xl font-poppins font-extrabold tracking-widest text-white hover:opacity-80 transition-opacity">
             {shopDetails.name.toUpperCase()}
@@ -79,23 +83,23 @@ const AdminLayout = () => {
       {/* Main layout frame */}
       <div className="pt-16 h-screen overflow-hidden">
         {/* Sidebar */}
-        <aside className="fixed left-0 right-0 top-16 z-40 h-auto border-b border-zinc-800/80 bg-zinc-900 p-3 shadow-xl shadow-black/20 lg:bottom-0 lg:right-auto lg:h-[calc(100vh-4rem)] lg:w-64 lg:border-b-0 lg:border-r lg:p-4 lg:shadow-none">
+        <aside className="dark fixed left-0 right-0 top-16 z-40 h-auto border-b border-zinc-800/80 bg-[#1c1c1f]/90 backdrop-blur-xl lg:bottom-0 lg:right-auto lg:h-[calc(100vh-4rem)] lg:w-72 lg:border-b-0 lg:border-r lg:p-4 lg:shadow-none glass-sidebar">
           <AdminSidebar />
         </aside>
         
         {/* Dashboard Workspace */}
-        <main className="admin-workspace flex h-[calc(100vh-4rem)] min-w-0 flex-col overflow-y-auto pt-[9.5rem] lg:ml-64 lg:pt-0">
-          <div className="flex-1 p-5 md:p-8 admin-page-content">
+        <main className="admin-workspace flex h-[calc(100vh-4rem)] min-w-0 flex-col overflow-hidden pt-[9.5rem] lg:ml-72 lg:pt-0 relative">
+          <div className="flex-1 overflow-y-auto p-5 md:p-8 pb-10 admin-page-content">
             <Outlet />
           </div>
           
-          {/* Simplified footer for admin */}
-          <footer className="border-t border-zinc-600/70 bg-zinc-700 py-4 px-6 md:px-8 text-center text-xs text-zinc-300 font-light flex flex-col sm:flex-row justify-between items-center gap-2">
+          {/* Fixed floating footer for admin */}
+          <footer className="mx-5 md:mx-8 mb-5 mt-2 border border-zinc-200/80 dark:border-zinc-800/80 bg-white/95 dark:bg-zinc-900/95 text-zinc-500 dark:text-zinc-400 backdrop-blur-md rounded-2xl py-3.5 px-6 text-center text-xs font-normal flex flex-col sm:flex-row justify-between items-center gap-2 shadow-[0_4px_25px_-5px_rgba(0,0,0,0.08)] z-10">
             <p>&copy; {new Date().getFullYear()} {shopDetails.name.toUpperCase()} CONTROL. Core system v1.2.0</p>
             <div className="flex space-x-4">
-              <Link to="/" className="hover:text-zinc-400 transition-colors">Retail Store</Link>
+              <Link to="/" className="hover:text-zinc-800 dark:hover:text-zinc-200 transition-colors font-medium">Retail Store</Link>
               <span>&bull;</span>
-              <button onClick={() => toast.success('API Status: Green')} className="hover:text-zinc-400 transition-colors">API Diagnostics</button>
+              <button onClick={() => toast.success('API Status: Green')} className="hover:text-zinc-800 dark:hover:text-zinc-200 transition-colors font-medium">API Diagnostics</button>
             </div>
           </footer>
         </main>

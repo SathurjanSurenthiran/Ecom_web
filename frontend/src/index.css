@@ -135,53 +135,343 @@
   }
 
   .glass-sidebar {
-    background: rgba(10, 10, 12, 0.85);
+    background: rgba(28, 28, 31, 0.95);
     backdrop-filter: blur(30px);
     -webkit-backdrop-filter: blur(30px);
-    border-right: 1px solid rgba(255, 255, 255, 0.06);
-    box-shadow: 6px 0 30px rgba(0, 0, 0, 0.6);
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 6px 0 30px rgba(0, 0, 0, 0.4);
   }
 
-  .dark .admin-page-content .glass {
-    background: rgba(18, 18, 22, 0.85);
-    backdrop-filter: blur(24px);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5), 
-                inset 0 1px 0 0 rgba(255, 255, 255, 0.03);
-    border-radius: 16px !important;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  .admin-panel {
+    background: #f4f4f6;
   }
 
-  .dark .admin-page-content .glass:hover {
-    border-color: rgba(255, 255, 255, 0.12);
-    background: rgba(24, 24, 28, 0.9);
-    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.6);
+  .admin-page-content {
+    background: #f4f4f6 !important;
+    min-height: calc(100vh - 4rem);
+    padding-bottom: 2rem;
+    color: #1f2937 !important;
   }
 
   .admin-workspace {
-    background: #4b5563;
+    background: #f4f4f6;
   }
 
-  .dark .admin-page-content .glass,
-  .dark .admin-page-content .bg-zinc-900 {
-    background: #27272a !important;
-    border-color: rgba(82, 82, 91, 0.9) !important;
-    box-shadow: 0 14px 34px rgba(24, 24, 27, 0.28),
-                inset 0 1px 0 rgba(255, 255, 255, 0.04) !important;
+  /* Light theme overrides for admin elements */
+  .admin-page-content h1,
+  .admin-page-content h2,
+  .admin-page-content h3,
+  .admin-page-content h4,
+  .admin-page-content h5,
+  .admin-page-content h6,
+  .admin-page-content .text-white:not(button):not(a):not(span):not(svg):not(.bg-primary-600):not(.bg-gradient-to-r) {
+    color: #111827 !important;
   }
 
-  .dark .admin-page-content .glass:hover,
-  .dark .admin-page-content .bg-zinc-900:hover {
-    background: #2f2f35 !important;
-    border-color: rgba(113, 113, 122, 0.9) !important;
+  /* Retain white text for active tab, buttons, links, and their children */
+  .admin-page-content button.text-white,
+  .admin-page-content a.text-white,
+  .admin-page-content button .text-white,
+  .admin-page-content a .text-white {
+    color: #ffffff !important;
   }
 
-  .dark .admin-page-content table thead tr {
-    background: rgba(39, 39, 42, 0.95);
+  .admin-page-content .text-white\/90,
+  .admin-page-content .text-white\/85,
+  .admin-page-content .text-white\/80 {
+    color: #1f2937 !important;
   }
 
-  .dark .admin-page-content table tbody tr:hover {
-    background: rgba(63, 63, 70, 0.55);
+  .admin-page-content .text-white\/70,
+  .admin-page-content .text-white\/60,
+  .admin-page-content .text-zinc-300,
+  .admin-page-content .text-zinc-400 {
+    color: #4b5563 !important;
+  }
+
+  .admin-page-content .text-white\/40,
+  .admin-page-content .text-white\/30,
+  .admin-page-content .text-zinc-500 {
+    color: #6b7280 !important;
+  }
+
+  .admin-page-content .text-zinc-600 {
+    color: #4b5563 !important;
+  }
+
+  /* Card and Glass Container Styling */
+  .admin-page-content .glass,
+  .admin-page-content .bg-zinc-900,
+  .admin-page-content .bg-zinc-950,
+  .admin-page-content .bg-zinc-800 {
+    background-color: rgba(235, 235, 240, 0.65) !important;
+    background-image: none !important;
+    backdrop-filter: blur(12px) saturate(120%) !important;
+    -webkit-backdrop-filter: blur(12px) saturate(120%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.7) !important;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05), inset 0 1px 0 0 rgba(255, 255, 255, 0.8) !important;
+    color: #1f2937 !important;
+    border-radius: 24px !important;
+  }
+
+  .admin-page-content .glass:hover,
+  .admin-page-content .bg-zinc-900:hover,
+  .admin-page-content .bg-zinc-800:hover {
+    background-color: rgba(228, 228, 231, 0.8) !important;
+    border-color: rgba(255, 255, 255, 0.95) !important;
+    box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.07), inset 0 1px 0 0 rgba(255, 255, 255, 0.95) !important;
+  }
+
+  /* Border Overrides */
+  .admin-page-content .border-zinc-800,
+  .admin-page-content .border-zinc-900,
+  .admin-page-content .border-zinc-800\/80,
+  .admin-page-content .border-zinc-900\/50,
+  .admin-page-content .border-white\/10,
+  .admin-page-content .border-white\/5 {
+    border-color: #e5e7eb !important;
+  }
+
+  /* Table styling */
+  .admin-page-content table thead tr {
+    background: #f9fafb !important;
+    border-bottom: 2px solid #e5e7eb !important;
+  }
+
+  .admin-page-content table th {
+    color: #374151 !important;
+    font-weight: 600 !important;
+    border-bottom: 1px solid #e5e7eb !important;
+  }
+
+  .admin-page-content table tbody tr {
+    border-bottom: 1px solid #f3f4f6 !important;
+    background: transparent !important;
+  }
+
+  .admin-page-content table tbody tr:hover {
+    background-color: #f9fafb !important;
+  }
+
+  .admin-page-content table td {
+    color: #1f2937 !important;
+  }
+
+  .admin-page-content table td font-mono,
+  .admin-page-content table td.font-mono {
+    color: #4b5563 !important;
+  }
+
+  /* Stat Widget Icon Backgrounds & Accents */
+  .admin-page-content .text-emerald-400 {
+    color: #059669 !important;
+  }
+  .admin-page-content .bg-emerald-500\/10 {
+    background-color: #ecfdf5 !important;
+    border-color: #a7f3d0 !important;
+  }
+
+  .admin-page-content .text-purple-400 {
+    color: #7c3aed !important;
+  }
+  .admin-page-content .bg-purple-500\/10 {
+    background-color: #f5f3ff !important;
+    border-color: #ddd6fe !important;
+  }
+
+  .admin-page-content .text-indigo-400 {
+    color: #4f46e5 !important;
+  }
+  .admin-page-content .bg-indigo-500\/10 {
+    background-color: #e0e7ff !important;
+    border-color: #c7d2fe !important;
+  }
+
+  .admin-page-content .text-blue-400 {
+    color: #2563eb !important;
+  }
+  .admin-page-content .bg-blue-500\/10 {
+    background-color: #eff6ff !important;
+    border-color: #bfdbfe !important;
+  }
+
+  .admin-page-content .text-green-400 {
+    color: #16a34a !important;
+  }
+  .admin-page-content .bg-green-500\/10 {
+    background-color: #f0fdf4 !important;
+    border-color: #bbf7d0 !important;
+  }
+
+  .admin-page-content .text-orange-400 {
+    color: #ea580c !important;
+  }
+  .admin-page-content .bg-orange-500\/10 {
+    background-color: #fff7ed !important;
+    border-color: #ffedd5 !important;
+  }
+
+  .admin-page-content .text-red-400 {
+    color: #dc2626 !important;
+  }
+  .admin-page-content .bg-red-500\/10 {
+    background-color: #fef2f2 !important;
+    border-color: #fecaca !important;
+  }
+
+  /* Form & Interactive Fields styling */
+  .admin-page-content input[type="text"],
+  .admin-page-content input[type="email"],
+  .admin-page-content input[type="password"],
+  .admin-page-content input[type="number"],
+  .admin-page-content input[type="search"],
+  .admin-page-content select,
+  .admin-page-content textarea {
+    background-color: #ffffff !important;
+    border: 1px solid #d1d5db !important;
+    color: #111827 !important;
+  }
+
+  .admin-page-content input[type="text"]:focus,
+  .admin-page-content input[type="email"]:focus,
+  .admin-page-content input[type="password"]:focus,
+  .admin-page-content input[type="number"]:focus,
+  .admin-page-content input[type="search"]:focus,
+  .admin-page-content select:focus,
+  .admin-page-content textarea:focus {
+    border-color: #7c3aed !important;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15) !important;
+    outline: none !important;
+  }
+
+  .admin-page-content input::placeholder {
+    color: #9ca3af !important;
+  }
+
+  .admin-page-content .bg-white\/5 {
+    background-color: #f3f4f6 !important;
+    border-color: #e5e7eb !important;
+    color: #111827 !important;
+  }
+
+  /* Sidebar/Tabs Navigation overrides inside page content */
+  /* Prevent general .text-white rule from making button text dark */
+  .admin-page-content button.text-white,
+  .admin-page-content a.text-white,
+  .admin-page-content button .text-white,
+  .admin-page-content a .text-white,
+  .admin-page-content button span,
+  .admin-page-content a span,
+  .admin-page-content button svg,
+  .admin-page-content a svg {
+    color: inherit !important;
+  }
+
+  /* Target all button and dark link elements inside admin-page-content to ensure they are visible */
+  .admin-page-content button:not(.glass):not(.bg-white):not(.bg-white\/10):not(.bg-zinc-950\/30):not(.admin-action-btn-view):not(.admin-action-btn-edit):not(.admin-action-btn-delete):not(.settings-tab-btn):not(.admin-toggle-btn),
+  .admin-page-content a.bg-primary-600,
+  .admin-page-content a.bg-purple-600,
+  .admin-page-content button.bg-primary-600,
+  .admin-page-content button.bg-purple-600,
+  .admin-page-content button.bg-red-600,
+  .admin-page-content button.bg-green-600 {
+    color: #ffffff !important;
+    background-color: #1c1c1f !important; /* solid premium dark gray/black background */
+    border: 1px solid #1c1c1f !important;
+  }
+
+  .admin-page-content button.bg-primary-600:hover,
+  .admin-page-content button.bg-purple-600:hover,
+  .admin-page-content button.bg-red-600:hover,
+  .admin-page-content button.bg-green-600:hover,
+  .admin-page-content a.bg-primary-600:hover,
+  .admin-page-content a.bg-purple-600:hover {
+    background-color: #27272a !important;
+    border-color: #27272a !important;
+    color: #ffffff !important;
+  }
+
+  /* Specific color accent buttons overrides if danger or success */
+  .admin-page-content button.bg-red-600 {
+    background-color: #dc2626 !important;
+    border-color: #dc2626 !important;
+  }
+  .admin-page-content button.bg-red-600:hover {
+    background-color: #b91c1c !important;
+    border-color: #b91c1c !important;
+  }
+  .admin-page-content button.bg-green-600 {
+    background-color: #16a34a !important;
+    border-color: #16a34a !important;
+  }
+  .admin-page-content button.bg-green-600:hover {
+    background-color: #15803d !important;
+    border-color: #15803d !important;
+  }
+
+  /* Outlined/Glass/White buttons mapping (like export metrics, filter, cancel, exit, etc.) */
+  .admin-page-content button.glass,
+  .admin-page-content a.glass,
+  .admin-page-content button.bg-white,
+  .admin-page-content a.bg-white,
+  .admin-page-content button.bg-zinc-900 {
+    background-color: #ffffff !important;
+    border: 1px solid #d1d5db !important;
+    color: #374151 !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+  }
+
+  .admin-page-content button.glass:hover,
+  .admin-page-content a.glass:hover,
+  .admin-page-content button.bg-white:hover,
+  .admin-page-content a.bg-white:hover,
+  .admin-page-content button.bg-zinc-900:hover {
+    background-color: #f9fafb !important;
+    border-color: #9ca3af !important;
+    color: #111827 !important;
+  }
+
+  /* Secondary button (bg-white/10) maps to light gray secondary */
+  .admin-page-content button.bg-white\/10 {
+    background-color: #e5e7eb !important;
+    border: 1px solid #d1d5db !important;
+    color: #374151 !important;
+  }
+  .admin-page-content button.bg-white\/10:hover {
+    background-color: #d1d5db !important;
+    color: #111827 !important;
+  }
+
+  /* Avoid white hover text inside tables & custom links */
+  .admin-page-content .hover\:text-white:hover {
+    color: #111827 !important;
+  }
+
+  /* Pagination page arrows styling */
+  .admin-page-content button.disabled\:opacity-50:disabled {
+    background-color: #f3f4f6 !important;
+    border-color: #e5e7eb !important;
+    color: #9ca3af !important;
+  }
+
+  /* Settings tabs overrides */
+  .admin-page-content button.bg-gradient-to-r.from-primary-600 {
+    background-image: linear-gradient(to right, #7c3aed, #4f46e5) !important;
+    color: #ffffff !important;
+  }
+
+  .admin-page-content button:not(.bg-gradient-to-r):not(.admin-action-btn-view):not(.admin-action-btn-edit):not(.admin-action-btn-delete):not(.settings-tab-btn):not(.admin-toggle-btn) {
+    color: #4b5563 !important;
+  }
+
+  .admin-page-content button:not(.bg-gradient-to-r):not(.admin-action-btn-view):not(.admin-action-btn-edit):not(.admin-action-btn-delete):not(.settings-tab-btn):not(.admin-toggle-btn):hover {
+    color: #111827 !important;
+    background-color: #f3f4f6 !important;
+  }
+
+  /* Modal Overrides */
+  .admin-workspace .fixed.inset-0.bg-black\/60 {
+    background-color: rgba(17, 24, 39, 0.4) !important;
   }
 
   .gradient-text {
@@ -230,6 +520,75 @@
 
   .container {
     max-width: 100% !important;
+  }
+
+  /* Admin Action Buttons (View, Edit, Delete) Custom Classes */
+  .admin-action-btn-view,
+  .admin-action-btn-edit,
+  .admin-action-btn-delete {
+    padding: 0.5rem !important;
+    border-radius: 0.5rem !important;
+    transition: all 0.2s ease-in-out !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border: none !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* View Button styling */
+  .admin-action-btn-view {
+    background-color: rgba(107, 114, 128, 0.1) !important;
+    color: #4b5563 !important;
+  }
+  .admin-action-btn-view:hover {
+    background-color: rgba(107, 114, 128, 0.2) !important;
+    color: #111827 !important;
+  }
+  .dark .admin-action-btn-view {
+    background-color: rgba(156, 163, 175, 0.15) !important;
+    color: #cbd5e1 !important;
+  }
+  .dark .admin-action-btn-view:hover {
+    background-color: rgba(156, 163, 175, 0.25) !important;
+    color: #ffffff !important;
+  }
+
+  /* Edit Button styling */
+  .admin-action-btn-edit {
+    background-color: rgba(37, 99, 235, 0.1) !important;
+    color: #2563eb !important;
+  }
+  .admin-action-btn-edit:hover {
+    background-color: rgba(37, 99, 235, 0.2) !important;
+    color: #1d4ed8 !important;
+  }
+  .dark .admin-action-btn-edit {
+    background-color: rgba(59, 130, 246, 0.2) !important;
+    color: #60a5fa !important;
+  }
+  .dark .admin-action-btn-edit:hover {
+    background-color: rgba(59, 130, 246, 0.3) !important;
+    color: #93c5fd !important;
+  }
+
+  /* Delete Button styling */
+  .admin-action-btn-delete {
+    background-color: rgba(220, 38, 38, 0.1) !important;
+    color: #dc2626 !important;
+  }
+  .admin-action-btn-delete:hover {
+    background-color: rgba(220, 38, 38, 0.2) !important;
+    color: #b91c1c !important;
+  }
+  .dark .admin-action-btn-delete {
+    background-color: rgba(239, 68, 68, 0.2) !important;
+    color: #f87171 !important;
+  }
+  .dark .admin-action-btn-delete:hover {
+    background-color: rgba(239, 68, 68, 0.3) !important;
+    color: #fca5a5 !important;
   }
 }
 

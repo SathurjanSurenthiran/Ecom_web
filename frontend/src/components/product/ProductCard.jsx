@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
 import { Heart, ShoppingBag, Star } from 'lucide-react';
@@ -9,6 +9,8 @@ import { addToWishlist, removeFromWishlist } from '../../features/wishlist/wishl
 
 const ProductCard = ({ product }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { isAuthenticated } = useSelector((state) => state.auth);
   const { items: wishlistItems } = useSelector((state) => state.wishlist);
   const [isHovered, setIsHovered] = useState(false);
 
@@ -16,6 +18,12 @@ const ProductCard = ({ product }) => {
 
   const handleWishlist = (e) => {
     e.preventDefault();
+    if (!isAuthenticated) {
+      toast.error('Please login to save favourites');
+      navigate('/login');
+      return;
+    }
+
     if (isInWishlist) {
       dispatch(removeFromWishlist(product._id));
       toast.error('Removed from wishlist');
@@ -29,6 +37,11 @@ const ProductCard = ({ product }) => {
 
   const handleAddToCart = (e) => {
     e.preventDefault();
+    if (!isAuthenticated) {
+      toast.error('Please login first to add items to cart');
+      navigate('/login');
+      return;
+    }
     const size = product.sizes?.[0]?.size || 'M';
     const color = product.colors?.[0]?.name || 'Default';
     dispatch(addToCart({ product, quantity: 1, size, color }));

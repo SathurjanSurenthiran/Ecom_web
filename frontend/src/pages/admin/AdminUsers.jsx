@@ -112,16 +112,17 @@ const AdminUsers = () => {
       animate={{ opacity: 1, y: 0 }}
       className="space-y-6"
     >
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+      {/* Action Header */}
+      <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center pb-6 border-b border-zinc-200 dark:border-zinc-800 mb-8">
         <div>
-          <h1 className="text-3xl font-poppins font-bold text-white">
+          <h1 className="text-3xl font-poppins font-extrabold text-zinc-900 dark:text-white tracking-tight uppercase">
             Users
           </h1>
-          <p className="text-white/60">{users.length} users total</p>
+          <p className="text-zinc-500 dark:text-zinc-400 text-sm mt-1 font-light">{users.length} users total</p>
         </div>
         <button
           onClick={() => setShowCreateForm((prev) => !prev)}
-          className="mt-4 md:mt-0 inline-flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-primary-700"
+          className="mt-4 md:mt-0 inline-flex items-center gap-2 rounded-xl glass px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/10 border border-white/10"
         >
           {showCreateForm ? <FiX className="h-4 w-4" /> : <FiPlus className="h-4 w-4" />}
           <span>{showCreateForm ? 'Cancel' : 'Add User/Admin'}</span>
@@ -131,7 +132,7 @@ const AdminUsers = () => {
       {showCreateForm && (
         <form
           onSubmit={createUser}
-          className="glass rounded-xl p-5 grid grid-cols-1 md:grid-cols-5 gap-3"
+          className="glass rounded-[28px] p-5 grid grid-cols-1 md:grid-cols-5 gap-3 border border-white/10 shadow-[0_22px_60px_-30px_rgba(0,0,0,0.55)]"
         >
           <input
             type="text"
@@ -200,7 +201,7 @@ const AdminUsers = () => {
               key={user._id}
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="glass p-6 rounded-xl flex flex-col justify-between"
+              className="glass p-6 rounded-[28px] border border-white/10 shadow-[0_22px_60px_-30px_rgba(0,0,0,0.55)] flex flex-col justify-between"
             >
             <div>
               <div className="flex items-start justify-between gap-2 min-w-0">
@@ -243,7 +244,7 @@ const AdminUsers = () => {
                 onChange={(e) => updateRole(user._id, e.target.value)}
                 disabled={updatingUserId === user._id || isCurrentUser}
                 title={isCurrentUser ? 'You cannot change your own role' : 'Change user role'}
-                className="flex-1 px-3 py-1.5 glass text-white rounded-lg hover:bg-white/10 transition-colors text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 disabled:opacity-60"
+                className="flex-1 px-3 py-1.5 glass text-white rounded-xl hover:bg-white/10 transition-colors text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 disabled:opacity-60"
               >
                 <option value="user" className="bg-dark text-white">User</option>
                 <option value="admin" className="bg-dark text-white">Admin</option>
@@ -252,9 +253,9 @@ const AdminUsers = () => {
                 onClick={() => deleteUser(user._id)}
                 disabled={isCurrentUser}
                 title={isCurrentUser ? 'You cannot delete your own account' : 'Delete user'}
-                className="px-3 py-1.5 bg-red-500/20 text-red-400 rounded-lg hover:bg-red-500/30 transition-colors text-sm flex items-center justify-center space-x-1 flex-shrink-0 disabled:cursor-not-allowed disabled:opacity-40"
+                className="admin-action-btn-delete disabled:cursor-not-allowed disabled:opacity-40"
               >
-                <FiTrash2 className="w-3.5 h-3.5" />
+                <FiTrash2 size={16} />
               </button>
             </div>
           </motion.div>

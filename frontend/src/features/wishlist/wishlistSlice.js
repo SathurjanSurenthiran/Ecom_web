@@ -1,10 +1,37 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from '../../api/axios';
 
 const initialState = {
   items: [],
   loading: false,
   error: null,
 };
+
+export const syncWishlistToServer = createAsyncThunk(
+  'wishlist/syncWishlistToServer',
+  async (wishlistState, { rejectWithValue }) => {
+    try {
+      const response = await axios.post('/wishlist', {
+        items: wishlistState.items.map((item) => item._id || item),
+      });
+      return response.data.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || 'Failed to sync wishlist');
+    }
+  }
+);
+
+export const fetchWishlistFromServer = createAsyncThunk(
+  'wishlist/fetchWishlistFromServer',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get('/wishlist');
+      return response.data.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || 'Failed to load wishlist');
+    }
+  }
+);
 
 const wishlistSlice = createSlice({
   name: 'wishlist',
@@ -58,6 +85,15 @@ const wishlistSlice = createSlice({
     clearWishlistState: (state) => {
       state.items = [];
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchWishlistFromServer.fulfilled, (state, action) => {
+        state.items = action.payload || [];
+      })
+      .addCase(syncWishlistToServer.fulfilled, (state, action) => {
+        state.items = action.payload || [];
+      });
   },
 });
 

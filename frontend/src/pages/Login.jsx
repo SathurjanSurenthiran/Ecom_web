@@ -90,6 +90,7 @@ const Login = () => {
                     },
                   })}
                   type="email"
+                  autoComplete="off"
                   placeholder="name@example.com"
                   className="w-full rounded-xl border border-zinc-300 bg-white px-4 py-3.5 text-sm text-black placeholder-zinc-400 focus:border-black focus:outline-none focus:ring-1 focus:ring-black transition-all"
                 />
@@ -110,6 +111,7 @@ const Login = () => {
                     },
                   })}
                   type="password"
+                  autoComplete="new-password"
                   placeholder="••••••••"
                   className="w-full rounded-xl border border-zinc-300 bg-white px-4 py-3.5 text-sm text-black placeholder-zinc-400 focus:border-black focus:outline-none focus:ring-1 focus:ring-black transition-all"
                 />

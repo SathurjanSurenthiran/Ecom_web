@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
 import { Heart, Minus, Plus, RefreshCw, Shield, ShoppingBag, Star, Truck } from 'lucide-react';
@@ -19,9 +19,11 @@ import { addToWishlist, removeFromWishlist } from '../features/wishlist/wishlist
 
 const ProductDetail = () => {
   const { slug } = useParams();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { currentProduct, relatedProducts, loading, error } = useSelector((state) => state.products);
   const { items: wishlistItems } = useSelector((state) => state.wishlist);
+  const { isAuthenticated } = useSelector((state) => state.auth);
 
   const [selectedOptions, setSelectedOptions] = useState({
     productId: null,
@@ -84,6 +86,12 @@ const ProductDetail = () => {
     : currentProduct.colors?.[0]?.name || '';
 
   const handleWishlist = () => {
+    if (!isAuthenticated) {
+      toast.error('Please login to save favourites');
+      navigate('/login');
+      return;
+    }
+
     if (isInWishlist) {
       dispatch(removeFromWishlist(currentProduct._id));
       toast.error('Removed from wishlist');
@@ -96,6 +104,11 @@ const ProductDetail = () => {
   };
 
   const handleAddToCart = () => {
+    if (!isAuthenticated) {
+      toast.error('Please login first to add items to cart');
+      navigate('/login');
+      return;
+    }
     if (!selectedSize) {
       toast.error('Please select a size');
       return;

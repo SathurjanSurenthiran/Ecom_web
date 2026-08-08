@@ -6,6 +6,26 @@ import {
 } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 
+const ToggleSwitch = ({ checked, onChange }) => {
+  return (
+    <button
+      type="button"
+      onClick={() => onChange(!checked)}
+      className={`admin-toggle-btn relative w-11 h-6 flex items-center rounded-full transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500/20 ${
+        checked 
+          ? 'bg-gradient-to-r from-purple-600 to-indigo-600 shadow-[0_2px_8px_rgba(124,58,237,0.3)] justify-end' 
+          : 'bg-zinc-200 dark:bg-white/10 border border-zinc-300 dark:border-white/5 justify-start'
+      }`}
+    >
+      <motion.span
+        layout
+        className="block w-4 h-4 rounded-full bg-white shadow-[0_1px_3px_rgba(0,0,0,0.15)] mx-0.5"
+        transition={{ type: 'spring', stiffness: 500, damping: 28 }}
+      />
+    </button>
+  );
+};
+
 const AdminSettings = () => {
   const [activeTab, setActiveTab] = useState('general');
   const [showStripeSecret, setShowStripeSecret] = useState(false);
@@ -47,16 +67,19 @@ const AdminSettings = () => {
       animate={{ opacity: 1, y: 0 }}
       className="space-y-6"
     >
-      <div>
-        <h1 className="text-3xl font-poppins font-bold text-white">
-          Settings
-        </h1>
-        <p className="text-white/60">Configure your e-commerce platform settings</p>
+      {/* Action Header */}
+      <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center pb-6 border-b border-zinc-200 dark:border-zinc-800 mb-8">
+        <div>
+          <h1 className="text-3xl font-poppins font-extrabold text-zinc-900 dark:text-white tracking-tight uppercase">
+            Settings
+          </h1>
+          <p className="text-zinc-500 dark:text-zinc-400 text-sm mt-1 font-light">Configure your e-commerce platform settings</p>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[16rem_1fr] gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-[18rem_1fr] gap-6">
         {/* Settings Navigation Tabs */}
-        <div className="glass p-3 rounded-xl h-fit space-y-1">
+        <div className="glass p-3 rounded-[24px] h-fit space-y-1">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -64,12 +87,19 @@ const AdminSettings = () => {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm transition-all duration-300 ${
+                className={`settings-tab-btn relative w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition-colors duration-300 z-10 ${
                   isActive
-                    ? 'bg-gradient-to-r from-primary-600 to-purple-600 text-white shadow-md'
-                    : 'text-white/60 hover:text-white hover:bg-white/5'
+                    ? 'text-white font-semibold'
+                    : 'text-zinc-500 dark:text-white/60 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100/50 dark:hover:bg-white/5'
                 }`}
               >
+                {isActive && (
+                  <motion.div
+                    layoutId="activeSettingsTab"
+                    className="absolute inset-0 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-xl -z-10 shadow-[0_4px_12px_rgba(124,58,237,0.25)]"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
+                )}
                 <Icon className="w-4 h-4" />
                 <span className="font-medium">{tab.label}</span>
               </button>
@@ -78,13 +108,14 @@ const AdminSettings = () => {
         </div>
 
         {/* Settings Card */}
-        <div className="glass p-6 rounded-xl">
+        <div className="glass p-6 rounded-[28px] border border-white/10 shadow-[0_26px_70px_-30px_rgba(0,0,0,0.55)]">
           <form onSubmit={handleSave} className="space-y-6">
             
             {activeTab === 'general' && (
               <motion.div
-                initial={{ opacity: 0, x: 10 }}
-                animate={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                 className="space-y-4"
               >
                 <h3 className="text-lg font-semibold text-white border-b border-white/10 pb-2 flex items-center gap-2">
@@ -164,8 +195,9 @@ const AdminSettings = () => {
 
             {activeTab === 'payment' && (
               <motion.div
-                initial={{ opacity: 0, x: 10 }}
-                animate={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                 className="space-y-4"
               >
                 <h3 className="text-lg font-semibold text-white border-b border-white/10 pb-2 flex items-center gap-2">
@@ -194,13 +226,21 @@ const AdminSettings = () => {
                       className="input-field font-mono text-sm pr-10"
                       required
                     />
-                    <button
-                      type="button"
+                    <div
+                      role="button"
+                      tabIndex={0}
                       onClick={() => setShowStripeSecret(!showStripeSecret)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white"
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          setShowStripeSecret(!showStripeSecret);
+                        }
+                      }}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600 dark:text-white/40 dark:hover:text-white cursor-pointer select-none focus:outline-none p-1"
+                      title={showStripeSecret ? 'Hide secret key' : 'Show secret key'}
                     >
-                      {showStripeSecret ? <FiEyeOff /> : <FiEye />}
-                    </button>
+                      {showStripeSecret ? <FiEyeOff size={16} /> : <FiEye size={16} />}
+                    </div>
                   </div>
                 </div>
 
@@ -220,8 +260,9 @@ const AdminSettings = () => {
 
             {activeTab === 'security' && (
               <motion.div
-                initial={{ opacity: 0, x: 10 }}
-                animate={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                 className="space-y-6"
               >
                 <h3 className="text-lg font-semibold text-white border-b border-white/10 pb-2 flex items-center gap-2">
@@ -234,15 +275,10 @@ const AdminSettings = () => {
                     <h4 className="text-sm font-semibold text-white">Maintenance Mode</h4>
                     <p className="text-xs text-white/60">Put store in offline mode. Only admins will have access.</p>
                   </div>
-                  <label className="relative inline-flex items-center cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={storeSettings.maintenanceMode}
-                      onChange={(e) => handleInputChange('maintenanceMode', e.target.checked)}
-                      className="sr-only peer"
-                    />
-                    <div className="w-11 h-6 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-600"></div>
-                  </label>
+                  <ToggleSwitch
+                    checked={storeSettings.maintenanceMode}
+                    onChange={(checked) => handleInputChange('maintenanceMode', checked)}
+                  />
                 </div>
 
                 <div className="flex items-center justify-between p-4 bg-white/5 rounded-lg border border-white/10">
@@ -250,15 +286,10 @@ const AdminSettings = () => {
                     <h4 className="text-sm font-semibold text-white">Allow Public Registration</h4>
                     <p className="text-xs text-white/60">Allow guest users to create accounts on the storefront.</p>
                   </div>
-                  <label className="relative inline-flex items-center cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={storeSettings.allowRegistration}
-                      onChange={(e) => handleInputChange('allowRegistration', e.target.checked)}
-                      className="sr-only peer"
-                    />
-                    <div className="w-11 h-6 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-600"></div>
-                  </label>
+                  <ToggleSwitch
+                    checked={storeSettings.allowRegistration}
+                    onChange={(checked) => handleInputChange('allowRegistration', checked)}
+                  />
                 </div>
               </motion.div>
             )}

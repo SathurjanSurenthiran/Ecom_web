@@ -57,12 +57,13 @@ const AdminProducts = () => {
       animate={{ opacity: 1, y: 0 }}
       className="space-y-6"
     >
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+          {/* Action Header */}
+          <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center pb-6 border-b border-zinc-200 dark:border-zinc-800 mb-8">
             <div>
-              <h1 className="text-3xl font-poppins font-bold text-white">
+              <h1 className="text-3xl font-poppins font-extrabold text-zinc-900 dark:text-white tracking-tight uppercase">
                 Products
               </h1>
-              <p className="text-white/60">{total} products total</p>
+              <p className="text-zinc-500 dark:text-zinc-400 text-sm mt-1 font-light">{total} products total</p>
             </div>
             <div className="flex items-center space-x-3 mt-4 md:mt-0">
               {selectedProducts.length > 0 && (
@@ -75,7 +76,7 @@ const AdminProducts = () => {
               )}
               <Link
                 to="/admin/products/add"
-                className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors flex items-center space-x-2"
+                className="px-4 py-2 glass text-white rounded-xl hover:bg-white/10 transition-colors flex items-center space-x-2 border border-white/10"
               >
                 <FiPlus />
                 <span>Add Product</span>
@@ -105,7 +106,7 @@ const AdminProducts = () => {
           {loading ? (
             <LoadingSkeleton type="product" count={5} />
           ) : (
-            <div className="glass rounded-xl overflow-hidden">
+            <div className="glass rounded-[28px] border border-white/10 overflow-hidden shadow-[0_26px_70px_-30px_rgba(0,0,0,0.55)]">
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
@@ -185,21 +186,24 @@ const AdminProducts = () => {
                           <div className="flex items-center space-x-2">
                             <Link
                               to={`/product/${product.slug}`}
-                              className="text-primary-400 hover:text-primary-300"
+                              className="admin-action-btn-view"
+                              title="View Product"
                             >
-                              <FiEye />
+                              <FiEye size={16} />
                             </Link>
                             <Link
                               to={`/admin/products/edit/${product._id}`}
-                              className="text-blue-400 hover:text-blue-300"
+                              className="admin-action-btn-edit"
+                              title="Edit Product"
                             >
-                              <FiEdit2 />
+                              <FiEdit2 size={16} />
                             </Link>
                             <button
                               onClick={() => handleDelete(product._id)}
-                              className="text-red-400 hover:text-red-300"
+                              className="admin-action-btn-delete"
+                              title="Delete Product"
                             >
-                              <FiTrash2 />
+                              <FiTrash2 size={16} />
                             </button>
                           </div>
                         </td>

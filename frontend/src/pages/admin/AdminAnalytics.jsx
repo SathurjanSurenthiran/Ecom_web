@@ -63,12 +63,13 @@ const AdminAnalytics = () => {
       animate={{ opacity: 1, y: 0 }}
       className="space-y-6"
     >
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+      {/* Action Header */}
+      <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center pb-6 border-b border-zinc-200 dark:border-zinc-800 mb-8">
         <div>
-          <h1 className="text-3xl font-poppins font-bold text-white">
+          <h1 className="text-3xl font-poppins font-extrabold text-zinc-900 dark:text-white tracking-tight uppercase">
             Analytics
           </h1>
-          <p className="text-white/60">Store performance overview</p>
+          <p className="text-zinc-500 dark:text-zinc-400 text-sm mt-1 font-light">Store performance overview</p>
         </div>
         <div className="flex items-center space-x-3 mt-4 md:mt-0">
           <select
@@ -81,7 +82,7 @@ const AdminAnalytics = () => {
             <option value="monthly">Monthly</option>
             <option value="yearly">Yearly</option>
           </select>
-          <button className="px-4 py-2 glass text-white rounded-lg hover:bg-white/10 transition-colors flex items-center space-x-2">
+          <button className="px-4 py-2 glass text-white rounded-xl hover:bg-white/10 transition-colors flex items-center space-x-2 border border-white/10">
             <FiDownload />
             <span>Export</span>
           </button>
@@ -146,7 +147,7 @@ const AdminAnalytics = () => {
       </div>
 
       {/* Top Products */}
-      <div className="glass p-6 rounded-xl mt-6">
+      <div className="glass p-6 rounded-[28px] border border-white/10 mt-6 shadow-[0_20px_50px_-25px_rgba(0,0,0,0.55)]">
         <h3 className="text-white font-semibold mb-4">Top Products</h3>
         <div className="overflow-x-auto">
           <table className="w-full">

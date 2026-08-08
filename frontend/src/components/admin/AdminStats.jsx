@@ -44,7 +44,7 @@ const AdminStats = ({ stats }) => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: index * 0.1 }}
-          className="glass p-6 rounded-xl"
+          className="glass p-6 rounded-[28px] border border-white/10 shadow-[0_18px_46px_-20px_rgba(0,0,0,0.55)]"
         >
           <div className="flex items-center justify-between">
             <div>

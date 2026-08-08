@@ -81,12 +81,13 @@ const AdminOrders = () => {
       animate={{ opacity: 1, y: 0 }}
       className="space-y-6"
     >
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+          {/* Action Header */}
+          <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center pb-6 border-b border-zinc-200 dark:border-zinc-800 mb-8">
             <div>
-              <h1 className="text-3xl font-poppins font-bold text-white">
+              <h1 className="text-3xl font-poppins font-extrabold text-zinc-900 dark:text-white tracking-tight uppercase">
                 Orders
               </h1>
-              <p className="text-white/60">{orders.length} orders total</p>
+              <p className="text-zinc-500 dark:text-zinc-400 text-sm mt-1 font-light">{orders.length} orders total</p>
             </div>
           </div>
 
@@ -117,7 +118,7 @@ const AdminOrders = () => {
           </div>
 
           {/* Orders Table */}
-          <div className="glass rounded-xl overflow-hidden">
+          <div className="glass rounded-[28px] border border-white/10 overflow-hidden shadow-[0_26px_70px_-30px_rgba(0,0,0,0.55)]">
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
@@ -187,7 +188,7 @@ const AdminOrders = () => {
                 <button
                   onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                   disabled={currentPage === 1}
-                  className="p-2 glass text-white rounded-lg hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="p-2 glass text-white rounded-xl hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed border border-white/10"
                 >
                   <FiChevronLeft />
                 </button>
@@ -197,7 +198,7 @@ const AdminOrders = () => {
                 <button
                   onClick={() => setCurrentPage(currentPage + 1)}
                   disabled={filteredOrders.length < 10}
-                  className="p-2 glass text-white rounded-lg hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="p-2 glass text-white rounded-xl hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed border border-white/10"
                 >
                   <FiChevronRight />
                 </button>

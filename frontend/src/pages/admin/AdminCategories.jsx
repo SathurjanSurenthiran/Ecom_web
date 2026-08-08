@@ -103,12 +103,13 @@ const AdminCategories = () => {
           animate={{ opacity: 1, y: 0 }}
           className="space-y-6"
         >
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+          {/* Action Header */}
+          <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center pb-6 border-b border-zinc-200 dark:border-zinc-800 mb-8">
             <div>
-              <h1 className="text-3xl font-poppins font-bold text-white">
+              <h1 className="text-3xl font-poppins font-extrabold text-zinc-900 dark:text-white tracking-tight uppercase">
                 Categories
               </h1>
-              <p className="text-white/60">{categories.length} categories total</p>
+              <p className="text-zinc-500 dark:text-zinc-400 text-sm mt-1 font-light">{categories.length} categories total</p>
             </div>
             <button
               onClick={() => openModal()}
@@ -126,7 +127,7 @@ const AdminCategories = () => {
                 key={category._id}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="glass p-4 rounded-xl text-center group"
+                className="glass p-4 rounded-[28px] text-center group border border-white/10 shadow-[0_22px_60px_-30px_rgba(0,0,0,0.55)]"
               >
                 <div className="w-24 h-24 mx-auto bg-white/5 rounded-full flex items-center justify-center overflow-hidden mb-3">
                   {category.image?.url ? (
@@ -146,15 +147,17 @@ const AdminCategories = () => {
                 <div className="mt-3 flex items-center justify-center space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
                   <button
                     onClick={() => openModal(category)}
-                    className="p-2 glass text-white rounded-lg hover:bg-white/10 transition-colors"
+                    className="admin-action-btn-edit"
+                    title="Edit Category"
                   >
-                    <FiEdit2 />
+                    <FiEdit2 size={16} />
                   </button>
                   <button
                     onClick={() => deleteCategory(category._id)}
-                    className="p-2 bg-red-500/20 text-red-400 rounded-lg hover:bg-red-500/30 transition-colors"
+                    className="admin-action-btn-delete"
+                    title="Delete Category"
                   >
-                    <FiTrash2 />
+                    <FiTrash2 size={16} />
                   </button>
                 </div>
               </motion.div>
@@ -168,7 +171,7 @@ const AdminCategories = () => {
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="glass p-6 rounded-2xl max-w-md w-full"
+            className="glass p-6 rounded-[28px] max-w-md w-full"
           >
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-xl font-poppins font-bold text-white">

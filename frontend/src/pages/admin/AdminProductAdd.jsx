@@ -43,9 +43,15 @@ const AdminProductAdd = () => {
 
   return (
     <div className="mx-auto max-w-4xl">
-      <h1 className="mb-6 text-3xl font-bold text-white">
-        Add New Product
-      </h1>
+      {/* Action Header */}
+      <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center pb-6 border-b border-zinc-200 dark:border-zinc-800 mb-8">
+        <div>
+          <h1 className="text-3xl font-poppins font-extrabold text-zinc-900 dark:text-white tracking-tight uppercase">
+            Add New Product
+          </h1>
+          <p className="text-zinc-500 dark:text-zinc-400 text-sm mt-1 font-light">Create a new item in your store inventory</p>
+        </div>
+      </div>
       <ProductForm onSubmit={onSubmit} isLoading={isLoading} />
     </div>
   );

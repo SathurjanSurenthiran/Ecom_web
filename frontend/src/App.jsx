@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { Toaster } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { getCurrentUser } from './features/auth/authSlice';
+import { clearCartState } from './features/cart/cartSlice';
+import { clearWishlistState } from './features/wishlist/wishlistSlice';
 
 // Layouts
 import { MainLayout, AuthLayout, AdminLayout } from './layouts';
@@ -53,15 +55,25 @@ function App() {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (token) {
-      dispatch(getCurrentUser());
+
+    if (!token) {
+      dispatch(clearCartState());
+      dispatch(clearWishlistState());
+      return;
     }
+
+    dispatch(getCurrentUser())
+      .unwrap()
+      .catch(() => {
+        dispatch(clearCartState());
+        dispatch(clearWishlistState());
+      });
   }, [dispatch]);
 
   return (
     <Router>
       <Toaster
-        position="top-right"
+        position="top-center"
         toastOptions={{
           duration: 3000,
           style: {

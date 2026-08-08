@@ -132,12 +132,13 @@ const AdminCoupons = () => {
           animate={{ opacity: 1, y: 0 }}
           className="space-y-6"
         >
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+          {/* Action Header */}
+          <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center pb-6 border-b border-zinc-200 dark:border-zinc-800 mb-8">
             <div>
-              <h1 className="text-3xl font-poppins font-bold text-white">
+              <h1 className="text-3xl font-poppins font-extrabold text-zinc-900 dark:text-white tracking-tight uppercase">
                 Coupons
               </h1>
-              <p className="text-white/60">{coupons.length} coupons total</p>
+              <p className="text-zinc-500 dark:text-zinc-400 text-sm mt-1 font-light">{coupons.length} coupons total</p>
             </div>
             <button
               onClick={() => openModal()}
@@ -155,7 +156,7 @@ const AdminCoupons = () => {
                 key={coupon._id}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="glass p-6 rounded-xl group"
+                className="glass p-6 rounded-[28px] group border border-white/10 shadow-[0_22px_60px_-30px_rgba(0,0,0,0.55)]"
               >
                 <div className="flex items-start justify-between">
                   <div>
@@ -206,15 +207,17 @@ const AdminCoupons = () => {
                 <div className="mt-4 flex items-center justify-end space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
                   <button
                     onClick={() => openModal(coupon)}
-                    className="p-2 glass text-white rounded-lg hover:bg-white/10 transition-colors"
+                    className="admin-action-btn-edit"
+                    title="Edit Coupon"
                   >
-                    <FiEdit2 />
+                    <FiEdit2 size={16} />
                   </button>
                   <button
                     onClick={() => deleteCoupon(coupon._id)}
-                    className="p-2 bg-red-500/20 text-red-400 rounded-lg hover:bg-red-500/30 transition-colors"
+                    className="admin-action-btn-delete"
+                    title="Delete Coupon"
                   >
-                    <FiTrash2 />
+                    <FiTrash2 size={16} />
                   </button>
                 </div>
               </motion.div>
@@ -228,7 +231,7 @@ const AdminCoupons = () => {
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="glass p-6 rounded-2xl max-w-md w-full max-h-[90vh] overflow-y-auto"
+            className="glass p-6 rounded-[28px] max-w-md w-full max-h-[90vh] overflow-y-auto"
           >
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-xl font-poppins font-bold text-white">

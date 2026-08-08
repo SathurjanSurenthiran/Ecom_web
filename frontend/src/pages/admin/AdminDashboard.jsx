@@ -94,24 +94,24 @@ const AdminDashboard = () => {
       className="space-y-8"
     >
       {/* Action Header */}
-      <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center pb-6 border-b border-zinc-900">
+      <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center pb-6 border-b border-zinc-200 dark:border-zinc-800 mb-8">
         <div>
-          <h1 className="text-3xl font-poppins font-extrabold text-white tracking-tight uppercase">
+          <h1 className="text-3xl font-poppins font-extrabold text-zinc-900 dark:text-white tracking-tight uppercase">
             Admin Dashboard
           </h1>
-          <p className="text-zinc-500 text-sm mt-0.5 font-light">Operational overview for Administrator {user?.name}</p>
+          <p className="text-zinc-500 dark:text-zinc-400 text-sm mt-1 font-light">Operational overview for Administrator {user?.name}</p>
         </div>
         <div className="flex flex-wrap items-center gap-3">
           <button
             onClick={() => toast.success('Report successfully downloaded')}
-            className="flex items-center gap-2 rounded-xl bg-zinc-900 border border-zinc-800 hover:border-zinc-700 px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-zinc-300 hover:text-white transition-all shadow-sm"
+            className="flex items-center gap-2 rounded-xl bg-zinc-900 dark:bg-zinc-800 border border-zinc-800 hover:border-zinc-700 px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-zinc-300 hover:text-white transition-all shadow-sm"
           >
             <FiDownload />
             <span>Export Metrics</span>
           </button>
           <button
             onClick={() => navigate('/')}
-            className="flex items-center gap-2 rounded-xl bg-white hover:bg-zinc-100 px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-black transition-all shadow-sm"
+            className="flex items-center gap-2 rounded-xl bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-black dark:text-white transition-all shadow-sm"
           >
             <span>Exit Dashboard</span>
             <FiArrowRight />
@@ -130,7 +130,7 @@ const AdminDashboard = () => {
       {/* Dashboard workspace grids */}
       <div className="grid grid-cols-1 gap-8 xl:grid-cols-[minmax(0,1fr)_20rem]">
         {/* Recent Orders Card */}
-        <div className="bg-zinc-900 border border-zinc-800/80 rounded-2xl p-6 shadow-md overflow-hidden flex flex-col justify-between">
+        <div className="glass rounded-[28px] border border-white/10 p-6 overflow-hidden flex flex-col justify-between shadow-[0_28px_80px_-30px_rgba(0,0,0,0.55)]">
           <div>
             <div className="mb-6 flex items-center justify-between gap-4">
               <h2 className="font-poppins font-bold uppercase text-sm tracking-wider text-white">Recent Orders</h2>
@@ -165,9 +165,27 @@ const AdminDashboard = () => {
                       <td className="px-4 py-3.5 text-zinc-500 font-light">{order.date}</td>
                       <td className="px-4 py-3.5">
                         <div className="flex items-center justify-end gap-3.5">
-                          <button className="text-zinc-500 hover:text-white transition-colors" title="View details"><FiEye size={15} /></button>
-                          <button className="text-zinc-500 hover:text-purple-400 transition-colors" title="Edit logs"><FiEdit2 size={13} /></button>
-                          <button className="text-zinc-500 hover:text-red-400 transition-colors" title="Remove order"><FiTrash2 size={14} /></button>
+                          <button
+                            type="button"
+                            className="admin-action-btn-view"
+                            title="View details"
+                          >
+                            <FiEye size={16} />
+                          </button>
+                          <button
+                            type="button"
+                            className="admin-action-btn-edit"
+                            title="Edit details"
+                          >
+                            <FiEdit2 size={16} />
+                          </button>
+                          <button
+                            type="button"
+                            className="admin-action-btn-delete"
+                            title="Remove order"
+                          >
+                            <FiTrash2 size={16} />
+                          </button>
                         </div>
                       </td>
                     </tr>
@@ -180,25 +198,25 @@ const AdminDashboard = () => {
 
         {/* Quick Links Column */}
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 xl:grid-cols-1">
-          <Link to="/admin/products/add" className="bg-zinc-900 border border-zinc-800 hover:border-purple-500/30 rounded-2xl p-5 text-center transition-all duration-300 shadow-sm flex flex-col items-center justify-center group">
+          <Link to="/admin/products/add" className="glass border border-white/10 rounded-2xl p-5 text-center transition-all duration-300 shadow-[0_22px_60px_-30px_rgba(0,0,0,0.55)] flex flex-col items-center justify-center group">
             <div className="w-12 h-12 bg-purple-500/10 rounded-xl flex items-center justify-center mb-3 group-hover:scale-105 transition-transform text-purple-400 border border-purple-500/20">
               <FiPlus className="h-6 w-6" />
             </div>
             <p className="text-xs font-semibold uppercase tracking-wider text-zinc-300 group-hover:text-white transition-colors">Add Product</p>
           </Link>
-          <Link to="/admin/categories" className="bg-zinc-900 border border-zinc-800 hover:border-indigo-500/30 rounded-2xl p-5 text-center transition-all duration-300 shadow-sm flex flex-col items-center justify-center group">
+          <Link to="/admin/categories" className="glass border border-white/10 rounded-2xl p-5 text-center transition-all duration-300 shadow-[0_22px_60px_-30px_rgba(0,0,0,0.55)] flex flex-col items-center justify-center group">
             <div className="w-12 h-12 bg-indigo-500/10 rounded-xl flex items-center justify-center mb-3 group-hover:scale-105 transition-transform text-indigo-400 border border-indigo-500/20">
               <FiGrid className="h-5 w-5" />
             </div>
             <p className="text-xs font-semibold uppercase tracking-wider text-zinc-300 group-hover:text-white transition-colors">Categories</p>
           </Link>
-          <Link to="/admin/coupons" className="bg-zinc-900 border border-zinc-800 hover:border-emerald-500/30 rounded-2xl p-5 text-center transition-all duration-300 shadow-sm flex flex-col items-center justify-center group">
+          <Link to="/admin/coupons" className="glass border border-white/10 rounded-2xl p-5 text-center transition-all duration-300 shadow-[0_22px_60px_-30px_rgba(0,0,0,0.55)] flex flex-col items-center justify-center group">
             <div className="w-12 h-12 bg-emerald-500/10 rounded-xl flex items-center justify-center mb-3 group-hover:scale-105 transition-transform text-emerald-400 border border-emerald-500/20">
               <FiDollarSign className="h-5 w-5" />
             </div>
             <p className="text-xs font-semibold uppercase tracking-wider text-zinc-300 group-hover:text-white transition-colors">Coupons</p>
           </Link>
-          <Link to="/admin/orders" className="bg-zinc-900 border border-zinc-800 hover:border-blue-500/30 rounded-2xl p-5 text-center transition-all duration-300 shadow-sm flex flex-col items-center justify-center group">
+          <Link to="/admin/orders" className="glass border border-white/10 rounded-2xl p-5 text-center transition-all duration-300 shadow-[0_22px_60px_-30px_rgba(0,0,0,0.55)] flex flex-col items-center justify-center group">
             <div className="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center mb-3 group-hover:scale-105 transition-transform text-blue-400 border border-blue-500/20">
               <FiShoppingCart className="h-5 w-5" />
             </div>
