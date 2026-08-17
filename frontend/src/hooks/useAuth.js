@@ -7,7 +7,7 @@ export const useAuth = () => {
     user,
     isAuthenticated,
     loading,
-    isAdmin: user?.role === 'admin',
+    isAdmin: user?.role === 'admin' || user?.role === 'superadmin',
     isUser: user?.role === 'user',
   };
 };

@@ -47,6 +47,24 @@ const ProductCard = ({ product }) => {
     dispatch(addToCart({ product, quantity: 1, size, color }));
   };
 
+  const handleBuyNow = (e) => {
+    e.preventDefault();
+    if (!isAuthenticated) {
+      toast.error('Please login first to buy items');
+      navigate('/login');
+      return;
+    }
+    const size = product.sizes?.[0]?.size || 'M';
+    const color = product.colors?.[0]?.name || 'Default';
+    const buyNowItem = {
+      product,
+      quantity: 1,
+      size,
+      color,
+    };
+    navigate('/checkout', { state: { buyNowItem } });
+  };
+
   const renderStars = (rating) => {
     return [...Array(5)].map((_, i) => (
       <Star
@@ -132,16 +150,26 @@ const ProductCard = ({ product }) => {
             </div>
           </div>
 
-          {/* Add to Cart Button */}
-          <motion.button
-            whileHover={{ scale: 1.01 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={handleAddToCart}
-            className="w-full mt-4 py-2 bg-black text-white rounded-lg hover:bg-zinc-800 transition-colors duration-300 flex items-center justify-center space-x-2 text-xs font-semibold tracking-wide uppercase"
-          >
-            <ShoppingBag className="h-3.5 w-3.5" strokeWidth={2} />
-            <span>Add to Cart</span>
-          </motion.button>
+          {/* Add to Cart & Buy Now Buttons */}
+          <div className="grid grid-cols-2 gap-2 mt-4">
+            <motion.button
+              whileHover={{ scale: 1.01 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={handleAddToCart}
+              className="py-2 bg-white hover:bg-zinc-50 border border-zinc-200 text-zinc-900 rounded-lg transition-colors duration-300 flex items-center justify-center space-x-1 text-[10px] font-bold tracking-wide uppercase"
+            >
+              <ShoppingBag className="h-3 w-3" strokeWidth={2} />
+              <span>Add to Cart</span>
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.01 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={handleBuyNow}
+              className="py-2 bg-black hover:bg-zinc-800 text-white rounded-lg transition-colors duration-300 flex items-center justify-center text-[10px] font-bold tracking-wide uppercase"
+            >
+              <span>Buy Now</span>
+            </motion.button>
+          </div>
         </div>
       </Link>
     </motion.div>

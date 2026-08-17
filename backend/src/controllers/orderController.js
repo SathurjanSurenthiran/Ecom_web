@@ -86,10 +86,11 @@ export const getOrder = async (req, res) => {
         .json({ success: false, message: 'Order not found' });
     }
 
-    // Check if user owns the order or is admin
+    // Check if user owns the order or is admin/superadmin
     if (
       order.user._id.toString() !== req.user.id &&
-      req.user.role !== 'admin'
+      req.user.role !== 'admin' &&
+      req.user.role !== 'superadmin'
     ) {
       return res
         .status(403)
@@ -157,6 +158,26 @@ export const getAllOrders = async (req, res) => {
     res.json({
       success: true,
       data: orders,
+    });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
+
+// Admin: Delete order
+export const deleteOrder = async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id);
+
+    if (!order) {
+      return res.status(404).json({ success: false, message: 'Order not found' });
+    }
+
+    await Order.findByIdAndDelete(req.params.id);
+
+    res.json({
+      success: true,
+      message: 'Order deleted successfully',
     });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });

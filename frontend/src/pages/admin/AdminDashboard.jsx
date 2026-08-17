@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
@@ -8,6 +8,8 @@ import {
   FiTrash2, FiDownload, FiArrowRight
 } from 'react-icons/fi';
 import toast from 'react-hot-toast';
+import axios from '../../api/axios';
+import OrderDetails from '../OrderDetails';
 
 const statStyles = {
   primary: {
@@ -62,19 +64,33 @@ const StatCard = ({ icon: Icon, label, value, color = 'primary' }) => {
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
+  const [recentOrders, setRecentOrders] = useState([]);
+  const [loadingOrders, setLoadingOrders] = useState(true);
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
 
   useEffect(() => {
-    if (user?.role !== 'admin') {
+    if (user?.role !== 'admin' && user?.role !== 'superadmin') {
       navigate('/');
       toast.error('Admin access required');
     }
   }, [user, navigate]);
 
-  const recentOrders = [
-    { id: '#12345', customer: 'John Doe', total: '$145.00', status: 'pending', date: '2026-06-14' },
-    { id: '#12346', customer: 'Jane Smith', total: '$89.50', status: 'shipped', date: '2026-06-13' },
-    { id: '#12347', customer: 'Mike Johnson', total: '$210.00', status: 'delivered', date: '2026-06-12' },
-  ];
+  useEffect(() => {
+    const fetchRecentOrders = async () => {
+      try {
+        const response = await axios.get('/orders/admin/all');
+        setRecentOrders(response.data.data.slice(0, 5));
+      } catch (error) {
+        toast.error('Failed to fetch recent orders');
+      } finally {
+        setLoadingOrders(false);
+      }
+    };
+
+    if (user?.role === 'admin' || user?.role === 'superadmin') {
+      fetchRecentOrders();
+    }
+  }, [user]);
 
   const getStatusColor = (status) => {
     const colors = {
@@ -152,44 +168,59 @@ const AdminDashboard = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {recentOrders.map((order) => (
-                    <tr key={order.id} className="border-b border-zinc-800/40 transition-colors hover:bg-zinc-800/25">
-                      <td className="px-4 py-3.5 font-mono text-zinc-300">{order.id}</td>
-                      <td className="px-4 py-3.5 font-semibold text-white">{order.customer}</td>
-                      <td className="px-4 py-3.5 text-white font-medium">{order.total}</td>
-                      <td className="px-4 py-3.5">
-                        <span className={`inline-block rounded-full border px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider ${getStatusColor(order.status)}`}>
-                          {order.status}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3.5 text-zinc-500 font-light">{order.date}</td>
-                      <td className="px-4 py-3.5">
-                        <div className="flex items-center justify-end gap-3.5">
-                          <button
-                            type="button"
-                            className="admin-action-btn-view"
-                            title="View details"
-                          >
-                            <FiEye size={16} />
-                          </button>
-                          <button
-                            type="button"
-                            className="admin-action-btn-edit"
-                            title="Edit details"
-                          >
-                            <FiEdit2 size={16} />
-                          </button>
-                          <button
-                            type="button"
-                            className="admin-action-btn-delete"
-                            title="Remove order"
-                          >
-                            <FiTrash2 size={16} />
-                          </button>
-                        </div>
+                  {loadingOrders ? (
+                    <tr>
+                      <td colSpan="6" className="text-center py-4 text-zinc-500">
+                        Loading recent orders...
                       </td>
                     </tr>
-                  ))}
+                  ) : recentOrders.length === 0 ? (
+                    <tr>
+                      <td colSpan="6" className="text-center py-4 text-zinc-500">
+                        No recent orders found
+                      </td>
+                    </tr>
+                  ) : (
+                    recentOrders.map((order) => (
+                      <tr key={order._id} className="border-b border-zinc-800/40 transition-colors hover:bg-zinc-800/25">
+                        <td className="px-4 py-3.5 font-mono text-zinc-300">{order._id.slice(0, 8)}...</td>
+                        <td className="px-4 py-3.5 font-semibold text-white">{order.user?.name || 'Guest'}</td>
+                        <td className="px-4 py-3.5 text-white font-medium">${order.totalPrice?.toFixed(2)}</td>
+                        <td className="px-4 py-3.5">
+                          <span className={`inline-block rounded-full border px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider ${getStatusColor(order.orderStatus)}`}>
+                            {order.orderStatus}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3.5 text-zinc-500 font-light">{new Date(order.createdAt).toLocaleDateString()}</td>
+                        <td className="px-4 py-3.5">
+                          <div className="flex items-center justify-end gap-3.5">
+                            <button
+                              type="button"
+                              className="admin-action-btn-view"
+                              title="View details"
+                              onClick={() => setSelectedOrderId(order._id)}
+                            >
+                              <FiEye size={16} />
+                            </button>
+                            <button
+                              type="button"
+                              className="admin-action-btn-edit"
+                              title="Edit details"
+                            >
+                              <FiEdit2 size={16} />
+                            </button>
+                            <button
+                              type="button"
+                              className="admin-action-btn-delete"
+                              title="Remove order"
+                            >
+                              <FiTrash2 size={16} />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </table>
             </div>
@@ -224,6 +255,12 @@ const AdminDashboard = () => {
           </Link>
         </div>
       </div>
+      {selectedOrderId && (
+        <OrderDetails 
+          orderId={selectedOrderId} 
+          onClose={() => setSelectedOrderId(null)} 
+        />
+      )}
     </motion.div>
   );
 };

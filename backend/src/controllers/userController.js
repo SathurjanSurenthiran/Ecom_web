@@ -23,6 +23,11 @@ export const createUser = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Invalid role' });
     }
 
+    // Admins and superadmins can create users
+    if (req.user.role !== 'admin' && req.user.role !== 'superadmin') {
+      return res.status(403).json({ success: false, message: 'Not authorized to create users' });
+    }
+
     const userExists = await User.findOne({ email });
     if (userExists) {
       return res.status(400).json({ success: false, message: 'User already exists' });
@@ -54,14 +59,24 @@ export const updateUserRole = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Invalid role' });
     }
 
+    // Only admin and superadmin can change user roles
+    if (req.user.role !== 'admin' && req.user.role !== 'superadmin') {
+      return res.status(403).json({ success: false, message: 'Not authorized to change user roles' });
+    }
+
     const user = await User.findById(req.params.id);
     if (!user) {
       return res.status(404).json({ success: false, message: 'User not found' });
     }
 
-    // Prevent admin from changing their own role
+    // Prevent admin/superadmin from changing their own role
     if (user._id.toString() === req.user.id.toString()) {
       return res.status(400).json({ success: false, message: 'You cannot change your own role' });
+    }
+
+    // Superadmin role is fixed and cannot be changed by anyone
+    if (user.role === 'superadmin') {
+      return res.status(400).json({ success: false, message: 'The super admin role is fixed and cannot be changed' });
     }
 
     user.role = role;
@@ -85,9 +100,19 @@ export const deleteUser = async (req, res) => {
       return res.status(404).json({ success: false, message: 'User not found' });
     }
 
+    // Only admin and superadmin can delete users
+    if (req.user.role !== 'admin' && req.user.role !== 'superadmin') {
+      return res.status(403).json({ success: false, message: 'Not authorized to delete users' });
+    }
+
     // Prevent admin from deleting themselves
     if (user._id.toString() === req.user.id.toString()) {
       return res.status(400).json({ success: false, message: 'You cannot delete your own account' });
+    }
+
+    // Prevent deleting the superadmin
+    if (user.role === 'superadmin') {
+      return res.status(400).json({ success: false, message: 'The super admin account cannot be deleted' });
     }
 
     await User.findByIdAndDelete(req.params.id);

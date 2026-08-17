@@ -10,7 +10,7 @@ const AdminRoute = () => {
     </div>;
   }
 
-  return isAuthenticated && user?.role === 'admin' ? (
+  return isAuthenticated && (user?.role === 'admin' || user?.role === 'superadmin') ? (
     <Outlet />
   ) : (
     <Navigate to="/login" />

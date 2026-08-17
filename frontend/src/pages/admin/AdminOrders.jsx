@@ -1,13 +1,14 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import {
-  FiSearch, FiEye,
+  FiSearch, FiEye, FiTrash2,
   FiChevronLeft, FiChevronRight, FiPackage,
   FiClock, FiTruck, FiCheckCircle, FiXCircle
 } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 import LoadingSkeleton from '../../components/ui/LoadingSkeleton';
 import axios from '../../api/axios';
+import OrderDetails from '../OrderDetails';
 
 const AdminOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -15,6 +16,7 @@ const AdminOrders = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
 
   const fetchOrders = useCallback(async () => {
     try {
@@ -39,6 +41,18 @@ const AdminOrders = () => {
       fetchOrders();
     } catch {
       toast.error('Failed to update status');
+    }
+  };
+
+  const handleDeleteOrder = async (id) => {
+    if (window.confirm('Are you sure you want to delete this order?')) {
+      try {
+        await axios.delete(`/orders/${id}`);
+        toast.success('Order deleted successfully');
+        fetchOrders();
+      } catch (error) {
+        toast.error(error.response?.data?.message || 'Failed to delete order');
+      }
     }
   };
 
@@ -159,7 +173,7 @@ const AdminOrders = () => {
                             <select
                               value={order.orderStatus}
                               onChange={(e) => updateOrderStatus(order._id, e.target.value)}
-                              className="px-2 py-1 bg-white/5 border border-white/10 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                              className="px-2 py-1 bg-white/5 border border-white/10 rounded text-white text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 mr-2"
                             >
                               <option value="pending">Pending</option>
                               <option value="processing">Processing</option>
@@ -167,8 +181,19 @@ const AdminOrders = () => {
                               <option value="delivered">Delivered</option>
                               <option value="cancelled">Cancelled</option>
                             </select>
-                            <button className="text-primary-400 hover:text-primary-300">
-                              <FiEye />
+                            <button 
+                              onClick={() => setSelectedOrderId(order._id)}
+                              className="admin-action-btn-view"
+                              title="View Details"
+                            >
+                              <FiEye size={16} />
+                            </button>
+                            <button 
+                              onClick={() => handleDeleteOrder(order._id)}
+                              className="admin-action-btn-delete"
+                              title="Delete Order"
+                            >
+                              <FiTrash2 size={16} />
                             </button>
                           </div>
                         </td>
@@ -205,6 +230,13 @@ const AdminOrders = () => {
               </div>
             </div>
           </div>
+
+          {selectedOrderId && (
+            <OrderDetails 
+              orderId={selectedOrderId} 
+              onClose={() => setSelectedOrderId(null)} 
+            />
+          )}
     </motion.div>
   );
 };

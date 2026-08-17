@@ -254,7 +254,7 @@ const Header = () => {
                         <span className="group-hover:translate-x-0.5 transition-transform duration-200">Orders</span>
                       </Link>
 
-                      {user?.role === 'admin' && (
+                      {(user?.role === 'admin' || user?.role === 'superadmin') && (
                         <Link
                           to="/admin"
                           className="group flex items-center space-x-2.5 px-3.5 py-2.5 rounded-xl text-sm text-zinc-600 hover:text-black hover:bg-zinc-50 transition-all duration-200"
@@ -469,7 +469,7 @@ const Header = () => {
                     </Link>
                   </motion.div>
 
-                  {user?.role === 'admin' && (
+                  {(user?.role === 'admin' || user?.role === 'superadmin') && (
                     <motion.div
                       variants={{
                         hidden: { opacity: 0, y: -10 },

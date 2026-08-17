@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
@@ -19,21 +19,32 @@ const paymentMethods = [
 const Checkout = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
   const { register, handleSubmit, formState: { errors } } = useForm();
   const { items, totalItems, totalPrice } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.auth);
   const [selectedPayment, setSelectedPayment] = useState('credit_card');
   const [isProcessing, setIsProcessing] = useState(false);
 
-  const shippingPrice = totalPrice > 100 ? 0 : 10;
-  const taxPrice = totalPrice * 0.08;
-  const finalTotal = totalPrice + shippingPrice + taxPrice;
+  // Check if this is a "Buy Now" flow for a single item
+  const buyNowItem = location.state?.buyNowItem;
+
+  // Resolve checkout list, quantity, and subtotal dynamically
+  const checkoutItems = buyNowItem ? [buyNowItem] : items;
+  const checkoutTotalItems = buyNowItem ? buyNowItem.quantity : totalItems;
+  const checkoutTotalPrice = buyNowItem 
+    ? (buyNowItem.product.discountPrice || buyNowItem.product.price) * buyNowItem.quantity 
+    : totalPrice;
+
+  const shippingPrice = checkoutTotalPrice > 100 ? 0 : 10;
+  const taxPrice = checkoutTotalPrice * 0.08;
+  const finalTotal = checkoutTotalPrice + shippingPrice + taxPrice;
 
   const onSubmit = async (data) => {
     setIsProcessing(true);
     try {
       const orderData = {
-        orderItems: items.map(item => ({
+        orderItems: checkoutItems.map(item => ({
           product: item.product._id,
           name: item.product.name,
           price: item.product.discountPrice || item.product.price,
@@ -58,7 +69,10 @@ const Checkout = () => {
       };
 
       await dispatch(createOrder(orderData)).unwrap();
-      dispatch(clearCart());
+      // Only clear cart if checkout was not a Buy Now order
+      if (!buyNowItem) {
+        dispatch(clearCart());
+      }
       toast.success('Order placed successfully!');
       navigate('/orders');
     } catch (error) {
@@ -69,12 +83,12 @@ const Checkout = () => {
   };
 
   useEffect(() => {
-    if (items.length === 0) {
+    if (!buyNowItem && items.length === 0) {
       navigate('/cart');
     }
-  }, [items.length, navigate]);
+  }, [buyNowItem, items.length, navigate]);
 
-  if (items.length === 0) return null;
+  if (!buyNowItem && items.length === 0) return null;
 
   return (
     <div className="bg-[#fcfbfe] text-black min-h-screen pt-24 pb-20 px-4 md:px-8">
@@ -96,7 +110,7 @@ const Checkout = () => {
             Complete Your Order
           </h1>
           <p className="text-zinc-500 text-sm mt-1 font-light">
-            Confirm delivery details and payment method for {totalItems} selected pieces.
+            Confirm delivery details and payment method for {checkoutTotalItems} selected pieces.
           </p>
         </div>
 
@@ -196,7 +210,7 @@ const Checkout = () => {
                     </label>
                     <input
                       {...register('country', { required: 'Country is required' })}
-                      defaultValue="United States"
+                      placeholder="Country"
                       className="w-full px-4 py-3 bg-white border border-zinc-200 rounded-xl text-black text-sm focus:outline-none focus:border-black focus:ring-2 focus:ring-black/5"
                     />
                     {errors.country && (
@@ -264,7 +278,7 @@ const Checkout = () => {
               </h3>
 
               <div className="space-y-4 max-h-72 overflow-y-auto pr-1 mb-5">
-                {items.map((item) => (
+                {checkoutItems.map((item) => (
                   <div
                     key={`${item.product._id}-${item.size}-${item.color}`}
                     className="flex items-center gap-3"
@@ -281,6 +295,7 @@ const Checkout = () => {
                       <p className="text-zinc-500 text-xs mt-1">
                         Qty: {item.quantity}
                         {item.size ? ` | Size: ${item.size}` : ''}
+                        {item.color && item.color !== 'Default' ? ` | Color: ${item.color}` : ''}
                       </p>
                     </div>
                     <p className="text-sm font-bold text-black">
@@ -293,7 +308,7 @@ const Checkout = () => {
               <div className="space-y-3 text-sm text-zinc-600 border-t border-zinc-100 pt-5">
                 <div className="flex justify-between font-light">
                   <span>Subtotal</span>
-                  <span className="font-semibold text-black">${totalPrice.toFixed(2)}</span>
+                  <span className="font-semibold text-black">${checkoutTotalPrice.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between font-light">
                   <span>Shipping</span>

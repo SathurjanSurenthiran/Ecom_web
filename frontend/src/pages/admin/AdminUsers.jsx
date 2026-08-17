@@ -120,13 +120,15 @@ const AdminUsers = () => {
           </h1>
           <p className="text-zinc-500 dark:text-zinc-400 text-sm mt-1 font-light">{users.length} users total</p>
         </div>
-        <button
-          onClick={() => setShowCreateForm((prev) => !prev)}
-          className="mt-4 md:mt-0 inline-flex items-center gap-2 rounded-xl glass px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/10 border border-white/10"
-        >
-          {showCreateForm ? <FiX className="h-4 w-4" /> : <FiPlus className="h-4 w-4" />}
-          <span>{showCreateForm ? 'Cancel' : 'Add User/Admin'}</span>
-        </button>
+        {(currentUser?.role === 'superadmin' || currentUser?.role === 'admin') && (
+          <button
+            onClick={() => setShowCreateForm((prev) => !prev)}
+            className="mt-4 md:mt-0 inline-flex items-center gap-2 rounded-xl glass px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/10 border border-white/10"
+          >
+            {showCreateForm ? <FiX className="h-4 w-4" /> : <FiPlus className="h-4 w-4" />}
+            <span>{showCreateForm ? 'Cancel' : 'Add User/Admin'}</span>
+          </button>
+        )}
       </div>
 
       {showCreateForm && (
@@ -218,7 +220,9 @@ const AdminUsers = () => {
                   </div>
                 </div>
                 <span className={`px-2.5 py-1 rounded-full text-xs font-semibold capitalize flex-shrink-0 ${
-                  user.role === 'admin'
+                  user.role === 'superadmin'
+                    ? 'bg-red-500/20 text-red-400 border border-red-500/30'
+                    : user.role === 'admin'
                     ? 'bg-purple-500/20 text-purple-400'
                     : 'bg-blue-500/20 text-blue-400'
                 }`}>
@@ -242,17 +246,39 @@ const AdminUsers = () => {
               <select
                 value={user.role}
                 onChange={(e) => updateRole(user._id, e.target.value)}
-                disabled={updatingUserId === user._id || isCurrentUser}
-                title={isCurrentUser ? 'You cannot change your own role' : 'Change user role'}
+                disabled={
+                  updatingUserId === user._id || 
+                  isCurrentUser || 
+                  user.role === 'superadmin'
+                }
+                title={
+                  isCurrentUser 
+                    ? 'You cannot change your own role' 
+                    : user.role === 'superadmin'
+                    ? 'The super admin role is fixed'
+                    : 'Change user role'
+                }
                 className="flex-1 px-3 py-1.5 glass text-white rounded-xl hover:bg-white/10 transition-colors text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 disabled:opacity-60"
               >
                 <option value="user" className="bg-dark text-white">User</option>
                 <option value="admin" className="bg-dark text-white">Admin</option>
+                {user.role === 'superadmin' && (
+                  <option value="superadmin" className="bg-dark text-white">Super Admin</option>
+                )}
               </select>
               <button
                 onClick={() => deleteUser(user._id)}
-                disabled={isCurrentUser}
-                title={isCurrentUser ? 'You cannot delete your own account' : 'Delete user'}
+                disabled={
+                  isCurrentUser || 
+                  user.role === 'superadmin'
+                }
+                title={
+                  isCurrentUser 
+                    ? 'You cannot delete your own account' 
+                    : user.role === 'superadmin'
+                    ? 'The super admin account cannot be deleted'
+                    : 'Delete user'
+                }
                 className="admin-action-btn-delete disabled:cursor-not-allowed disabled:opacity-40"
               >
                 <FiTrash2 size={16} />

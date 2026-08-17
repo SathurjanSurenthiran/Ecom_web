@@ -1,14 +1,16 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
 import { FiPackage, FiClock, FiCheckCircle, FiTruck, FiXCircle } from 'react-icons/fi';
 
 import LoadingSkeleton from '../components/ui/LoadingSkeleton';
 import { getOrders } from '../features/orders/orderSlice';
+import OrderDetails from './OrderDetails';
 
 const Orders = () => {
   const dispatch = useDispatch();
   const { orders, loading } = useSelector((state) => state.orders);
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
 
   useEffect(() => {
     dispatch(getOrders());
@@ -114,7 +116,10 @@ const Orders = () => {
                         <p className="text-zinc-400 text-xs tracking-widest uppercase font-semibold">Total</p>
                         <p className="text-black font-bold text-lg">${order.totalPrice.toFixed(2)}</p>
                       </div>
-                      <button className="px-4 py-2 bg-black text-white rounded-lg hover:bg-zinc-800 transition-colors text-sm font-semibold">
+                      <button 
+                        onClick={() => setSelectedOrderId(order._id)}
+                        className="px-4 py-2 bg-black text-white rounded-lg hover:bg-zinc-800 transition-colors text-sm font-semibold"
+                      >
                         View Details
                       </button>
                     </div>
@@ -125,6 +130,12 @@ const Orders = () => {
           )}
         </motion.div>
       </div>
+      {selectedOrderId && (
+        <OrderDetails 
+          orderId={selectedOrderId} 
+          onClose={() => setSelectedOrderId(null)} 
+        />
+      )}
     </div>
   );
 };

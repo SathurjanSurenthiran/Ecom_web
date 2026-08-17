@@ -125,6 +125,31 @@ const ProductDetail = () => {
     }));
   };
 
+  const handleBuyNow = () => {
+    if (!isAuthenticated) {
+      toast.error('Please login first to buy items');
+      navigate('/login');
+      return;
+    }
+    if (!selectedSize) {
+      toast.error('Please select a size');
+      return;
+    }
+    if (!selectedColor) {
+      toast.error('Please select a color');
+      return;
+    }
+    
+    const buyNowItem = {
+      product: currentProduct,
+      quantity,
+      size: selectedSize,
+      color: selectedColor,
+    };
+    
+    navigate('/checkout', { state: { buyNowItem } });
+  };
+
   const handleAddReview = (reviewData) => {
     dispatch(createProductReview({ productId: currentProduct._id, reviewData }));
   };
@@ -267,24 +292,30 @@ const ProductDetail = () => {
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-3">
               <button
                 onClick={handleAddToCart}
-                className="flex-1 py-3 bg-black text-white rounded-lg hover:bg-zinc-800 transition-all duration-300 flex items-center justify-center space-x-2 transform hover:scale-[1.02] text-sm font-semibold uppercase tracking-wide"
+                className="flex-1 py-3.5 border border-zinc-300 text-zinc-800 rounded-xl hover:bg-zinc-50 transition-all duration-300 flex items-center justify-center space-x-2 text-sm font-bold uppercase tracking-wider"
               >
-                <ShoppingBag className="h-5 w-5" strokeWidth={1.9} />
+                <ShoppingBag className="h-4 w-4" strokeWidth={2} />
                 <span>Add to Cart</span>
               </button>
               <button
-                onClick={handleWishlist}
-                className={`py-3 px-6 rounded-lg border transition-all duration-300 flex items-center justify-center space-x-2 shadow-[0_12px_28px_rgba(0,0,0,0.06)] ${
-                  isInWishlist
-                    ? 'border-black bg-black text-white'
-                    : 'border-zinc-200 bg-white text-zinc-700 hover:bg-zinc-100 hover:text-black'
-                }`}
+                onClick={handleBuyNow}
+                className="flex-1 py-3.5 bg-black text-white rounded-xl hover:bg-zinc-800 transition-all duration-300 flex items-center justify-center space-x-2 text-sm font-bold uppercase tracking-wider"
               >
-                <Heart className={`h-5 w-5 ${isInWishlist ? 'fill-current' : ''}`} strokeWidth={1.9} />
-                <span>{isInWishlist ? 'Favourited' : 'Add to Favourites'}</span>
+                <span>Buy Now</span>
+              </button>
+              <button
+                onClick={handleWishlist}
+                className={`py-3.5 px-4 rounded-xl border transition-all duration-300 flex items-center justify-center shadow-sm ${
+                  isInWishlist
+                    ? 'border-black bg-black text-white font-semibold'
+                    : 'border-zinc-200 bg-white text-zinc-700 hover:bg-zinc-50'
+                }`}
+                title={isInWishlist ? 'Remove from Favourites' : 'Add to Favourites'}
+              >
+                <Heart className={`h-4.5 w-4.5 ${isInWishlist ? 'fill-current' : ''}`} strokeWidth={2} />
               </button>
             </div>
 
